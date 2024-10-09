@@ -1,5 +1,5 @@
 use serde::{Serialize, Serializer};
-use wgpu::{Backend, Backends, DeviceType, Instance, InstanceDescriptor};
+use wgpu::{Backend, Backends, DeviceType, Instance, InstanceDescriptor, InstanceFlags};
 
 // TODO: include more advanced information (Eg: DirectX/Metal/Vulkan info, etc.).
 /// Represents an individual GPU on the system.
@@ -67,7 +67,11 @@ impl GpusInfo {
         #[cfg(target_os = "linux")]
         let backends = Backends::VULKAN | Backends::GL;
 
-        let instance = Instance::new(InstanceDescriptor::default());
+        let instance = Instance::new(InstanceDescriptor {
+            backends,
+            flags: InstanceFlags::empty(),
+            ..Default::default()
+        });
         let adapters = instance.enumerate_adapters(backends);
         let count = adapters.len();
         let mut gpus_info = Vec::with_capacity(count);
