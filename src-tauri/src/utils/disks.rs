@@ -1,5 +1,5 @@
-use sysinfo::{Disks, DiskKind};
 use serde::{Serialize, Serializer};
+use sysinfo::{DiskKind, Disks};
 
 // TODO: include more advanced information (Eg: vendor, etc.).
 /// Represents an individual disk on the system.
@@ -15,7 +15,7 @@ pub struct Disk {
     pub total_space: u64,
     /// The currently available space on the disk.
     pub available_space: u64,
-    
+
     /// The kind of disk (`HDD`, `SSD` or `Unknown(n)`).
     #[serde(serialize_with = "serialize_disk_kind")]
     pub kind: DiskKind,
@@ -47,12 +47,12 @@ impl DisksInfo {
         let disks = Disks::new_with_refreshed_list();
         let count = disks.list().len();
         let mut disks_info = Vec::with_capacity(count);
-        
+
         for disk in disks.list() {
             let name = disk.name().to_string_lossy().to_string();
             let file_system = disk.file_system().to_string_lossy().to_string();
             let mount_point = disk.mount_point().to_string_lossy().to_string();
-            
+
             disks_info.push(Disk {
                 name,
                 file_system,
@@ -62,8 +62,8 @@ impl DisksInfo {
                 kind: disk.kind(),
             });
         }
-        
-        Self{
+
+        Self {
             count: count as u64,
             disks: disks_info,
         }

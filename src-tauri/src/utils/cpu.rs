@@ -1,5 +1,5 @@
-use sysinfo::{System, RefreshKind, CpuRefreshKind};
 use serde::Serialize;
+use sysinfo::{CpuRefreshKind, RefreshKind, System};
 
 // TODO: include lower level information (Eg: cache, op-mode(s), etc.).
 /// Contains information of the system's CPU/Processor.
@@ -26,8 +26,8 @@ impl CpuInfo {
             RefreshKind::new().with_cpu(CpuRefreshKind::new().without_cpu_usage()),
         );
         let physical_core_count = sys.physical_core_count();
-        let cpus= sys.cpus();
-        let cpu= &cpus[0];
+        let cpus = sys.cpus();
+        let cpu = &cpus[0];
 
         Self {
             arch: System::cpu_arch(),
