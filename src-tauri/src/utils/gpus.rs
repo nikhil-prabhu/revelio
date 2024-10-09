@@ -40,7 +40,7 @@ where
         Backend::Metal => serializer.serialize_str("Metal"),
         Backend::Dx12 => serializer.serialize_str("DirectX 12"),
         Backend::Gl => serializer.serialize_str("OpenGL"),
-        _ => serializer.serialize_str("Unsupported"),
+        _ => unimplemented!(),
     }
 }
 
