@@ -45,16 +45,17 @@ pub struct VulkanInfo {
 impl VulkanInfo {
     /// Retrieves Vulkan information from the system.
     pub fn get() -> Result<Self, PeekError> {
-        let entry = unsafe { Entry::load().map_err(|e| PeekError::Error(e.into()))? };
+        let entry =
+            unsafe { Entry::load().map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))? };
         let ext_props = unsafe {
             entry
                 .enumerate_instance_extension_properties(None)
-                .map_err(|e| PeekError::Error(e.into()))?
+                .map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))?
         };
         let layer_props = unsafe {
             entry
                 .enumerate_instance_layer_properties()
-                .map_err(|e| PeekError::Error(e.into()))?
+                .map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))?
         };
         let exts_count = ext_props.len();
         let layers_count = layer_props.len();
@@ -84,7 +85,7 @@ impl VulkanInfo {
         }
 
         let instance_version = match unsafe { entry.try_enumerate_instance_version() }
-            .map_err(|e| PeekError::Error(e.into()))?
+            .map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))?
         {
             Some(v) => {
                 let major = vk::api_version_major(v);
