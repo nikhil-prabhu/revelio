@@ -5,7 +5,7 @@ use serde::Serialize;
 
 use crate::types::PeekError;
 
-/// Contains information about a Vulkan extension.
+/// Contains information about a Vulkan instance extension.
 #[derive(Debug, Serialize)]
 pub struct VulkanExt {
     /// The name of the extension.
@@ -14,13 +14,30 @@ pub struct VulkanExt {
     pub version: u32,
 }
 
+/// Contains information about a Vulkan instance layer.
+#[derive(Debug, Serialize)]
+pub struct VulkanLayer {
+    /// The name of the layer.
+    pub name: String,
+    /// The specification version of the layer.
+    pub spec_version: u32,
+    /// The implementation version of the layer.
+    pub implementation_version: u32,
+    /// The layer's description.
+    pub description: String,
+}
+
 /// Contains Vulkan information.
 #[derive(Debug, Serialize)]
 pub struct VulkanInfo {
-    /// Information about the detected Vulkan extensions.
+    /// Information about the detected Vulkan instance extensions.
     pub extensions: Vec<VulkanExt>,
-    /// The total number of detected Vulkan extensions.
+    /// The total number of detected Vulkan instance extensions.
     pub total_extensions: u64,
+    /// Information about the detected Vulkan instance layers.
+    pub layers: Vec<VulkanLayer>,
+    /// The total number of detected Vulkan instance layers.
+    pub total_layers: u64,
 }
 
 impl VulkanInfo {
@@ -32,8 +49,15 @@ impl VulkanInfo {
                 .enumerate_instance_extension_properties(None)
                 .map_err(|e| PeekError::Error(e.into()))?
         };
-        let count = ext_props.len();
-        let mut extensions = Vec::with_capacity(count);
+        let layer_props = unsafe {
+            entry
+                .enumerate_instance_layer_properties()
+                .map_err(|e| PeekError::Error(e.into()))?
+        };
+        let exts_count = ext_props.len();
+        let layers_count = layer_props.len();
+        let mut extensions = Vec::with_capacity(exts_count);
+        let mut layers = Vec::with_capacity(layers_count);
 
         for ext in ext_props {
             let ext_name = unsafe { CStr::from_ptr(ext.extension_name.as_ptr()) }.to_string_lossy();
@@ -44,9 +68,24 @@ impl VulkanInfo {
             });
         }
 
+        for layer in layer_props {
+            let layer_name = unsafe { CStr::from_ptr(layer.layer_name.as_ptr()) }.to_string_lossy();
+            let layer_desc =
+                unsafe { CStr::from_ptr(layer.description.as_ptr()) }.to_string_lossy();
+
+            layers.push(VulkanLayer {
+                name: layer_name.into(),
+                spec_version: layer.spec_version,
+                implementation_version: layer.implementation_version,
+                description: layer_desc.into(),
+            })
+        }
+
         Ok(Self {
             extensions,
-            total_extensions: count as u64,
+            total_extensions: exts_count as u64,
+            layers,
+            total_layers: layers_count as u64,
         })
     }
 }
