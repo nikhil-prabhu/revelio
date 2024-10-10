@@ -1,6 +1,6 @@
 use std::ffi::CStr;
 
-use ash::Entry;
+use ash::{vk, Entry};
 use serde::Serialize;
 
 use crate::types::PeekError;
@@ -30,6 +30,8 @@ pub struct VulkanLayer {
 /// Contains Vulkan information.
 #[derive(Debug, Serialize)]
 pub struct VulkanInfo {
+    /// The Vulkan instance version.
+    pub instance_version: Option<String>,
     /// Information about the detected Vulkan instance extensions.
     pub extensions: Vec<VulkanExt>,
     /// The total number of detected Vulkan instance extensions.
@@ -81,7 +83,21 @@ impl VulkanInfo {
             })
         }
 
+        let instance_version = match unsafe { entry.try_enumerate_instance_version() }
+            .map_err(|e| PeekError::Error(e.into()))?
+        {
+            Some(v) => {
+                let major = vk::api_version_major(v);
+                let minor = vk::api_version_minor(v);
+                let patch = vk::api_version_patch(v);
+
+                Some(format!("{major}.{minor}.{patch}"))
+            }
+            None => None,
+        };
+
         Ok(Self {
+            instance_version,
             extensions,
             total_extensions: exts_count as u64,
             layers,
