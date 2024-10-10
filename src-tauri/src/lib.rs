@@ -2,6 +2,7 @@ use crate::utils::cpu::CpuInfo;
 use crate::utils::disks::DisksInfo;
 use crate::utils::gpus::GpusInfo;
 
+mod types;
 mod utils;
 
 #[tauri::command]
