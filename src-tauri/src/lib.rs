@@ -4,7 +4,7 @@ use crate::utils::disks::DisksInfo;
 use crate::utils::gpus::GpusInfo;
 
 #[cfg(target_os = "linux")]
-use crate::utils::vulkan::VulkanInfo;
+use crate::utils::linux::vulkan::VulkanInfo;
 
 mod types;
 mod utils;
