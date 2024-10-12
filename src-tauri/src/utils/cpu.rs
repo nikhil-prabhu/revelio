@@ -34,7 +34,7 @@ impl CpuInfo {
     /// Retrieves information of the system's CPU/Processor.
     pub fn get() -> Self {
         let sys = System::new_with_specifics(
-            RefreshKind::new().with_cpu(CpuRefreshKind::new().without_cpu_usage()),
+            RefreshKind::new().with_cpu(CpuRefreshKind::new().without_cpu_usage().with_frequency()),
         );
         let physical_core_count = sys.physical_core_count();
         let cpus = sys.cpus();
