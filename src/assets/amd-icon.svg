@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="512"
+   width="512"
+   viewBox="0 0 163.84 163.91044"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="amd-icon.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.69126759"
+     inkscape:cx="324.7657"
+     inkscape:cy="444.11167"
+     inkscape:window-width="1080"
+     inkscape:window-height="1892"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="M 52.396154,51.440064 15.062288,14.099733 H 150.97546 V 150.01793 L 113.64159,112.68191 V 51.440064 Z M 52.352335,58.922353 13.91509,97.358161 V 151.16154 H 67.711285 L 106.14637,112.72573 H 52.352335 Z"
+     id="path1"
+     sodipodi:nodetypes="cccccccccccccccc"
+     style="stroke-width:0.718346" />
+</svg>

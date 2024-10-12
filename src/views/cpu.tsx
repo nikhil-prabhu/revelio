@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import * as bindings from '../bindings';
+import * as utils from '../utils';
 import {
+    Image, Spacer,
     Spinner,
     Table,
     TableBody,
@@ -39,10 +41,22 @@ function CPU() {
 
                 <TableBody>
                     <TableRow key="1">
-                        <TableCell>{cpuInfo?.arch}</TableCell>
-                        <TableCell>{cpuInfo?.vendorId}</TableCell>
-                        <TableCell>{cpuInfo?.brand}</TableCell>
-                        <TableCell>{cpuInfo?.physicalCoreCount}</TableCell>
+                        <TableCell>{cpuInfo.arch}</TableCell>
+                        <TableCell>
+                            <div className="flex">
+                                <Image src={utils.getVendorIcon(cpuInfo.vendorId)} radius="none" width={20}/>
+                                <Spacer/>
+                                {cpuInfo.vendorId}
+                            </div>
+                        </TableCell>
+                        <TableCell>
+                            <div className="flex">
+                                <Image src={utils.getBrandIcon(cpuInfo.brand)} radius="none" width={20}/>
+                                <Spacer/>
+                                {cpuInfo.brand}
+                            </div>
+                        </TableCell>
+                        <TableCell>{cpuInfo.physicalCoreCount}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
