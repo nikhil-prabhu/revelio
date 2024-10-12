@@ -1,7 +1,7 @@
-use std::error::Error;
-
 use phf::phf_map;
 use serde::{Serialize, Serializer};
+use std::error::Error;
+use std::fmt::{Display, Formatter};
 
 #[doc = "<https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/VkPhysicalDeviceType.html>"]
 #[derive(Serialize)]
@@ -27,13 +27,25 @@ pub enum VulkanMemoryHeapFlags {
     MultiInstance,
 }
 
+impl Display for VulkanDeviceType {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", serde_json::to_string(&self).unwrap())
+    }
+}
+
+impl Display for VulkanMemoryHeapFlags {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", serde_json::to_string(&self).unwrap())
+    }
+}
+
 /// Lookup map for raw Vulkan device type constant.
-pub static VK_DEVICE_TYPE_MAP: phf::Map<u32, VulkanDeviceType> = phf_map! {
-    0_u32 => VulkanDeviceType::Other,
-    1_u32 => VulkanDeviceType::IntegratedGpu,
-    2_u32 => VulkanDeviceType::DiscreteGpu,
-    3_u32 => VulkanDeviceType::VirtualGpu,
-    4_u32 => VulkanDeviceType::Cpu,
+pub static VK_DEVICE_TYPE_MAP: phf::Map<i32, VulkanDeviceType> = phf_map! {
+    0_i32 => VulkanDeviceType::Other,
+    1_i32 => VulkanDeviceType::IntegratedGpu,
+    2_i32 => VulkanDeviceType::DiscreteGpu,
+    3_i32 => VulkanDeviceType::VirtualGpu,
+    4_i32 => VulkanDeviceType::Cpu,
 };
 
 /// Lookup map for raw Vulkan device memory heap flags constant.
