@@ -3,7 +3,7 @@ import {invoke} from "@tauri-apps/api/core";
 /**
  * Contains information of a Vulkan device layer.
  */
-type VulkanDeviceLayer = {
+export type VulkanDeviceLayer = {
     /** The layer's name */
     layerName: string;
     /** The layer's Vulkan version */
@@ -17,7 +17,7 @@ type VulkanDeviceLayer = {
 /**
  * Contains information of a Vulkan device.
  */
-type VulkanDevice = {
+export type VulkanDevice = {
     /** The name of the device */
     deviceName: string;
     /** The device's vendor ID */
@@ -39,7 +39,7 @@ type VulkanDevice = {
 /**
  * Contains information about Vulkan on the system.
  */
-type VulkanInfo = {
+export type VulkanInfo = {
     /** The total number of Vulkan-enabled devices */
     totalDevices: number;
     /** The list of Vulkan-enabled devices identified on the system */
@@ -49,7 +49,7 @@ type VulkanInfo = {
 /**
  * Represents an individual disk on the system.
  */
-type Disk = {
+export type Disk = {
     /** The name of the disk */
     name: string;
     /** The file-system of the disk (Eg: `EXT4`, `NTFS`, etc.) */
@@ -67,7 +67,7 @@ type Disk = {
 /**
  * Contains information of all the disks identified on the system.
  */
-type DisksInfo = {
+export type DisksInfo = {
     /** The total number of disks */
     count: number;
     /** The information of each disk */
@@ -77,7 +77,7 @@ type DisksInfo = {
 /**
  * Contains information of a single logical processor.
  */
-type Cpu = {
+export type Cpu = {
     /** The CPU index */
     idx: number
     /** The CPU frequency */
@@ -87,7 +87,7 @@ type Cpu = {
 /**
  * Contains information of the system's CPU/Processor.
  */
-type CpuInfo = {
+export type CpuInfo = {
     /** The CPU architecture */
     arch?: string;
     /** The name of the CPU */
