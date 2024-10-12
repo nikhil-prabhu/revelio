@@ -5,8 +5,8 @@ use sysinfo::{CpuRefreshKind, RefreshKind, System};
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Cpu {
-    /// The CPU index.
-    pub idx: usize,
+    /// The name of the CPU.
+    pub name: String,
     /// The CPU frequency.
     pub frequency: u64,
 }
@@ -18,8 +18,6 @@ pub struct Cpu {
 pub struct CpuInfo {
     /// The CPU architecture.
     pub arch: Option<String>,
-    /// The name of the CPU.
-    pub name: String,
     /// The vendor ID of the CPU.
     pub vendor_id: String,
     /// The CPU brand.
@@ -41,16 +39,15 @@ impl CpuInfo {
         let cpu = &cpus[0];
         let mut logical_proc = Vec::with_capacity(physical_core_count.unwrap_or(8));
 
-        for (idx, c) in cpus.iter().enumerate() {
+        for c in cpus {
             logical_proc.push(Cpu {
-                idx,
+                name: c.name().to_string(),
                 frequency: c.frequency(),
             });
         }
 
         Self {
             arch: System::cpu_arch(),
-            name: cpu.name().into(),
             vendor_id: cpu.vendor_id().into(),
             brand: cpu.brand().into(),
             physical_core_count,

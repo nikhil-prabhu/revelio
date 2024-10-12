@@ -78,8 +78,8 @@ export type DisksInfo = {
  * Contains information of a single logical processor.
  */
 export type Cpu = {
-    /** The CPU index */
-    idx: number
+    /** The CPU name */
+    name: string;
     /** The CPU frequency */
     frequency: number;
 }
@@ -90,8 +90,6 @@ export type Cpu = {
 export type CpuInfo = {
     /** The CPU architecture */
     arch?: string;
-    /** The name of the CPU */
-    name: string;
     /** The vendor ID of the CPU */
     vendorId: string;
     /** The CPU brand */
