@@ -99,7 +99,17 @@ impl VulkanInfo {
             let device_id = device_props.device_id;
             let api_version = Self::get_version_string(device_props.api_version);
             let driver_version = Self::get_version_string(device_props.driver_version);
-            let pipeline_cache_uuid = hex::encode(device_props.pipeline_cache_uuid);
+            let pipeline_cache_uuid = {
+                let uuid = hex::encode(device_props.pipeline_cache_uuid);
+                format!(
+                    "{}-{}-{}-{}-{}",
+                    &uuid[0..8],
+                    &uuid[8..12],
+                    &uuid[12..16],
+                    &uuid[16..20],
+                    &uuid[20..32],
+                )
+            };
 
             let device_layers = unsafe {
                 instance
