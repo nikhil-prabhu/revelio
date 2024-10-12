@@ -35,5 +35,4 @@ wgpu = { version = "22.1.0", default-features = false, features = ["dx12"] }
 wgpu = { version = "22.1.0", default-features = false, features = ["metal"] }
 
 [target.'cfg(target_os = "linux")'.dependencies]
-wgpu = { version = "22.1.0", default-features = false }
 ash = "0.38.0"
