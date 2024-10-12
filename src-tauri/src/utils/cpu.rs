@@ -3,6 +3,7 @@ use sysinfo::{CpuRefreshKind, RefreshKind, System};
 
 /// Contains information of a single logical processor.
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Cpu {
     /// The CPU index.
     pub idx: usize,
@@ -13,6 +14,7 @@ pub struct Cpu {
 // TODO: include lower level information (Eg: cache, op-mode(s), etc.).
 /// Contains information of the system's CPU/Processor.
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CpuInfo {
     /// The CPU architecture.
     pub arch: Option<String>,

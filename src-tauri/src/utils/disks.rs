@@ -4,6 +4,7 @@ use sysinfo::{DiskKind, Disks};
 // TODO: include more advanced information (Eg: vendor, etc.).
 /// Represents an individual disk on the system.
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Disk {
     /// The name of the disk.
     pub name: String,
@@ -23,6 +24,7 @@ pub struct Disk {
 
 /// Contains information of all the disks identified on the system.
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct DisksInfo {
     /// The total number of disks.
     pub count: u64,
