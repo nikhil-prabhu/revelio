@@ -1,13 +1,17 @@
-import {NextUIProvider, Tab, Tabs} from "@nextui-org/react";
+import {NextUIProvider, Spacer, Tab, Tabs} from "@nextui-org/react";
 import {BsCpuFill, BsGpuCard, BsHddNetworkFill} from "react-icons/bs";
 import {RiHardDriveFill} from "react-icons/ri";
 import {GrSystem} from "react-icons/gr";
+import {Route, Routes, useHref, useNavigate} from "react-router-dom";
+import CPU from "./views/cpu.tsx";
 
 function App() {
+    const navigate = useNavigate();
+
     return (
-        <NextUIProvider>
+        <NextUIProvider navigate={navigate} useHref={useHref}>
             <main className="light text-foreground bg-background h-screen flex p-2">
-                <Tabs isVertical color="primary" className="place-self-center">
+                <Tabs isVertical color="primary">
                     <Tab key="cpu"
                          title={
                              <div className="flex items-center space-x-2">
@@ -49,6 +53,12 @@ function App() {
                              </div>
                          }></Tab>
                 </Tabs>
+
+                <Spacer x={8}/>
+
+                <Routes>
+                    <Route path="/" element={<CPU/>}/>
+                </Routes>
             </main>
         </NextUIProvider>
     );
