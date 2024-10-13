@@ -4,6 +4,7 @@ import {RiHardDriveFill} from "react-icons/ri";
 import {GrSystem} from "react-icons/gr";
 import {Route, Routes, useHref, useLocation, useNavigate} from "react-router-dom";
 import CPU from "./views/cpu.tsx";
+import GPU from "./views/gpu.tsx";
 
 function App() {
     const navigate = useNavigate();
@@ -59,7 +60,7 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<CPU/>}/>
-                    <Route path="/gpu" element={<div>TODO</div>}/>
+                    <Route path="/gpu" element={<GPU/>}/>
                     <Route path="/storage" element={<div>TODO</div>}/>
                     <Route path="/network" element={<div>TODO</div>}/>
                     <Route path="/platform" element={<div>TODO</div>}/>
