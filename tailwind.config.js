@@ -8,6 +8,9 @@ export default {
     ],
     theme: {
         extend: {},
+        fontFamily: {
+            "sans": ["Martian Mono", "monospace"],
+        },
     },
     darkMode: "class",
     plugins: [nextui()],
