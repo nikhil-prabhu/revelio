@@ -5,6 +5,7 @@ import {GrSystem} from "react-icons/gr";
 import {Route, Routes, useHref, useLocation, useNavigate} from "react-router-dom";
 import CPU from "./views/cpu.tsx";
 import GPU from "./views/gpu.tsx";
+import Storage from "./views/storage.tsx";
 
 function App() {
     const navigate = useNavigate();
@@ -61,7 +62,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<CPU/>}/>
                     <Route path="/gpu" element={<GPU/>}/>
-                    <Route path="/storage" element={<div>TODO</div>}/>
+                    <Route path="/storage" element={<Storage/>}/>
                     <Route path="/network" element={<div>TODO</div>}/>
                     <Route path="/platform" element={<div>TODO</div>}/>
                 </Routes>
