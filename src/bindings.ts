@@ -61,7 +61,7 @@ export type Disk = {
     /** The currently available space on the disk */
     availableSpace: number;
     /** The kind of disk */
-    diskKind: string;
+    kind: string;
 }
 
 /**
