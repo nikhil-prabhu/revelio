@@ -38,7 +38,7 @@ where
 {
     match d {
         DiskKind::HDD => serializer.serialize_str("Hard Disk Drive (HDD)"),
-        DiskKind::SSD => serializer.serialize_str("Solid State Drive (SDD)"),
+        DiskKind::SSD => serializer.serialize_str("Solid State Drive (SSD)"),
         DiskKind::Unknown(n) => serializer.serialize_str(&format!("Unknown({n})")),
     }
 }
