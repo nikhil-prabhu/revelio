@@ -27,15 +27,30 @@ pub enum VulkanMemoryHeapFlags {
     MultiInstance,
 }
 
+/// Serializes a value into a JSON string without including double quotes in the result.
+///
+/// # Arguments
+///
+/// * `value` - The value to serialize.
+fn serialize_without_quotes<S>(value: &S) -> String
+where
+    S: Serialize,
+{
+    serde_json::to_string(value)
+        .unwrap()
+        .to_string()
+        .replace("\"", "")
+}
+
 impl Display for VulkanDeviceType {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", serde_json::to_string(&self).unwrap())
+        write!(f, "{}", serialize_without_quotes(&self))
     }
 }
 
 impl Display for VulkanMemoryHeapFlags {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", serde_json::to_string(&self).unwrap())
+        write!(f, "{}", serialize_without_quotes(&self))
     }
 }
 
