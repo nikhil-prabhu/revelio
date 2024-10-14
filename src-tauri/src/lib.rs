@@ -5,7 +5,7 @@ use tauri::{Builder, Manager, State};
 use crate::types::PeekError;
 use crate::utils::cpu::CpuInfo;
 use crate::utils::disks::DisksInfo;
-use crate::utils::gpus::vulkan::VulkanInfo;
+use crate::utils::gpu::vulkan::VulkanInfo;
 use crate::utils::network::NetworksInfo;
 
 mod types;
