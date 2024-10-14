@@ -3,9 +3,9 @@ import {BsCpuFill, BsGpuCard, BsHddNetworkFill} from "react-icons/bs";
 import {RiHardDriveFill} from "react-icons/ri";
 import {GrSystem} from "react-icons/gr";
 import {Route, Routes, useHref, useLocation, useNavigate} from "react-router-dom";
-import CPU from "./views/cpu.tsx";
-import GPU from "./views/gpu.tsx";
-import Storage from "./views/storage.tsx";
+import CPU from "./views/cpu";
+import GPU from "./views/gpu";
+import Storage from "./views/storage";
 
 function App() {
     const navigate = useNavigate();
