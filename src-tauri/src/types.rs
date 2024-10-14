@@ -87,13 +87,11 @@ pub enum CoreError {
     #[error("An error occurred while retrieving Metal information: {0}")]
     MetalInfoError(Box<str>),
 
-    /// Vulkan info retrieval error (Linux only).
-    #[cfg(target_os = "linux")]
+    /// Vulkan info retrieval error.
     #[error("An error occurred while retrieving Vulkan information: {0}")]
     VulkanInfoError(Box<str>),
 
-    /// OpenGL info retrieval error (Linux only).
-    #[cfg(target_os = "linux")]
+    /// OpenGL info retrieval error.
     #[error("An error occurred while retrieving OpenGL information: {0}")]
     OpenGLInfoError(Box<str>),
 
@@ -118,12 +116,8 @@ enum CoreErrorKind {
     #[cfg(target_os = "macos")]
     MetalInfoError(String),
 
-    #[cfg(target_os = "linux")]
     VulkanInfoError(String),
-
-    #[cfg(target_os = "linux")]
     OpenGLInfoError(String),
-
     Error(String),
 }
 
@@ -142,12 +136,8 @@ impl Serialize for CoreError {
             #[cfg(target_os = "macos")]
             Self::MetalInfoError(_) => CoreErrorKind::MetalInfoError(err_msg),
 
-            #[cfg(target_os = "linux")]
             Self::VulkanInfoError(_) => CoreErrorKind::VulkanInfoError(err_msg),
-
-            #[cfg(target_os = "linux")]
             Self::OpenGLInfoError(_) => CoreErrorKind::OpenGLInfoError(err_msg),
-
             Self::Error(_) => CoreErrorKind::Error(err_msg),
         };
 
