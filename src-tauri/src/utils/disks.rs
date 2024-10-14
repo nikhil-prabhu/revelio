@@ -32,6 +32,7 @@ pub struct DisksInfo {
     pub disks: Vec<Disk>,
 }
 
+#[inline]
 fn serialize_disk_kind<S>(d: &DiskKind, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,

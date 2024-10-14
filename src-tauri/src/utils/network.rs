@@ -27,6 +27,7 @@ pub struct NetworksInfo {
     pub interfaces: Vec<NetworkInterface>,
 }
 
+#[inline]
 fn serialize_display_vec<S, T>(values: &Vec<T>, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,

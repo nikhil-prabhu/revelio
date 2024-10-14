@@ -32,6 +32,7 @@ pub enum VulkanMemoryHeapFlags {
 /// # Arguments
 ///
 /// * `value` - The value to serialize.
+#[inline]
 fn serialize_without_quotes<S>(value: &S) -> String
 where
     S: Serialize,
