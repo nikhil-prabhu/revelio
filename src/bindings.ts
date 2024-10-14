@@ -125,7 +125,7 @@ export type NetworksInfo = {
 /**
  * The kind of error from the Peek core library.
  */
-export enum PeekErrorKind {
+export enum CoreErrorKind {
     /** Error while retrieving CPU info */
     CPUInfoError,
     /** Error while retrieving Vulkan info */
@@ -137,10 +137,10 @@ export enum PeekErrorKind {
 /**
  * Custom error type for errors encountered while gathering system information.
  */
-export class PeekError extends Error {
-    public kind: PeekErrorKind;
+export class CoreError extends Error {
+    public kind: CoreErrorKind;
 
-    constructor(message: string, kind: PeekErrorKind) {
+    constructor(message: string, kind: CoreErrorKind) {
         super(message);
         this.kind = kind;
     }
@@ -152,7 +152,7 @@ export class PeekError extends Error {
  * @export
  * @async
  * @returns {Promise<CpuInfo>} Resolves to the CPU information.
- * @throws {PeekError} If gathering CPU information fails.
+ * @throws {CoreError} If gathering CPU information fails.
  */
 export async function getCpuInfo(): Promise<CpuInfo> {
     return await invoke("get_cpu_info");
@@ -164,7 +164,7 @@ export async function getCpuInfo(): Promise<CpuInfo> {
  * @export
  * @async
  * @returns {Promise<CpuInfo>} Resolves to the disk(s) information.
- * @throws {PeekError} If gathering disk(s) information fails.
+ * @throws {CoreError} If gathering disk(s) information fails.
  */
 export async function getDisksInfo(): Promise<DisksInfo> {
     return await invoke("get_disks_info");
@@ -176,7 +176,7 @@ export async function getDisksInfo(): Promise<DisksInfo> {
  * @export
  * @async
  * @returns {Promise<CpuInfo>} Resolves to the Vulkan information.
- * @throws {PeekError} If gathering Vulkan information fails.
+ * @throws {CoreError} If gathering Vulkan information fails.
  */
 export async function getVulkanInfo(): Promise<VulkanInfo> {
     return await invoke("get_vulkan_info");

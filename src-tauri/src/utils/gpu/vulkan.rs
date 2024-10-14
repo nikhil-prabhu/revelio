@@ -2,7 +2,7 @@ use ash::vk::{self, InstanceCreateInfo};
 use ash::Entry;
 use serde::Serialize;
 
-use crate::types::{PeekError, VK_DEVICE_TYPE_MAP};
+use crate::types::{CoreError, VK_DEVICE_TYPE_MAP};
 
 /// Contains information of a Vulkan device layer.
 #[derive(Serialize, Clone)]
@@ -67,9 +67,9 @@ impl VulkanInfo {
 
     // TODO: split info retrieval into separate functions.
     /// Retrieves the Vulkan information from the system.
-    pub fn get() -> Result<Self, PeekError> {
+    pub fn get() -> Result<Self, CoreError> {
         let entry =
-            unsafe { Entry::load().map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))? };
+            unsafe { Entry::load().map_err(|e| CoreError::VulkanInfoError(e.to_string().into()))? };
         let instance = unsafe {
             entry
                 .create_instance(
@@ -78,12 +78,12 @@ impl VulkanInfo {
                     },
                     None,
                 )
-                .map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))?
+                .map_err(|e| CoreError::VulkanInfoError(e.to_string().into()))?
         };
         let physical_devices = unsafe {
             instance
                 .enumerate_physical_devices()
-                .map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))?
+                .map_err(|e| CoreError::VulkanInfoError(e.to_string().into()))?
         };
         let devices_count = physical_devices.len();
         let mut devices = Vec::with_capacity(devices_count);
@@ -92,7 +92,7 @@ impl VulkanInfo {
             let device_props = unsafe { instance.get_physical_device_properties(device) };
             let device_name = device_props
                 .device_name_as_c_str()
-                .map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))?
+                .map_err(|e| CoreError::VulkanInfoError(e.to_string().into()))?
                 .to_string_lossy()
                 .to_string();
             let vendor_id = device_props.vendor_id;
@@ -114,21 +114,21 @@ impl VulkanInfo {
             let device_layers = unsafe {
                 instance
                     .enumerate_device_layer_properties(device)
-                    .map_err(|e| PeekError::VulkanInfoError(e.to_string().into()))?
+                    .map_err(|e| CoreError::VulkanInfoError(e.to_string().into()))?
             };
             let mut layers = Vec::with_capacity(device_layers.len());
 
             for layer in device_layers {
                 let layer_name = layer
                     .layer_name_as_c_str()
-                    .map_err(|e| PeekError::Error(e.into()))?
+                    .map_err(|e| CoreError::Error(e.into()))?
                     .to_string_lossy()
                     .to_string();
                 let vulkan_version = Self::get_version_string(layer.spec_version);
                 let layer_version = layer.implementation_version;
                 let description = layer
                     .description_as_c_str()
-                    .map_err(|e| PeekError::Error(e.into()))?
+                    .map_err(|e| CoreError::Error(e.into()))?
                     .to_string_lossy()
                     .to_string();
 

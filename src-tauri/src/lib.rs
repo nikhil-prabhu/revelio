@@ -2,7 +2,7 @@ use std::sync::Mutex;
 
 use tauri::{Builder, Manager, State};
 
-use crate::types::PeekError;
+use crate::types::CoreError;
 use crate::utils::cpu::CpuInfo;
 use crate::utils::disks::DisksInfo;
 use crate::utils::gpu::vulkan::VulkanInfo;
@@ -50,7 +50,7 @@ fn get_disks_info(state: State<'_, AppState>) -> DisksInfo {
 }
 
 #[tauri::command]
-fn get_vulkan_info(state: State<'_, AppState>) -> Result<VulkanInfo, PeekError> {
+fn get_vulkan_info(state: State<'_, AppState>) -> Result<VulkanInfo, CoreError> {
     let mut state = state.lock().unwrap();
 
     if let Some(info) = &state.vulkan_info {
