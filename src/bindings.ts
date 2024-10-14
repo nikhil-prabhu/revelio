@@ -101,6 +101,28 @@ export type CpuInfo = {
 }
 
 /**
+ * Represents an individual network interface on the system.
+ */
+export type NetworkInterface = {
+    /** The name of the interface */
+    itfName: string;
+    /** The MAC address of the interface */
+    macAddr: string;
+    /** The IP networks belonging to the interface */
+    ipNetworks: string[];
+}
+
+/**
+ * Contains information of the networks and network interfaces on the system.
+ */
+export type NetworksInfo = {
+    /** The total number of network interfaces */
+    totalInterfaces: number;
+    /** The list of network interfaces */
+    interfaces: NetworkInterface[];
+}
+
+/**
  * The kind of error from the Peek core library.
  */
 export enum PeekErrorKind {
@@ -158,4 +180,15 @@ export async function getDisksInfo(): Promise<DisksInfo> {
  */
 export async function getVulkanInfo(): Promise<VulkanInfo> {
     return await invoke("get_vulkan_info");
+}
+
+/**
+ * Retrieves network(s) information from the system.
+ *
+ * @export
+ * @async
+ * @returns {Promise<NetworksInfo>} Resolves to the network(s) information.
+ */
+export async function getNetworksInfo(): Promise<NetworksInfo> {
+    return await invoke("get_networks_info");
 }

@@ -6,6 +6,7 @@ use crate::types::PeekError;
 use crate::utils::cpu::CpuInfo;
 use crate::utils::disks::DisksInfo;
 use crate::utils::gpus::vulkan::VulkanInfo;
+use crate::utils::network::NetworksInfo;
 
 mod types;
 mod utils;
@@ -15,6 +16,7 @@ struct AppStateInner {
     cpu_info: Option<CpuInfo>,
     vulkan_info: Option<VulkanInfo>,
     disks_info: Option<DisksInfo>,
+    networks_info: Option<NetworksInfo>,
 }
 
 type AppState = Mutex<AppStateInner>;
@@ -61,6 +63,20 @@ fn get_vulkan_info(state: State<'_, AppState>) -> Result<VulkanInfo, PeekError> 
     Ok(info)
 }
 
+#[tauri::command]
+fn get_networks_info(state: State<'_, AppState>) -> NetworksInfo {
+    let mut state = state.lock().unwrap();
+
+    if let Some(info) = &state.networks_info {
+        return info.clone();
+    }
+
+    let info = NetworksInfo::get();
+    state.networks_info = Some(info.clone());
+
+    info
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     Builder::default()
@@ -73,6 +89,7 @@ pub fn run() {
             get_cpu_info,
             get_disks_info,
             get_vulkan_info,
+            get_networks_info,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

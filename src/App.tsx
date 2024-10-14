@@ -6,6 +6,7 @@ import {Route, Routes, useHref, useLocation, useNavigate} from "react-router-dom
 import CPU from "./views/cpu";
 import GPU from "./views/gpu";
 import Storage from "./views/storage";
+import Network from "./views/network.tsx";
 
 function App() {
     const navigate = useNavigate();
@@ -63,7 +64,7 @@ function App() {
                     <Route path="/" element={<CPU/>}/>
                     <Route path="/gpu" element={<GPU/>}/>
                     <Route path="/storage" element={<Storage/>}/>
-                    <Route path="/network" element={<div>TODO</div>}/>
+                    <Route path="/network" element={<Network/>}/>
                     <Route path="/platform" element={<div>TODO</div>}/>
                 </Routes>
             </main>
