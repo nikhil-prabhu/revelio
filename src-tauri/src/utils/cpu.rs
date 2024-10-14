@@ -2,7 +2,7 @@ use serde::Serialize;
 use sysinfo::{CpuRefreshKind, RefreshKind, System};
 
 /// Contains information of a single logical processor.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Cpu {
     /// The name of the CPU.
@@ -13,7 +13,7 @@ pub struct Cpu {
 
 // TODO: include lower level information (Eg: cache, op-mode(s), etc.).
 /// Contains information of the system's CPU/Processor.
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CpuInfo {
     /// The CPU architecture.

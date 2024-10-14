@@ -5,7 +5,7 @@ use serde::Serialize;
 use crate::types::{PeekError, VK_DEVICE_TYPE_MAP};
 
 /// Contains information of a Vulkan device layer.
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct VulkanDeviceLayer {
     /// The layer's name.
@@ -20,7 +20,7 @@ pub struct VulkanDeviceLayer {
 
 // TODO: add limits and sparse properties.
 /// Contains information of a Vulkan device.
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct VulkanDevice {
     /// The name of the device.
@@ -42,7 +42,7 @@ pub struct VulkanDevice {
 }
 
 /// Contains information about Vulkan on the system.
-#[derive(Serialize)]
+#[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct VulkanInfo {
     /// The total number of Vulkan-enabled devices.
