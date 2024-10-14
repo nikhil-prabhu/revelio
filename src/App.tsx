@@ -6,7 +6,7 @@ import {Route, Routes, useHref, useLocation, useNavigate} from "react-router-dom
 import CPU from "./views/cpu";
 import GPU from "./views/gpu";
 import Storage from "./views/storage";
-import Network from "./views/network.tsx";
+import Network from "./views/network";
 
 function App() {
     const navigate = useNavigate();
