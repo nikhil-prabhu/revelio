@@ -123,7 +123,7 @@ export type NetworksInfo = {
 }
 
 /**
- * The kind of error from the Peek core library.
+ * The kind of error from the core library.
  */
 export enum CoreErrorKind {
     /** Error while retrieving CPU info */

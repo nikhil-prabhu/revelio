@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2.0.0",
-  "productName": "peek",
+  "productName": "revelio",
   "version": "0.1.0",
-  "identifier": "com.nikhil-prabhu.peek",
+  "identifier": "com.nikhil-prabhu.revelio",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -12,10 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "peek",
+        "title": "revelio",
         "width": 800,
         "height": 600
-        
       }
     ],
     "security": {
