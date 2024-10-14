@@ -11,14 +11,16 @@ mod types;
 mod utils;
 
 #[derive(Default)]
-struct AppState {
+struct AppStateInner {
     cpu_info: Option<CpuInfo>,
     vulkan_info: Option<VulkanInfo>,
     disks_info: Option<DisksInfo>,
 }
 
+type AppState = Mutex<AppStateInner>;
+
 #[tauri::command]
-fn get_cpu_info(state: State<'_, Mutex<AppState>>) -> CpuInfo {
+fn get_cpu_info(state: State<'_, AppState>) -> CpuInfo {
     let mut state = state.lock().unwrap();
 
     if let Some(info) = &state.cpu_info {
@@ -32,7 +34,7 @@ fn get_cpu_info(state: State<'_, Mutex<AppState>>) -> CpuInfo {
 }
 
 #[tauri::command]
-fn get_disks_info(state: State<'_, Mutex<AppState>>) -> DisksInfo {
+fn get_disks_info(state: State<'_, AppState>) -> DisksInfo {
     let mut state = state.lock().unwrap();
 
     if let Some(info) = &state.disks_info {
@@ -46,7 +48,7 @@ fn get_disks_info(state: State<'_, Mutex<AppState>>) -> DisksInfo {
 }
 
 #[tauri::command]
-fn get_vulkan_info(state: State<'_, Mutex<AppState>>) -> Result<VulkanInfo, PeekError> {
+fn get_vulkan_info(state: State<'_, AppState>) -> Result<VulkanInfo, PeekError> {
     let mut state = state.lock().unwrap();
 
     if let Some(info) = &state.vulkan_info {
@@ -63,7 +65,7 @@ fn get_vulkan_info(state: State<'_, Mutex<AppState>>) -> Result<VulkanInfo, Peek
 pub fn run() {
     Builder::default()
         .setup(|app| {
-            app.manage(Mutex::new(AppState::default()));
+            app.manage(AppState::default());
             Ok(())
         })
         .plugin(tauri_plugin_shell::init())
