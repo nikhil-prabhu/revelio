@@ -50,7 +50,7 @@ function App() {
                              </div>
                          }></Tab>
 
-                    <Tab key="platform" href="/platform"
+                    <Tab key="/platform" href="/platform"
                          title={
                              <div className="flex items-center space-x-2">
                                  <GrSystem/>
