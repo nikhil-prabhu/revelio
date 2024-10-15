@@ -252,6 +252,7 @@ export async function getNetworksInfo(): Promise<NetworksInfo> {
  * @export
  * @async
  * @returns {Promise<PlatformInfo>} Resolves to the platform information.
+ * @throws {CoreError} If gathering platform information fails.
  */
 export async function getPlatformInfo(): Promise<PlatformInfo> {
     return await invoke("get_platform_info");
