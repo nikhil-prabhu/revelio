@@ -96,6 +96,11 @@ fn get_platform_info(state: State<'_, AppState>) -> Result<PlatformInfo, CoreErr
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let mut level = log::LevelFilter::Trace;
+    if !cfg!(debug_assertions) {
+        level = log::LevelFilter::Warn;
+    }
+
     Builder::default()
         .setup(|app| {
             app.manage(AppState::default());
@@ -106,6 +111,7 @@ pub fn run() {
         .plugin(
             tauri_plugin_log::Builder::new()
                 .target(Target::new(TargetKind::Stderr))
+                .level(level)
                 .build(),
         )
         .invoke_handler(tauri::generate_handler![
