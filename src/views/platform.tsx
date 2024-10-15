@@ -11,6 +11,7 @@ function Platform() {
     useEffect(() => {
         bindings.getPlatformInfo().then(info => {
             setPlatformInfo(info);
+            console.info("Platform information retrieved successfully.");
         }).catch(error => {
             console.error(error);
         });

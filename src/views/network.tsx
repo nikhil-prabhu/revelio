@@ -18,6 +18,7 @@ function Network() {
     useEffect(() => {
         bindings.getNetworksInfo().then(info => {
             setNetworksInfo(info);
+            console.info("Networks information retrieved successfully.");
         }).catch(error => {
             console.error(error)
         });

@@ -1,6 +1,7 @@
 use std::sync::Mutex;
 
 use tauri::{Builder, Manager, State};
+use tauri_plugin_log::{Target, TargetKind};
 
 use crate::types::CoreError;
 use crate::utils::cpu::CpuInfo;
@@ -102,6 +103,11 @@ pub fn run() {
         })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_os::init())
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .target(Target::new(TargetKind::Stderr))
+                .build(),
+        )
         .invoke_handler(tauri::generate_handler![
             get_cpu_info,
             get_disks_info,

@@ -28,6 +28,7 @@ function Storage() {
     useEffect(() => {
         bindings.getDisksInfo().then(info => {
             setStorageInfo(info);
+            console.info("Storage information retrieved successfully.");
         }).catch(error => {
             console.error(error);
         });

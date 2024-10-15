@@ -13,6 +13,7 @@
   "permissions": [
     "core:default",
     "shell:allow-open",
-    "os:default"
+    "os:default",
+    "log:default"
   ]
 }

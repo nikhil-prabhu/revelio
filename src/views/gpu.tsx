@@ -20,6 +20,7 @@ function GPU() {
     useEffect(() => {
         bindings.getVulkanInfo().then(info => {
             setVulkanInfo(info);
+            console.info("Vulkan information retrieved successfully.");
         }).catch(error => {
             console.error(error);
         });

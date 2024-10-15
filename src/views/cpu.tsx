@@ -18,6 +18,7 @@ function CPU() {
     useEffect(() => {
         bindings.getCpuInfo().then(info => {
             setCpuInfo(info);
+            console.info("CPU information retrieved successfully.");
         }).catch(error => {
             console.error(error);
         })
