@@ -7,6 +7,7 @@ use crate::utils::cpu::CpuInfo;
 use crate::utils::disks::DisksInfo;
 use crate::utils::gpu::vulkan::VulkanInfo;
 use crate::utils::network::NetworksInfo;
+use crate::utils::platform::PlatformInfo;
 
 mod types;
 mod utils;
@@ -17,6 +18,7 @@ struct AppStateInner {
     vulkan_info: Option<VulkanInfo>,
     disks_info: Option<DisksInfo>,
     networks_info: Option<NetworksInfo>,
+    platform_info: Option<PlatformInfo>,
 }
 
 type AppState = Mutex<AppStateInner>;
@@ -77,6 +79,20 @@ fn get_networks_info(state: State<'_, AppState>) -> NetworksInfo {
     info
 }
 
+#[tauri::command]
+fn get_platform_info(state: State<'_, AppState>) -> Result<PlatformInfo, CoreError> {
+    let mut state = state.lock().unwrap();
+
+    if let Some(info) = &state.platform_info {
+        return Ok(info.clone());
+    }
+
+    let info = PlatformInfo::get()?;
+    state.platform_info = Some(info.clone());
+
+    Ok(info)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     Builder::default()
@@ -85,11 +101,13 @@ pub fn run() {
             Ok(())
         })
         .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_os::init())
         .invoke_handler(tauri::generate_handler![
             get_cpu_info,
             get_disks_info,
             get_vulkan_info,
             get_networks_info,
+            get_platform_info,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

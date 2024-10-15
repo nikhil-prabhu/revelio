@@ -123,6 +123,47 @@ export type NetworksInfo = {
 }
 
 /**
+ * Information that's common across all supported platforms.
+ */
+export interface PlatformInfoCommon {
+    /** The current platform (Windows/macOS/Linux) */
+    platform: string;
+    /** The hostname of the system */
+    hostname: string;
+    /** The OS' architecture */
+    osArch: string;
+    /** The current kernel version */
+    kernel: string;
+}
+
+/**
+ * Contains information about the current Linux distribution.
+ */
+export interface LinuxInfo extends PlatformInfoCommon {
+    /** An identifier that describes the distribution's release */
+    id: string;
+    /** Identifier of the original upstream OS that this distribution is derived from */
+    idLike: string;
+    /** The name of this release, without the version string */
+    name: string;
+    /** The name of this release, with the version string */
+    prettyName: string;
+    /** The version of this OS release */
+    version: string;
+    /** The version of this OS release, along with additional details about the release */
+    versionId: string;
+    /** The codename of this version */
+    versionCodename: string;
+    /** The current graphics platform (X11/Wayland) */
+    graphicsPlatform: string;
+}
+
+/**
+ * Contains information of the current platform.
+ */
+export type PlatformInfo = PlatformInfoCommon | LinuxInfo;
+
+/**
  * The kind of error from the core library.
  */
 export enum CoreErrorKind {
@@ -191,4 +232,16 @@ export async function getVulkanInfo(): Promise<VulkanInfo> {
  */
 export async function getNetworksInfo(): Promise<NetworksInfo> {
     return await invoke("get_networks_info");
+}
+
+// FIXME!: handle platform-specific information.
+/**
+ * Retrieves platform information from the system.
+ *
+ * @export
+ * @async
+ * @returns {Promise<PlatformInfo>} Resolves to the platform information.
+ */
+export async function getPlatformInfo(): Promise<PlatformInfo> {
+    return await invoke("get_platform_info");
 }

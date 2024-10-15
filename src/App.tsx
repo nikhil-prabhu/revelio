@@ -7,6 +7,7 @@ import CPU from "./views/cpu";
 import GPU from "./views/gpu";
 import Storage from "./views/storage";
 import Network from "./views/network";
+import Platform from "./views/platform.tsx";
 
 function App() {
     const navigate = useNavigate();
@@ -65,7 +66,7 @@ function App() {
                     <Route path="/gpu" element={<GPU/>}/>
                     <Route path="/storage" element={<Storage/>}/>
                     <Route path="/network" element={<Network/>}/>
-                    <Route path="/platform" element={<div>TODO</div>}/>
+                    <Route path="/platform" element={<Platform/>}/>
                 </Routes>
             </main>
         </NextUIProvider>
