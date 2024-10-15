@@ -25,6 +25,11 @@ struct AppStateInner {
 type AppState = Mutex<AppStateInner>;
 
 #[tauri::command]
+fn is_release_profile() -> bool {
+    !cfg!(debug_assertions)
+}
+
+#[tauri::command]
 fn get_cpu_info(state: State<'_, AppState>) -> CpuInfo {
     let mut state = state.lock().unwrap();
 
@@ -115,6 +120,7 @@ pub fn run() {
                 .build(),
         )
         .invoke_handler(tauri::generate_handler![
+            is_release_profile,
             get_cpu_info,
             get_disks_info,
             get_vulkan_info,

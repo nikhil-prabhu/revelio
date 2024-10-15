@@ -188,6 +188,17 @@ export class CoreError extends Error {
 }
 
 /**
+ * Checks if the app is running in the release profile.
+ *
+ * @export
+ * @async
+ * @returns {Promise<boolean>} Resolves to whether the app is running in the release profile.
+ */
+export async function isReleaseProfile(): Promise<boolean> {
+    return await invoke("is_release_profile");
+}
+
+/**
  * Retrieves CPU information from the system.
  *
  * @export
