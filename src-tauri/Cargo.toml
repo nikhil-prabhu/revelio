@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Cross-platform system information viewer"
 authors = ["Nikhil Prabhu <nikhilprabhu98@gmail.com>"]
 edition = "2021"
+rust-version = "1.77.2"
 
 [lib]
 # The `_lib` suffix may seem redundant, but it is necessary
