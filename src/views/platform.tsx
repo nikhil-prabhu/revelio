@@ -1,15 +1,15 @@
 import {useEffect, useState} from "react";
-import * as bindings from "../bindings";
+import {PlatformInfo, commands} from "../bindings";
 import {
     Spinner,
     Table, TableBody, TableCell, TableColumn, TableHeader, TableRow,
 } from "@nextui-org/react";
 
 function Platform() {
-    let [platformInfo, setPlatformInfo] = useState<bindings.PlatformInfo>();
+    let [platformInfo, setPlatformInfo] = useState<PlatformInfo>();
 
     useEffect(() => {
-        bindings.getPlatformInfo().then(info => {
+        commands.getPlatformInfo().then(info => {
             setPlatformInfo(info);
             console.info("Platform information retrieved successfully.");
         }).catch(error => {

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import * as bindings from "../bindings";
+import {VulkanInfo, commands} from "../bindings";
 import {
     Accordion, AccordionItem,
     Card,
@@ -15,10 +15,10 @@ import {
 } from "@nextui-org/react";
 
 function GPU() {
-    let [vulkanInfo, setVulkanInfo] = useState<bindings.VulkanInfo>();
+    let [vulkanInfo, setVulkanInfo] = useState<VulkanInfo>();
 
     useEffect(() => {
-        bindings.getVulkanInfo().then(info => {
+        commands.getVulkanInfo().then(info => {
             setVulkanInfo(info);
             console.info("Vulkan information retrieved successfully.");
         }).catch(error => {

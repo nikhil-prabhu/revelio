@@ -1,6 +1,18 @@
 import {invoke} from "@tauri-apps/api/core";
 
 /**
+ * Bindings to Tauri commands from the Rust core.
+ */
+export const commands = {
+    isReleaseProfile,
+    getCpuInfo,
+    getVulkanInfo,
+    getDisksInfo,
+    getNetworksInfo,
+    getPlatformInfo,
+};
+
+/**
  * Contains information of a Vulkan device layer.
  */
 export type VulkanDeviceLayer = {

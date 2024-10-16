@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import * as bindings from "../bindings";
+import {DisksInfo, commands} from "../bindings";
 import {
     Card,
     CardBody,
@@ -23,10 +23,10 @@ function formatBytes(bytes: number, decimals = 2): string {
 }
 
 function Storage() {
-    let [storageInfo, setStorageInfo] = useState<bindings.DisksInfo>();
+    let [storageInfo, setStorageInfo] = useState<DisksInfo>();
 
     useEffect(() => {
-        bindings.getDisksInfo().then(info => {
+        commands.getDisksInfo().then(info => {
             setStorageInfo(info);
             console.info("Storage information retrieved successfully.");
         }).catch(error => {

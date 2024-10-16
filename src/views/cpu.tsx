@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import * as bindings from '../bindings';
+import {CpuInfo, commands} from "../bindings";
 import * as utils from '../utils';
 import {
     Image, Spacer,
@@ -13,10 +13,10 @@ import {
 } from "@nextui-org/react";
 
 function CPU() {
-    let [cpuInfo, setCpuInfo] = useState<bindings.CpuInfo>();
+    let [cpuInfo, setCpuInfo] = useState<CpuInfo>();
 
     useEffect(() => {
-        bindings.getCpuInfo().then(info => {
+        commands.getCpuInfo().then(info => {
             setCpuInfo(info);
             console.info("CPU information retrieved successfully.");
         }).catch(error => {

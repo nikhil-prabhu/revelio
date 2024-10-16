@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import * as bindings from "../bindings";
+import {NetworksInfo, commands} from "../bindings";
 import {
     Card,
     CardBody,
@@ -13,10 +13,10 @@ import {
 } from "@nextui-org/react";
 
 function Network() {
-    let [networksInfo, setNetworksInfo] = useState<bindings.NetworksInfo>();
+    let [networksInfo, setNetworksInfo] = useState<NetworksInfo>();
 
     useEffect(() => {
-        bindings.getNetworksInfo().then(info => {
+        commands.getNetworksInfo().then(info => {
             setNetworksInfo(info);
             console.info("Networks information retrieved successfully.");
         }).catch(error => {
