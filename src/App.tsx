@@ -7,11 +7,34 @@ import CPU from "./views/cpu";
 import GPU from "./views/gpu";
 import Storage from "./views/storage";
 import Network from "./views/network";
-import Platform from "./views/platform.tsx";
+import Platform from "./views/platform";
+import {commands} from "./bindings";
+import {useEffect, useRef} from "react";
 
 function App() {
     const navigate = useNavigate();
     const {pathname} = useLocation();
+    const handleCtxMenu = useRef<null | ((_: MouseEvent) => void)>(null);
+
+    useEffect(() => {
+        commands.isReleaseProfile().then(yes => {
+            if (yes) {
+                handleCtxMenu.current = (event: MouseEvent) => {
+                    event.preventDefault();
+                };
+            }
+
+            if (handleCtxMenu.current) {
+                document.addEventListener("contextmenu", handleCtxMenu.current);
+            }
+        })
+
+        return () => {
+            if (handleCtxMenu.current) {
+                document.removeEventListener("contextmenu", handleCtxMenu.current);
+            }
+        };
+    }, []);
 
     return (
         <NextUIProvider navigate={navigate} useHref={useHref}>
