@@ -6,6 +6,7 @@ use tauri_plugin_log::{Target, TargetKind};
 use crate::types::CoreError;
 use crate::utils::cpu::CpuInfo;
 use crate::utils::disks::DisksInfo;
+use crate::utils::gpu::opengl::OpenGLInfo;
 use crate::utils::gpu::vulkan::VulkanInfo;
 use crate::utils::network::NetworksInfo;
 use crate::utils::platform::PlatformInfo;
@@ -17,6 +18,7 @@ mod utils;
 struct AppStateInner {
     cpu_info: Option<CpuInfo>,
     vulkan_info: Option<VulkanInfo>,
+    opengl_info: Option<OpenGLInfo>,
     disks_info: Option<DisksInfo>,
     networks_info: Option<NetworksInfo>,
     platform_info: Option<PlatformInfo>,
@@ -67,6 +69,20 @@ fn get_vulkan_info(state: State<'_, AppState>) -> Result<VulkanInfo, CoreError> 
 
     let info = VulkanInfo::get()?;
     state.vulkan_info = Some(info.clone());
+
+    Ok(info)
+}
+
+#[tauri::command]
+fn get_opengl_info(state: State<'_, AppState>) -> Result<OpenGLInfo, CoreError> {
+    let mut state = state.lock().unwrap();
+
+    if let Some(info) = &state.opengl_info {
+        return Ok(info.clone());
+    }
+
+    let info = OpenGLInfo::get()?;
+    state.opengl_info = Some(info.clone());
 
     Ok(info)
 }
@@ -124,6 +140,7 @@ pub fn run() {
             get_cpu_info,
             get_disks_info,
             get_vulkan_info,
+            get_opengl_info,
             get_networks_info,
             get_platform_info,
         ])

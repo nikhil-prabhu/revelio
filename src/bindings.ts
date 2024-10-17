@@ -7,6 +7,7 @@ export const commands = {
     isReleaseProfile,
     getCpuInfo,
     getVulkanInfo,
+    getOpenGLInfo,
     getDisksInfo,
     getNetworksInfo,
     getPlatformInfo,
@@ -56,6 +57,20 @@ export type VulkanInfo = {
     totalDevices: number;
     /** The list of Vulkan-enabled devices identified on the system */
     devices: VulkanDevice[];
+}
+
+/**
+ * Contains information about OpenGL on the system.
+ */
+export type OpenGLInfo = {
+    /** The OpenGL device vendor */
+    vendor: string;
+    /** The OpenGL renderer */
+    renderer: string;
+    /** The OpenGL version */
+    version: string;
+    /** The current free video memory on the OpenGL device */
+    freeVideoMem: number;
 }
 
 /**
@@ -244,6 +259,20 @@ export async function getDisksInfo(): Promise<DisksInfo> {
  */
 export async function getVulkanInfo(): Promise<VulkanInfo> {
     return await invoke("get_vulkan_info");
+}
+
+/**
+ * Retrieves the OpenGL information from the system.
+ *
+ * FIXME!: calling this function currently causes the core of the application to freeze and eventually crash. DO NOT USE!!!
+ *
+ * @export
+ * @async
+ * @returns {Promise<OpenGLInfo>} Resolves to the OpenGL information.
+ * @throws {CoreError} If gathering OpenGL information fails.
+ */
+export async function getOpenGLInfo(): Promise<OpenGLInfo> {
+    return await invoke("get_opengl_info");
 }
 
 /**
