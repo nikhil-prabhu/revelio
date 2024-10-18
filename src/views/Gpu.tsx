@@ -15,7 +15,7 @@ import {
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
 
-function GPU() {
+function Gpu() {
     let [vulkanInfo, setVulkanInfo] = useState<VulkanInfo>();
 
     useEffect(() => {
@@ -95,4 +95,4 @@ function GPU() {
     );
 }
 
-export default GPU;
+export default Gpu;

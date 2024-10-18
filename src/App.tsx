@@ -3,11 +3,11 @@ import {BsCpuFill, BsGpuCard, BsHddNetworkFill} from "react-icons/bs";
 import {RiHardDriveFill} from "react-icons/ri";
 import {GrSystem} from "react-icons/gr";
 import {Route, Routes, useHref, useLocation, useNavigate} from "react-router-dom";
-import CPU from "./views/cpu";
-import GPU from "./views/gpu";
-import Storage from "./views/storage";
-import Network from "./views/network";
-import Platform from "./views/platform";
+import Cpu from "./views/Cpu";
+import Gpu from "./views/Gpu";
+import Storage from "./views/Storage";
+import Network from "./views/Network";
+import Platform from "./views/Platform";
 import {commands} from "./bindings";
 import {useEffect, useRef} from "react";
 
@@ -85,8 +85,8 @@ function App() {
                 <Spacer x={8}/>
 
                 <Routes>
-                    <Route path="/" element={<CPU/>}/>
-                    <Route path="/gpu" element={<GPU/>}/>
+                    <Route path="/" element={<Cpu/>}/>
+                    <Route path="/gpu" element={<Gpu/>}/>
                     <Route path="/storage" element={<Storage/>}/>
                     <Route path="/network" element={<Network/>}/>
                     <Route path="/platform" element={<Platform/>}/>

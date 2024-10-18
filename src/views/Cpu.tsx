@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
 
-function CPU() {
+function Cpu() {
     let [cpuInfo, setCpuInfo] = useState<CpuInfo>();
 
     useEffect(() => {
@@ -82,4 +82,4 @@ function CPU() {
     );
 }
 
-export default CPU;
+export default Cpu;
