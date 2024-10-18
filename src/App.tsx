@@ -10,6 +10,8 @@ import Network from "./views/Network";
 import Platform from "./views/Platform";
 import {commands} from "./bindings";
 import {useEffect, useRef} from "react";
+import Displays from "./views/Displays.tsx";
+import {MdScreenshotMonitor} from "react-icons/md";
 
 function App() {
     const navigate = useNavigate();
@@ -39,7 +41,7 @@ function App() {
     return (
         <NextUIProvider navigate={navigate} useHref={useHref}>
             <main className="light text-foreground bg-background h-screen flex p-2">
-                <Tabs isVertical color="primary" selectedKey={pathname}>
+                <Tabs isVertical color="primary" selectedKey={pathname} disabledKeys={["/displays"]}>
                     <Tab key="/" href="/"
                          title={
                              <div className="flex items-center space-x-2">
@@ -54,6 +56,14 @@ function App() {
                              <div className="flex items-center space-x-2">
                                  <BsGpuCard/>
                                  <span>GPU</span>
+                             </div>
+                         }></Tab>
+
+                    <Tab key="/displays" href="/displays"
+                         title={
+                             <div className="flex items-center space-x-2">
+                                 <MdScreenshotMonitor/>
+                                 <span>Displays</span>
                              </div>
                          }></Tab>
 
@@ -87,6 +97,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Cpu/>}/>
                     <Route path="/gpu" element={<Gpu/>}/>
+                    <Route path="/displays" element={<Displays/>}/>
                     <Route path="/storage" element={<Storage/>}/>
                     <Route path="/network" element={<Network/>}/>
                     <Route path="/platform" element={<Platform/>}/>

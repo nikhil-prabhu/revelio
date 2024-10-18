@@ -33,6 +33,7 @@ tauri-plugin-os = "2"
 tauri-plugin-log = "2"
 log = "0.4.22"
 glium = "0.36.0"
+winit = "0.30.5"
 
 [target.'cfg(target_os = "windows")'.dependencies]
 wgpu = { version = "22.1.0", default-features = false, features = ["dx12"] }

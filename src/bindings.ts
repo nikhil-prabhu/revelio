@@ -8,6 +8,7 @@ export const commands = {
     getCpuInfo,
     getVulkanInfo,
     getOpenGLInfo,
+    getDisplaysInfo,
     getDisksInfo,
     getNetworksInfo,
     getPlatformInfo,
@@ -125,6 +126,32 @@ export type CpuInfo = {
     physicalCoreCount?: number;
     /** The logical processors on the CPU */
     cpus: Cpu[];
+}
+
+/**
+ * Represents an individual display attached to the system.
+ */
+export type Display = {
+    /** The name of the display */
+    name: string;
+    /** The display dimensions (width x height) */
+    dimensions: string;
+    /** The scale factor of the display */
+    scaleFactor: number;
+    /** The top-left corner position of the monitor relative to the larger full screen area (x, y) */
+    position: string;
+    /** The display's refresh rate in MHz */
+    refreshRate?: number;
+}
+
+/**
+ * Contains information of the displays connected to the system.
+ */
+export type DisplaysInfo = {
+    /** The total number of displays */
+    totalDisplays: number;
+    /** The list of displays */
+    displays: Display[];
 }
 
 /**
@@ -273,6 +300,20 @@ export async function getVulkanInfo(): Promise<VulkanInfo> {
  */
 export async function getOpenGLInfo(): Promise<OpenGLInfo> {
     return await invoke("get_opengl_info");
+}
+
+/**
+ * Retrieves information about the displays connected to the system.
+ *
+ * FIXME!: calling this function currently causes the core of the application to freeze and eventually crash. DO NOT USE!!!
+ *
+ * @export
+ * @async
+ * @returns {Promise<DisplaysInfo>} Resolves to the displays information.
+ * @throws {CoreError} If gathering displays information fails.
+ */
+export async function getDisplaysInfo(): Promise<DisplaysInfo> {
+    return await invoke("get_displays_info");
 }
 
 /**
