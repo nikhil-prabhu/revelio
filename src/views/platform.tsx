@@ -4,6 +4,7 @@ import {
     Spinner,
     Table, TableBody, TableCell, TableColumn, TableHeader, TableRow,
 } from "@nextui-org/react";
+import ViewContainer from "../components/ViewContainer";
 
 function Platform() {
     let [platformInfo, setPlatformInfo] = useState<PlatformInfo>();
@@ -22,9 +23,7 @@ function Platform() {
     }
 
     return (
-        <div className="w-full flex-row text-center items-center mb-4 ml-2 mr-2">
-            <h1 className="font-bold m-4">Platform Information</h1>
-
+        <ViewContainer title="Platform Information">
             <Table selectionMode="none" hideHeader>
                 <TableHeader>
                     <TableColumn>Field</TableColumn>
@@ -53,7 +52,7 @@ function Platform() {
                     </TableRow>
                 </TableBody>
             </Table>
-        </div>
+        </ViewContainer>
     )
 }
 

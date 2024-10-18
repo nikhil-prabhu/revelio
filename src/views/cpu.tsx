@@ -11,6 +11,7 @@ import {
     TableHeader,
     TableRow
 } from "@nextui-org/react";
+import ViewContainer from "../components/ViewContainer";
 
 function CPU() {
     let [cpuInfo, setCpuInfo] = useState<CpuInfo>();
@@ -29,9 +30,7 @@ function CPU() {
     }
 
     return (
-        <div className="w-full flex-row text-center items-center mb-4 ml-2 mr-2">
-            <h1 className="font-bold m-4">CPU Information</h1>
-
+        <ViewContainer title="CPU Information">
             <Table selectionMode="none">
                 <TableHeader>
                     <TableColumn>Architecture</TableColumn>
@@ -79,7 +78,7 @@ function CPU() {
                     )}
                 </TableBody>
             </Table>
-        </div>
+        </ViewContainer>
     );
 }
 

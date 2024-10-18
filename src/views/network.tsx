@@ -11,6 +11,7 @@ import {
     TableColumn,
     TableHeader, TableRow
 } from "@nextui-org/react";
+import ViewContainer from "../components/ViewContainer";
 
 function Network() {
     let [networksInfo, setNetworksInfo] = useState<NetworksInfo>();
@@ -29,9 +30,7 @@ function Network() {
     }
 
     return (
-        <div className="w-full flex-row text-center items-center mb-4 ml-2 mr-2">
-            <h1 className="font-bold m-4">Network Information</h1>
-
+        <ViewContainer title="Network Information">
             <p className="text-sm">Total network interfaces on system: {networksInfo.totalInterfaces}</p>
 
             <Spacer y={4}/>
@@ -65,7 +64,7 @@ function Network() {
                     <Spacer y={4}/>
                 </>
             ))}
-        </div>
+        </ViewContainer>
     )
 }
 

@@ -11,6 +11,7 @@ import {
     TableColumn,
     TableHeader, TableRow
 } from "@nextui-org/react";
+import ViewContainer from "../components/ViewContainer";
 
 function formatBytes(bytes: number, decimals = 2): string {
     if (bytes === 0) return '0 Bytes';
@@ -39,9 +40,7 @@ function Storage() {
     }
 
     return (
-        <div className="w-full flex-row text-center items-center mb-4 ml-2 mr-2">
-            <h1 className="font-bold m-4">Storage Information</h1>
-
+        <ViewContainer title="Storage Information">
             <p className="text-sm">Total disks on system: {storageInfo.count}</p>
 
             <Spacer y={4}/>
@@ -90,7 +89,7 @@ function Storage() {
                     <Spacer y={4}/>
                 </>
             ))}
-        </div>
+        </ViewContainer>
     )
 }
 

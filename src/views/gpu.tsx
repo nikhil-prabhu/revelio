@@ -13,6 +13,7 @@ import {
     TableHeader, TableRow,
     Tabs
 } from "@nextui-org/react";
+import ViewContainer from "../components/ViewContainer";
 
 function GPU() {
     let [vulkanInfo, setVulkanInfo] = useState<VulkanInfo>();
@@ -31,9 +32,7 @@ function GPU() {
     }
 
     return (
-        <div className="w-full flex-row text-center items-center mb-4 ml-2 mr-2">
-            <h1 className="font-bold m-4">GPU Information</h1>
-
+        <ViewContainer title="GPU Information">
             <Tabs color="primary" disabledKeys={["opengl"]}>
                 <Tab key="vulkan" title="Vulkan">
                     <Card>
@@ -92,7 +91,7 @@ function GPU() {
                     </Card>
                 </Tab>
             </Tabs>
-        </div>
+        </ViewContainer>
     );
 }
 
