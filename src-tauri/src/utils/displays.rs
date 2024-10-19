@@ -1,7 +1,7 @@
 use glium::backend::glutin::SimpleWindowBuilder;
+use glium::winit::event_loop::EventLoop;
+use glium::winit::monitor::MonitorHandle;
 use serde::{Serialize, Serializer};
-use winit::event_loop::EventLoop;
-use winit::monitor::MonitorHandle;
 
 use crate::types::CoreError;
 

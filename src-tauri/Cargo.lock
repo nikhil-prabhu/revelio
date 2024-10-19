@@ -3514,7 +3514,6 @@ dependencies = [
  "tauri-plugin-shell",
  "thiserror",
  "wgpu",
- "winit",
 ]
 
 [[package]]
