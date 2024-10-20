@@ -9,7 +9,7 @@ import Storage from "./views/Storage";
 import Network from "./views/Network";
 import Platform from "./views/Platform";
 import {commands} from "./bindings";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import Displays from "./views/Displays.tsx";
 import {MdScreenshotMonitor} from "react-icons/md";
 
@@ -17,6 +17,7 @@ function App() {
     const navigate = useNavigate();
     const {pathname} = useLocation();
     const handleCtxMenu = useRef<null | ((_: MouseEvent) => void)>(null);
+    let [appVersion, setAppVersion] = useState<string>();
 
     useEffect(() => {
         commands.isReleaseProfile().then(yes => {
@@ -30,6 +31,13 @@ function App() {
                 document.addEventListener("contextmenu", handleCtxMenu.current);
             }
         })
+
+        commands.getAppVersion().then(version => {
+            console.info(version);
+            setAppVersion(version);
+        }).catch(error => {
+            console.error(error);
+        });
 
         return () => {
             if (handleCtxMenu.current) {
@@ -102,6 +110,8 @@ function App() {
                     <Route path="/network" element={<Network/>}/>
                     <Route path="/platform" element={<Platform/>}/>
                 </Routes>
+
+                <p className="fixed bottom-0 text-xs m-2">v{appVersion}</p>
             </main>
         </NextUIProvider>
     );

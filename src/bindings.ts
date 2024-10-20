@@ -12,6 +12,7 @@ export const commands = {
     getDisksInfo,
     getNetworksInfo,
     getPlatformInfo,
+    getAppVersion,
 };
 
 /**
@@ -338,4 +339,15 @@ export async function getNetworksInfo(): Promise<NetworksInfo> {
  */
 export async function getPlatformInfo(): Promise<PlatformInfo> {
     return await invoke("get_platform_info");
+}
+
+/**
+ * Returns the app version.
+ *
+ * @export
+ * @async
+ * @returns {Promise<string>} Resolves to the app version.
+ */
+export async function getAppVersion(): Promise<string> {
+    return await invoke("get_app_version");
 }

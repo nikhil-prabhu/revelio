@@ -131,6 +131,11 @@ fn get_platform_info(state: State<'_, AppState>) -> Result<PlatformInfo, CoreErr
     Ok(info)
 }
 
+#[tauri::command]
+fn get_app_version() -> String {
+    env!("CARGO_PKG_VERSION").into()
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let mut level = log::LevelFilter::Trace;
@@ -160,6 +165,7 @@ pub fn run() {
             get_displays_info,
             get_networks_info,
             get_platform_info,
+            get_app_version,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
