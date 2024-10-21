@@ -33,6 +33,8 @@ export type VulkanDeviceLayer = {
  * Contains information of a Vulkan device.
  */
 export type VulkanDevice = {
+    /** Device index; useful for unique identification in mapping functions, but otherwise not bound to the device itself */
+    index: number;
     /** The name of the device */
     deviceName: string;
     /** The device's vendor ID */

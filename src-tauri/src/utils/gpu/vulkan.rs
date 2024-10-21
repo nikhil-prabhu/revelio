@@ -23,6 +23,8 @@ pub struct VulkanDeviceLayer {
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct VulkanDevice {
+    /// Device index; useful for unique identification in mapping functions, but otherwise not bound to the device itself.
+    pub index: usize,
     /// The name of the device.
     pub device_name: String,
     /// The device's vendor ID.
@@ -88,8 +90,8 @@ impl VulkanInfo {
         let devices_count = physical_devices.len();
         let mut devices = Vec::with_capacity(devices_count);
 
-        for device in physical_devices {
-            let device_props = unsafe { instance.get_physical_device_properties(device) };
+        for (idx, device) in physical_devices.iter().enumerate() {
+            let device_props = unsafe { instance.get_physical_device_properties(*device) };
             let device_name = device_props
                 .device_name_as_c_str()
                 .map_err(|e| CoreError::VulkanInfoError(e.to_string().into()))?
@@ -113,7 +115,7 @@ impl VulkanInfo {
 
             let device_layers = unsafe {
                 instance
-                    .enumerate_device_layer_properties(device)
+                    .enumerate_device_layer_properties(*device)
                     .map_err(|e| CoreError::VulkanInfoError(e.to_string().into()))?
             };
             let mut layers = Vec::with_capacity(device_layers.len());
@@ -143,6 +145,7 @@ impl VulkanInfo {
             let device_type = &VK_DEVICE_TYPE_MAP[&device_props.device_type.as_raw()];
 
             devices.push(VulkanDevice {
+                index: idx,
                 device_name,
                 vendor_id,
                 device_id,
