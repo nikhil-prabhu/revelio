@@ -1,22 +1,23 @@
 import {useEffect, useState} from "react";
 import {VulkanInfo, commands} from "../bindings";
+import * as utils from "../utils";
 import {
-    Accordion, AccordionItem,
     Card,
     CardBody,
-    CardHeader, Spacer,
+    Select, SelectItem, Selection, Spacer,
     Spinner,
     Tab,
     Table,
     TableBody, TableCell,
     TableColumn,
     TableHeader, TableRow,
-    Tabs
+    Tabs, Image
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
 
 function Gpu() {
-    let [vulkanInfo, setVulkanInfo] = useState<VulkanInfo>();
+    const [vulkanInfo, setVulkanInfo] = useState<VulkanInfo>();
+    const [currentDevice, setCurrentDevice] = useState<Selection>(new Set(["0"]));
 
     useEffect(() => {
         commands.getVulkanInfo().then(info => {
@@ -27,70 +28,130 @@ function Gpu() {
         });
     }, []);
 
+    // TODO: improve loading indicator.
     if (!vulkanInfo) {
         return <Spinner label="Loading..." color="primary"/>
     }
 
+    // TODO: add brand and vendor icons.
+    // TODO: add advanced vulkan info (layers, limits, etc.).
+    // TODO: move Vulkan, OpenGL, etc. to separate components.
     return (
         <ViewContainer title="GPU Information">
-            <Tabs color="primary" disabledKeys={["opengl"]}>
-                <Tab key="vulkan" title="Vulkan">
-                    <Card>
-                        <CardHeader className="font-bold">Vulkan Information</CardHeader>
-                        <CardBody>
-                            <p className="text-sm">Total identified Vulkan devices: {vulkanInfo.totalDevices}</p>
+            <Card shadow="sm">
+                <CardBody>
+                    <Tabs color="primary" disabledKeys={["opengl"]} className="self-center m-4">
+                        <Tab key="vulkan" title="Vulkan">
+                            <div className="flex items-center justify-center space-x-6">
+                                <Select
+                                    autoFocus
+                                    items={vulkanInfo.devices}
+                                    label="Select Device"
+                                    selectionMode="single"
+                                    disallowEmptySelection
+                                    onSelectionChange={setCurrentDevice}
+                                    selectedKeys={currentDevice}
+                                    variant="faded"
+                                    className="max-w-md"
+                                >
+                                    {(device) => <SelectItem
+                                        key={device.index}
+                                        startContent={(
+                                            <Image src={utils.getBrandIcon("unknown")} width={16} height={16}/>
+                                        )}
+                                    >{`${device.index}: ${device.deviceName}`}</SelectItem>}
+                                </Select>
+
+                                <Image src={utils.getVendorIcon(currentDevice.toString())} removeWrapper width={64}
+                                       height={64}/>
+                            </div>
 
                             <Spacer y={4}/>
 
-                            <Accordion variant="splitted" defaultExpandedKeys="all">
-                                {vulkanInfo.devices.map((device, idx) => (
-                                    <AccordionItem key={idx} title={device.deviceName} className="font-bold">
-                                        <Table hideHeader removeWrapper>
-                                            <TableHeader>
-                                                <TableColumn>Field</TableColumn>
-                                                <TableColumn>Value</TableColumn>
-                                            </TableHeader>
+                            <Tabs placement="start" color="primary" disabledKeys={["limits", "extensions", "layers"]}
+                                  className="m-4">
+                                <Tab key="device" title="Device" className="w-full">
+                                    <Card shadow="none">
+                                        <CardBody>
+                                            {vulkanInfo.devices.map(device => (
+                                                device.index === Number([...currentDevice][0]) ?
+                                                    (<Table isStriped shadow="none" fullWidth>
+                                                        <TableHeader>
+                                                            <TableColumn>Property</TableColumn>
+                                                            <TableColumn>Value</TableColumn>
+                                                        </TableHeader>
 
-                                            <TableBody>
-                                                <TableRow key={1}>
-                                                    <TableCell className="font-bold">Vendor ID</TableCell>
-                                                    <TableCell>{device.vendorId}</TableCell>
-                                                </TableRow>
-                                                <TableRow key={2}>
-                                                    <TableCell className="font-bold">Device ID</TableCell>
-                                                    <TableCell>{device.deviceId}</TableCell>
-                                                </TableRow>
-                                                <TableRow key={3}>
-                                                    <TableCell className="font-bold">Device Type</TableCell>
-                                                    <TableCell>{device.deviceType}</TableCell>
-                                                </TableRow>
-                                                <TableRow key={4}>
-                                                    <TableCell className="font-bold">API Version</TableCell>
-                                                    <TableCell>{device.apiVersion}</TableCell>
-                                                </TableRow>
-                                                <TableRow key={5}>
-                                                    <TableCell className="font-bold">Driver Version</TableCell>
-                                                    <TableCell>{device.driverVersion}</TableCell>
-                                                </TableRow>
-                                                <TableRow key={6}>
-                                                    <TableCell className="font-bold">Pipeline Cache UUID</TableCell>
-                                                    <TableCell>{device.pipelineCacheUuid}</TableCell>
-                                                </TableRow>
-                                            </TableBody>
-                                        </Table>
-                                    </AccordionItem>
-                                ))}
-                            </Accordion>
-                        </CardBody>
-                    </Card>
-                </Tab>
+                                                        <TableBody>
+                                                            <TableRow>
+                                                                <TableCell className="font-bold w-1/3">Device
+                                                                    Name</TableCell>
+                                                                <TableCell
+                                                                    className="font-mono">{device.deviceName}</TableCell>
+                                                            </TableRow>
 
-                <Tab key="opengl" title="OpenGL">
-                    <Card>
-                        <CardBody>TODO</CardBody>
-                    </Card>
-                </Tab>
-            </Tabs>
+                                                            <TableRow>
+                                                                <TableCell className="font-bold w-1/3">Vendor
+                                                                    ID</TableCell>
+                                                                <TableCell
+                                                                    className="font-mono">{device.vendorId}</TableCell>
+                                                            </TableRow>
+
+                                                            <TableRow>
+                                                                <TableCell className="font-bold w-1/3">Device
+                                                                    ID</TableCell>
+                                                                <TableCell
+                                                                    className="font-mono">{device.deviceId}</TableCell>
+                                                            </TableRow>
+
+                                                            <TableRow>
+                                                                <TableCell className="font-bold w-1/3">Device
+                                                                    Type</TableCell>
+                                                                <TableCell
+                                                                    className="font-mono">{device.deviceType}</TableCell>
+                                                            </TableRow>
+
+                                                            <TableRow>
+                                                                <TableCell className="font-bold w-1/3">API
+                                                                    Version</TableCell>
+                                                                <TableCell
+                                                                    className="font-mono">{device.apiVersion}</TableCell>
+                                                            </TableRow>
+
+                                                            <TableRow>
+                                                                <TableCell className="font-bold w-1/3">Driver
+                                                                    Version</TableCell>
+                                                                <TableCell
+                                                                    className="font-mono">{device.driverVersion}</TableCell>
+                                                            </TableRow>
+
+                                                            <TableRow>
+                                                                <TableCell className="font-bold w-1/3">Pipeline Cache
+                                                                    UUID</TableCell>
+                                                                <TableCell
+                                                                    className="font-mono">{device.pipelineCacheUuid}</TableCell>
+                                                            </TableRow>
+                                                        </TableBody>
+                                                    </Table>)
+                                                    : null
+                                            ))}
+                                        </CardBody>
+                                    </Card>
+                                </Tab>
+
+                                <Tab key="limits" title="Limits"/>
+                                <Tab key="extensions" title="Extensions"/>
+                                <Tab key="layers" title="Layers"/>
+                            </Tabs>
+                        </Tab>
+
+                        <Tab key="opengl" title="OpenGL">
+                            <Card>
+                                <CardBody>TODO</CardBody>
+                            </Card>
+                        </Tab>
+                    </Tabs>
+                </CardBody>
+            </Card>
         </ViewContainer>
     );
 }
