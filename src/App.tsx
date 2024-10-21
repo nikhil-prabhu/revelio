@@ -1,4 +1,5 @@
 import {NextUIProvider, Spacer, Tab, Tabs} from "@nextui-org/react";
+import {ThemeProvider as NextThemesProvider} from "next-themes";
 import {BsCpuFill, BsGpuCard, BsHddNetworkFill} from "react-icons/bs";
 import {RiHardDriveFill} from "react-icons/ri";
 import {GrSystem} from "react-icons/gr";
@@ -12,12 +13,13 @@ import {commands} from "./bindings";
 import {useEffect, useRef, useState} from "react";
 import Displays from "./views/Displays.tsx";
 import {MdScreenshotMonitor} from "react-icons/md";
+import ThemeSwitcher from "./components/ThemeSwitcher.tsx";
 
 function App() {
     const navigate = useNavigate();
     const {pathname} = useLocation();
     const handleCtxMenu = useRef<null | ((_: MouseEvent) => void)>(null);
-    let [appVersion, setAppVersion] = useState<string>();
+    const [appVersion, setAppVersion] = useState<string>();
 
     useEffect(() => {
         commands.isReleaseProfile().then(yes => {
@@ -48,71 +50,75 @@ function App() {
 
     return (
         <NextUIProvider navigate={navigate} useHref={useHref}>
-            <main className="light text-foreground bg-background h-screen flex p-2">
-                <Tabs isVertical color="primary" selectedKey={pathname} disabledKeys={["/displays"]}>
-                    <Tab key="/" href="/"
-                         title={
-                             <div className="flex items-center space-x-2">
-                                 <BsCpuFill/>
-                                 <span>CPU</span>
-                             </div>
-                         }
-                    ></Tab>
+            <NextThemesProvider attribute="class" disableTransitionOnChange>
+                <main className="text-foreground bg-background h-screen flex p-2">
+                    <Tabs isVertical color="primary" selectedKey={pathname} disabledKeys={["/displays"]}>
+                        <Tab key="/" href="/"
+                             title={
+                                 <div className="flex items-center space-x-2">
+                                     <BsCpuFill/>
+                                     <span>CPU</span>
+                                 </div>
+                             }
+                        />
 
-                    <Tab key="/gpu" href="/gpu"
-                         title={
-                             <div className="flex items-center space-x-2">
-                                 <BsGpuCard/>
-                                 <span>GPU</span>
-                             </div>
-                         }></Tab>
+                        <Tab key="/gpu" href="/gpu"
+                             title={
+                                 <div className="flex items-center space-x-2">
+                                     <BsGpuCard/>
+                                     <span>GPU</span>
+                                 </div>
+                             }/>
 
-                    <Tab key="/displays" href="/displays"
-                         title={
-                             <div className="flex items-center space-x-2">
-                                 <MdScreenshotMonitor/>
-                                 <span>Displays</span>
-                             </div>
-                         }></Tab>
+                        <Tab key="/displays" href="/displays"
+                             title={
+                                 <div className="flex items-center space-x-2">
+                                     <MdScreenshotMonitor/>
+                                     <span>Displays</span>
+                                 </div>
+                             }/>
 
-                    <Tab key="/storage" href="/storage"
-                         title={
-                             <div className="flex items-center space-x-2">
-                                 <RiHardDriveFill/>
-                                 <span>Storage</span>
-                             </div>
-                         }></Tab>
+                        <Tab key="/storage" href="/storage"
+                             title={
+                                 <div className="flex items-center space-x-2">
+                                     <RiHardDriveFill/>
+                                     <span>Storage</span>
+                                 </div>
+                             }/>
 
-                    <Tab key="/network" href="/network"
-                         title={
-                             <div className="flex items-center space-x-2">
-                                 <BsHddNetworkFill/>
-                                 <span>Network</span>
-                             </div>
-                         }></Tab>
+                        <Tab key="/network" href="/network"
+                             title={
+                                 <div className="flex items-center space-x-2">
+                                     <BsHddNetworkFill/>
+                                     <span>Network</span>
+                                 </div>
+                             }/>
 
-                    <Tab key="/platform" href="/platform"
-                         title={
-                             <div className="flex items-center space-x-2">
-                                 <GrSystem/>
-                                 <span>Platform</span>
-                             </div>
-                         }></Tab>
-                </Tabs>
+                        <Tab key="/platform" href="/platform"
+                             title={
+                                 <div className="flex items-center space-x-2">
+                                     <GrSystem/>
+                                     <span>Platform</span>
+                                 </div>
+                             }/>
+                    </Tabs>
 
-                <Spacer x={8}/>
+                    <Spacer x={8}/>
 
-                <Routes>
-                    <Route path="/" element={<Cpu/>}/>
-                    <Route path="/gpu" element={<Gpu/>}/>
-                    <Route path="/displays" element={<Displays/>}/>
-                    <Route path="/storage" element={<Storage/>}/>
-                    <Route path="/network" element={<Network/>}/>
-                    <Route path="/platform" element={<Platform/>}/>
-                </Routes>
+                    <Routes>
+                        <Route path="/" element={<Cpu/>}/>
+                        <Route path="/gpu" element={<Gpu/>}/>
+                        <Route path="/displays" element={<Displays/>}/>
+                        <Route path="/storage" element={<Storage/>}/>
+                        <Route path="/network" element={<Network/>}/>
+                        <Route path="/platform" element={<Platform/>}/>
+                    </Routes>
 
-                <p className="fixed bottom-0 text-xs m-2">v{appVersion}</p>
-            </main>
+                    <ThemeSwitcher/>
+
+                    <p className="fixed bottom-0 text-xs m-2">v{appVersion}</p>
+                </main>
+            </NextThemesProvider>
         </NextUIProvider>
     );
 }
