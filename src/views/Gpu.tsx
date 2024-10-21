@@ -11,7 +11,7 @@ import {
     TableBody, TableCell,
     TableColumn,
     TableHeader, TableRow,
-    Tabs, Image
+    Tabs, Image, Divider
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
 
@@ -40,7 +40,7 @@ function Gpu() {
         <ViewContainer title="GPU Information">
             <Card shadow="sm">
                 <CardBody>
-                    <Tabs color="primary" disabledKeys={["opengl"]} className="self-center m-4">
+                    <Tabs disabledKeys={["opengl"]} className="self-center m-4">
                         <Tab key="vulkan" title="Vulkan">
                             <div className="flex items-center justify-center space-x-6">
                                 <Select
@@ -67,9 +67,14 @@ function Gpu() {
                             </div>
 
                             <Spacer y={4}/>
+                            <Divider/>
 
-                            <Tabs placement="start" color="primary" disabledKeys={["limits", "extensions", "layers"]}
-                                  className="m-4">
+                            <Tabs
+                                placement="end"
+                                color="primary"
+                                disabledKeys={["limits", "extensions", "layers"]}
+                                variant="underlined"
+                                className="m-4">
                                 <Tab key="device" title="Device" className="w-full">
                                     <Card shadow="none">
                                         <CardBody>

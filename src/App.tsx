@@ -52,7 +52,12 @@ function App() {
         <NextUIProvider navigate={navigate} useHref={useHref}>
             <NextThemesProvider attribute="class" disableTransitionOnChange>
                 <main className="text-foreground bg-background h-screen flex p-2">
-                    <Tabs isVertical color="primary" selectedKey={pathname} disabledKeys={["/displays"]}>
+                    <Tabs
+                        isVertical
+                        color="primary"
+                        selectedKey={pathname}
+                        disabledKeys={["/displays"]}
+                        variant="light">
                         <Tab key="/" href="/"
                              title={
                                  <div className="flex items-center space-x-2">
