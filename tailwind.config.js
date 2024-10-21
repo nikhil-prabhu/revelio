@@ -9,7 +9,8 @@ export default {
     theme: {
         extend: {},
         fontFamily: {
-            "sans": ["Martian Mono", "monospace"],
+            "sans": ["Montserrat", "sans"],
+            "mono": ["Martian Mono", "monospace"],
         },
     },
     darkMode: "class",

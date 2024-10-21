@@ -4,6 +4,12 @@
 
 @layer base {
     @font-face {
+        font-family: "Montserrat";
+        src: local("Montserrat-VariableFont_wght"),
+        url(assets/fonts/Montserrat-VariableFont_wght.ttf) format("truetype");
+    }
+
+    @font-face {
         font-family: "Martian Mono";
         src: local("MartianMono-VariableFont_wdth,wght"),
         url(assets/fonts/MartianMono-VariableFont_wdth,wght.ttf) format("truetype");
