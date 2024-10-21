@@ -1,20 +1,20 @@
 import {useEffect, useState} from "react";
 import {CpuInfo, commands} from "../bindings";
-import * as utils from '../utils';
 import {
-    Image, Spacer,
+    Accordion, AccordionItem,
+    Card, CardBody, Divider,
     Spinner,
     Table,
     TableBody,
     TableCell,
     TableColumn,
     TableHeader,
-    TableRow
+    TableRow,
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
 
 function Cpu() {
-    let [cpuInfo, setCpuInfo] = useState<CpuInfo>();
+    const [cpuInfo, setCpuInfo] = useState<CpuInfo>();
 
     useEffect(() => {
         commands.getCpuInfo().then(info => {
@@ -25,59 +25,69 @@ function Cpu() {
         })
     }, []);
 
+    // TODO: improve loading indicator.
     if (!cpuInfo) {
         return <Spinner label="Loading..." color="primary"/>
     }
 
+    // TODO: add brand and vendor icons.
     return (
         <ViewContainer title="CPU Information">
-            <Table selectionMode="none">
-                <TableHeader>
-                    <TableColumn>Architecture</TableColumn>
-                    <TableColumn>Vendor ID</TableColumn>
-                    <TableColumn>Brand</TableColumn>
-                    <TableColumn>Physical Core Count</TableColumn>
-                </TableHeader>
+            <Card shadow="sm">
+                <CardBody>
+                    <Table isStriped shadow="none">
+                        <TableHeader>
+                            <TableColumn>Property</TableColumn>
+                            <TableColumn>Value</TableColumn>
+                        </TableHeader>
 
-                <TableBody>
-                    <TableRow key="1">
-                        <TableCell>{cpuInfo.arch}</TableCell>
-                        <TableCell>
-                            <div className="flex">
-                                <Image src={utils.getVendorIcon(cpuInfo.vendorId)} radius="none" width={20}/>
-                                <Spacer/>
-                                {cpuInfo.vendorId}
-                            </div>
-                        </TableCell>
-                        <TableCell>
-                            <div className="flex">
-                                <Image src={utils.getBrandIcon(cpuInfo.brand)} radius="none" width={20}/>
-                                <Spacer/>
-                                {cpuInfo.brand}
-                            </div>
-                        </TableCell>
-                        <TableCell>{cpuInfo.physicalCoreCount}</TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell className="font-bold w-1/3">Architecture</TableCell>
+                                <TableCell className="font-mono">{cpuInfo.arch}</TableCell>
+                            </TableRow>
 
-            <h1 className="font-bold m-4">Logical Processors Information</h1>
+                            <TableRow>
+                                <TableCell className="font-bold w-1/3">Vendor ID</TableCell>
+                                <TableCell className="font-mono">{cpuInfo.vendorId}</TableCell>
+                            </TableRow>
 
-            <Table selectionMode="none" isStriped>
-                <TableHeader>
-                    <TableColumn>Name</TableColumn>
-                    <TableColumn>Frequency</TableColumn>
-                </TableHeader>
+                            <TableRow>
+                                <TableCell className="font-bold w-1/3">Brand</TableCell>
+                                <TableCell className="font-mono">{cpuInfo.brand}</TableCell>
+                            </TableRow>
 
-                <TableBody items={cpuInfo.cpus}>
-                    {(item) => (
-                        <TableRow key={item.name}>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell>{item.frequency}</TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                            <TableRow>
+                                <TableCell className="font-bold w-1/3">Physical Core Count</TableCell>
+                                <TableCell className="font-mono">{cpuInfo.physicalCoreCount}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+
+                    <Divider/>
+
+                    <Accordion isCompact fullWidth aria-label="Logical Processors Details">
+                        <AccordionItem title="Logical Processors Details"
+                                       className="font-bold text-sm">
+                            <Table selectionMode="none" isStriped removeWrapper>
+                                <TableHeader>
+                                    <TableColumn>Name</TableColumn>
+                                    <TableColumn>Frequency</TableColumn>
+                                </TableHeader>
+
+                                <TableBody items={cpuInfo.cpus}>
+                                    {(item) => (
+                                        <TableRow key={item.name}>
+                                            <TableCell className="font-bold">{item.name}</TableCell>
+                                            <TableCell className="font-mono">{item.frequency}</TableCell>
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </AccordionItem>
+                    </Accordion>
+                </CardBody>
+            </Card>
         </ViewContainer>
     );
 }
