@@ -157,7 +157,6 @@ fn get_metal_info(state: State<'_, AppState>) -> Result<MetalInfo, CoreError> {
     Ok(info)
 }
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let mut level = log::LevelFilter::Trace;
     if !cfg!(debug_assertions) {
