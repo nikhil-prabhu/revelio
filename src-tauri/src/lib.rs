@@ -12,6 +12,9 @@ use crate::utils::gpu::vulkan::VulkanInfo;
 use crate::utils::network::NetworksInfo;
 use crate::utils::platform::PlatformInfo;
 
+#[cfg(target_os = "macos")]
+use crate::utils::gpu::metal::MetalInfo;
+
 mod types;
 mod utils;
 
@@ -24,6 +27,9 @@ struct AppStateInner {
     disks_info: Option<DisksInfo>,
     networks_info: Option<NetworksInfo>,
     platform_info: Option<PlatformInfo>,
+
+    #[cfg(target_os = "macos")]
+    metal_info: Option<MetalInfo>,
 }
 
 type AppState = Mutex<AppStateInner>;
@@ -136,6 +142,21 @@ fn get_app_version() -> String {
     env!("CARGO_PKG_VERSION").into()
 }
 
+#[cfg(target_os = "macos")]
+#[tauri::command]
+fn get_metal_info(state: State<'_, AppState>) -> Result<MetalInfo, CoreError> {
+    let mut state = state.lock().unwrap();
+
+    if let Some(info) = &state.metal_info {
+        return Ok(info.clone());
+    }
+
+    let info = MetalInfo::get()?;
+    state.metal_info = Some(info.clone());
+
+    Ok(info)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let mut level = log::LevelFilter::Trace;
@@ -143,6 +164,8 @@ pub fn run() {
         level = log::LevelFilter::Warn;
     }
 
+    // FIXME!: figure out a cleaner way to do this without duplication.
+    #[cfg(not(target_os = "macos"))]
     Builder::default()
         .setup(|app| {
             app.manage(AppState::default());
@@ -166,6 +189,35 @@ pub fn run() {
             get_networks_info,
             get_platform_info,
             get_app_version,
+        ])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
+
+    #[cfg(target_os = "macos")]
+    Builder::default()
+        .setup(|app| {
+            app.manage(AppState::default());
+            Ok(())
+        })
+        .plugin(tauri_plugin_shell::init())
+        .plugin(tauri_plugin_os::init())
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .target(Target::new(TargetKind::Stderr))
+                .level(level)
+                .build(),
+        )
+        .invoke_handler(tauri::generate_handler![
+            is_release_profile,
+            get_cpu_info,
+            get_disks_info,
+            get_vulkan_info,
+            get_opengl_info,
+            get_displays_info,
+            get_networks_info,
+            get_platform_info,
+            get_app_version,
+            get_metal_info,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
