@@ -1,5 +1,7 @@
+#[cfg(target_os = "linux")]
 use std::env;
 
+#[cfg(target_os = "linux")]
 use os_release::OsRelease;
 use serde::Serialize;
 use sysinfo::System;
@@ -91,6 +93,22 @@ pub struct PlatformInfo {
     linux_info: LinuxInfo,
 }
 
+#[cfg(target_os = "windows")]
+impl WindowsInfo {
+    /// Retrieves the Windows OS information.
+    pub fn get() -> Result<Self, CoreError> {
+        Ok(Self {})
+    }
+}
+
+#[cfg(target_os = "macos")]
+impl MacOSInfo {
+    /// Retrieves the macOS OS information.
+    pub fn get() -> Result<Self, CoreError> {
+        Ok(Self {})
+    }
+}
+
 #[cfg(target_os = "linux")]
 impl LinuxInfo {
     /// Retrieves the Linux distribution information.
@@ -131,14 +149,38 @@ impl PlatformInfo {
             _ => Platform::Unknown,
         };
 
+        #[cfg(target_os = "windows")]
+        let windows_info = WindowsInfo::get()?;
+        #[cfg(target_os = "windows")]
+        return Ok(Self {
+            platform,
+            hostname,
+            os_arch,
+            kernel,
+            windows_info,
+        });
+
+        #[cfg(target_os = "macos")]
+        let macos_info = MacOSInfo::get()?;
+        #[cfg(target_os = "macos")]
+        return Ok(Self {
+            platform,
+            hostname,
+            os_arch,
+            kernel,
+            macos_info,
+        });
+
         #[cfg(target_os = "linux")]
         let linux_info = LinuxInfo::get()?;
-        Ok(Self {
+        #[cfg(target_os = "linux")]
+        #[allow(clippy::needless_return)]
+        return Ok(Self {
             platform,
             hostname,
             os_arch,
             kernel,
             linux_info,
-        })
+        });
     }
 }
