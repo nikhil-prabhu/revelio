@@ -194,7 +194,7 @@ function VulkanInfo() {
                     selectedKeys={currentDevice}
                     variant="faded"
                     startContent={
-                        <Image src={utils.getVendorIcon(getCurrentDeviceName(), currentTheme)}
+                        <Image src={utils.getVendorLogo(getCurrentDeviceName(), currentTheme)}
                                width={16}
                                height={16}
                                radius="none"/>
@@ -204,14 +204,14 @@ function VulkanInfo() {
                     {(device) => <SelectItem
                         key={device.index}
                         startContent={(
-                            <Image src={utils.getVendorIcon(device.deviceName, currentTheme)} width={16}
+                            <Image src={utils.getVendorLogo(device.deviceName, currentTheme)} width={16}
                                    height={16}
                                    radius="none"/>
                         )}
                     >{`${device.index}: ${device.deviceName}`}</SelectItem>}
                 </Select>
 
-                <Image src={utils.getGpuIcon(getCurrentDeviceName(), currentTheme)} removeWrapper
+                <Image src={utils.getGpuLogo(getCurrentDeviceName(), currentTheme)} removeWrapper
                        width={100}
                        height={100}
                        radius="none"

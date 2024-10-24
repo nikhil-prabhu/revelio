@@ -16,6 +16,11 @@ import metal from "./assets/images/metal_2.svg";
 import directxLight from "./assets/images/light/directx.svg";
 import directxDark from "./assets/images/dark/directx.svg";
 
+// CPU logos.
+import ryzenLight from "./assets/images/light/ryzen.svg";
+import ryzenDark from "./assets/images/dark/ryzen.svg";
+import intelCore from "./assets/images/intel-core.svg";
+
 // GPU logos.
 import radeonLight from "./assets/images/light/radeon.svg";
 import radeonDark from "./assets/images/dark/radeon.svg";
@@ -38,6 +43,60 @@ import m1Max from "./assets/images/apple-m1-max.webp";
 import llvm from "./assets/images/llvm.svg";
 
 /**
+ * Retrieves the appropriate Apple Silicon logo for the specified device name.
+ *
+ * @param deviceName The device name.
+ * @returns {string} The URL for the logo image source.
+ */
+function getAppleSiliconIcon(deviceName: string): string {
+    if (/\bm4\b/.test(deviceName)) {
+        return m4;
+    }
+
+    if (/\bm3\b/.test(deviceName)) {
+        if (/\bmax\b/.test(deviceName)) {
+            return m3Max;
+        }
+
+        if (/\bpro\b/.test(deviceName)) {
+            return m3Pro;
+        }
+
+        return m3;
+    }
+
+    if (/\bm2\b/.test(deviceName)) {
+        if (/\bultra\b/.test(deviceName)) {
+            return m2Ultra;
+        }
+
+        if (/\bmax\b/.test(deviceName)) {
+            return m2Max;
+        }
+
+        if (/\bpro\b/.test(deviceName)) {
+            return m2Pro;
+        }
+
+        return m2;
+    }
+
+    if (/\bultra\b/.test(deviceName)) {
+        return m1Ultra;
+    }
+
+    if (/\bmax\b/.test(deviceName)) {
+        return m1Max;
+    }
+
+    if (/\bpro\b/.test(deviceName)) {
+        return m1Pro;
+    }
+
+    return m1;
+}
+
+/**
  * The logo variant based on the current theme ("light" or "dark").
  */
 export type Variant = "light" | "dark";
@@ -55,24 +114,22 @@ function getVariant(variant: Variant, lightIcon: string, darkIcon: string) {
  *
  * @param vendorId The ID of the vendor.
  * @param variant The variant of the logo for the current theme ("light" or "dark").
- * @returns {string} The path to the vendor icon.
+ * @returns {string} The URL for the logo image source.
  */
-export function getVendorIcon(vendorId: string, variant: Variant = "light"): string {
-    vendorId = vendorId.toLowerCase();
-
-    if (/\bamd\b/.test(vendorId)) {
+export function getVendorLogo(vendorId: string, variant: Variant = "light"): string {
+    if (vendorId.includes("AMD")) {
         return getVariant(variant, amdLight, amdDark);
     }
 
-    if (/\bnvidia\b/.test(vendorId)) {
+    if (/\bnvidia\b/.test(vendorId.toLowerCase())) {
         return nvidia;
     }
 
-    if (/\bintel\b/.test(vendorId)) {
+    if (vendorId.toLowerCase().includes("intel")) {
         return getVariant(variant, intelLight, intelDark);
     }
 
-    if (/\bapple\b/.test(vendorId)) {
+    if (/\bapple\b/.test(vendorId.toLowerCase())) {
         return getVariant(variant, appleLight, appleDark);
     }
 
@@ -110,6 +167,34 @@ export function getGraphicsLibLogo(libName: string, variant: Variant = "light"):
 }
 
 /**
+ * Retrieves the logo for the specified CPU brand.
+ *
+ * @export
+ * @param cpuBrand The CPU brand.
+ * @param variant The variant of the logo for the current theme ("light" or "dark").
+ * @returns {string} The URL for the logo image source.
+ */
+export function getCpuLogo(cpuBrand: string, variant: Variant = "light"): string {
+    cpuBrand = cpuBrand.toLowerCase();
+
+    // Add separate logos for older AMD processors (Athlon, etc.).
+    if (/\bryzen\b/.test(cpuBrand)) {
+        return getVariant(variant, ryzenLight, ryzenDark);
+    }
+
+    // Add separate logos for older Intel processors (Pentium, etc.).
+    if (/\bintel\b/.test(cpuBrand)) {
+        return intelCore;
+    }
+
+    if (/\bapple\b/.test(cpuBrand)) {
+        return getAppleSiliconIcon(cpuBrand);
+    }
+
+    return getVariant(variant, unknownLight, unknownDark);
+}
+
+/**
  * Retrieves the logo for the specified GPU device name.
  *
  * @export
@@ -117,7 +202,7 @@ export function getGraphicsLibLogo(libName: string, variant: Variant = "light"):
  * @param variant The variant of the logo for the current theme ("light" or "dark").
  * @returns {string} The URL for the logo image source.
  */
-export function getGpuIcon(deviceName: string, variant: Variant = "light"): string {
+export function getGpuLogo(deviceName: string, variant: Variant = "light"): string {
     deviceName = deviceName.toLowerCase();
 
     if (/\bradeon\b/.test(deviceName)) {
@@ -139,53 +224,7 @@ export function getGpuIcon(deviceName: string, variant: Variant = "light"): stri
     }
 
     if (/\bapple\b/.test(deviceName)) {
-        if (/\bm4\b/.test(deviceName)) {
-            return m4;
-        }
-
-        if (/\bm3\b/.test(deviceName)) {
-            if (/\bmax\b/.test(deviceName)) {
-                return m3Max;
-            }
-
-            if (/\bpro\b/.test(deviceName)) {
-                return m3Pro;
-            }
-
-            return m3;
-        }
-
-        if (/\bm2\b/.test(deviceName)) {
-            if (/\bultra\b/.test(deviceName)) {
-                return m2Ultra;
-            }
-
-            if (/\bmax\b/.test(deviceName)) {
-                return m2Max;
-            }
-
-            if (/\bpro\b/.test(deviceName)) {
-                return m2Pro;
-            }
-
-            return m2;
-        }
-
-        if (/\bm1\b/.test(deviceName)) {
-            if (/\bultra\b/.test(deviceName)) {
-                return m1Ultra;
-            }
-
-            if (/\bmax\b/.test(deviceName)) {
-                return m1Max;
-            }
-
-            if (/\bpro\b/.test(deviceName)) {
-                return m1Pro;
-            }
-
-            return m1;
-        }
+        return getAppleSiliconIcon(deviceName);
     }
 
     if (/\bllvm\b/.test(deviceName)) {

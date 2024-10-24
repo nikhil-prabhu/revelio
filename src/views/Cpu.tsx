@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {CpuInfo, commands} from "../bindings";
 import {
+    Image,
     Accordion, AccordionItem,
     Card, CardBody, Divider,
     Spinner,
@@ -9,21 +10,31 @@ import {
     TableCell,
     TableColumn,
     TableHeader,
-    TableRow,
+    TableRow, CardHeader, Spacer,
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
+import * as utils from "../utils";
+import {useTheme} from "next-themes";
 
 function Cpu() {
     const [cpuInfo, setCpuInfo] = useState<CpuInfo>();
+    const [currentTheme, setCurrentTheme] = useState<utils.Variant>("light");
+    const {theme} = useTheme();
 
     useEffect(() => {
+        if (theme!.toLowerCase().includes("dark")) {
+            setCurrentTheme("dark");
+        } else {
+            setCurrentTheme("light");
+        }
+
         commands.getCpuInfo().then(info => {
             setCpuInfo(info);
             console.info("CPU information retrieved successfully.");
         }).catch(error => {
             console.error(error);
         })
-    }, []);
+    }, [theme]);
 
     // TODO: improve loading indicator.
     if (!cpuInfo) {
@@ -34,6 +45,18 @@ function Cpu() {
     return (
         <ViewContainer title="CPU Information">
             <Card shadow="sm">
+                <CardHeader className="flex items-center justify-center w-full">
+                    <div className="mt-4">
+                        <div className="flex items-center justify-center w-full">
+                            <Image src={utils.getCpuLogo(cpuInfo.brand, currentTheme)} width={128} height={128}
+                                   radius="none"/>
+                        </div>
+
+                        <Spacer/>
+
+                        <h1 className="font-bold text-lg">{cpuInfo.brand}</h1>
+                    </div>
+                </CardHeader>
                 <CardBody>
                     <Table isStriped shadow="none">
                         <TableHeader>
@@ -43,22 +66,26 @@ function Cpu() {
 
                         <TableBody>
                             <TableRow>
-                                <TableCell className="font-bold w-1/3">Architecture</TableCell>
+                                <TableCell className="font-bold w-[35%]">Vendor ID</TableCell>
+                                <TableCell className="font-mono">
+                                    <div className="flex items-center justify-start">
+                                        <Image src={utils.getVendorLogo(cpuInfo.vendorId, currentTheme)} width={16}
+                                               height={16} radius="none"/>
+
+                                        <Spacer x={2}/>
+
+                                        {cpuInfo.vendorId}
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell className="font-bold w-[35%]">Architecture</TableCell>
                                 <TableCell className="font-mono">{cpuInfo.arch}</TableCell>
                             </TableRow>
 
                             <TableRow>
-                                <TableCell className="font-bold w-1/3">Vendor ID</TableCell>
-                                <TableCell className="font-mono">{cpuInfo.vendorId}</TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell className="font-bold w-1/3">Brand</TableCell>
-                                <TableCell className="font-mono">{cpuInfo.brand}</TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell className="font-bold w-1/3">Physical Core Count</TableCell>
+                                <TableCell className="font-bold w-[35%]">Physical Core Count</TableCell>
                                 <TableCell className="font-mono">{cpuInfo.physicalCoreCount}</TableCell>
                             </TableRow>
                         </TableBody>
