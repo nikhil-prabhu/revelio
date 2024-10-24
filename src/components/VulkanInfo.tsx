@@ -187,7 +187,7 @@ function VulkanInfo() {
                 <Select
                     autoFocus
                     items={vulkanInfo.devices}
-                    label="Select Device"
+                    label={`Select Device (Total: ${vulkanInfo.totalDevices})`}
                     selectionMode="single"
                     disallowEmptySelection
                     onSelectionChange={setCurrentDevice}
