@@ -1,6 +1,7 @@
 import {
+    Accordion, AccordionItem,
     Card,
-    CardBody,
+    CardBody, Chip,
     Divider,
     Image,
     Select, Selection,
@@ -12,13 +13,17 @@ import {
     Tabs
 } from "@nextui-org/react";
 import * as utils from "../utils.ts";
-import {VulkanInfo as VkInfo, commands} from "../bindings";
+import {VulkanInfo as VkInfo, VulkanDeviceLayer, commands} from "../bindings";
 import {useEffect, useState} from "react";
 import {useTheme} from "next-themes";
 
 interface DeviceProps {
     info: VkInfo;
     currentDevice: number;
+}
+
+interface LayerProps {
+    layers: VulkanDeviceLayer[];
 }
 
 function Device(props: DeviceProps) {
@@ -93,6 +98,44 @@ function Device(props: DeviceProps) {
     );
 }
 
+function Layers(props: LayerProps) {
+    const {layers} = props;
+
+    return (
+        <Card shadow="none">
+            <Accordion fullWidth defaultSelectedKeys="all">
+                {layers.map(layer => (
+                    <AccordionItem title={layer.layerName} className="font-bold text-sm">
+                        <Table isStriped shadow="none" fullWidth>
+                            <TableHeader>
+                                <TableColumn>Property</TableColumn>
+                                <TableColumn>Value</TableColumn>
+                            </TableHeader>
+
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell className="font-bold w-1/3">Vulkan Version</TableCell>
+                                    <TableCell className="font-mono">{layer.vulkanVersion}</TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell className="font-bold w-1/3">Layer Version</TableCell>
+                                    <TableCell className="font-mono">{layer.layerVersion}</TableCell>
+                                </TableRow>
+
+                                <TableRow>
+                                    <TableCell className="font-bold w-1/3">Description</TableCell>
+                                    <TableCell className="font-mono">{layer.description}</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </AccordionItem>
+                ))}
+            </Accordion>
+        </Card>
+    );
+}
+
 function VulkanInfo() {
     const [vulkanInfo, setVulkanInfo] = useState<VkInfo>();
     const [currentDevice, setCurrentDevice] = useState<Selection>(new Set(["0"]));
@@ -126,6 +169,16 @@ function VulkanInfo() {
         }
 
         return "unknown"
+    }
+
+    function getCurrentDeviceLayers(): VulkanDeviceLayer[] {
+        for (const device of vulkanInfo!.devices) {
+            if (Number([...currentDevice][0]) === device.index) {
+                return device.layers;
+            }
+        }
+
+        return [];
     }
 
     return (
@@ -171,9 +224,11 @@ function VulkanInfo() {
             <Tabs
                 placement="end"
                 color="primary"
-                disabledKeys={["limits", "extensions", "layers"]}
+                disabledKeys={["limits", "extensions"]}
                 variant="underlined"
-                className="m-4">
+                disableAnimation
+                className="mx-auto my-6"
+            >
 
                 <Tab key="device" title="Device" className="w-full">
                     <Device currentDevice={Number([...currentDevice][0])} info={vulkanInfo}/>
@@ -181,7 +236,20 @@ function VulkanInfo() {
 
                 <Tab key="limits" title="Limits"/>
                 <Tab key="extensions" title="Extensions"/>
-                <Tab key="layers" title="Layers"/>
+
+                <Tab
+                    key="layers"
+                    title={(
+                        <div className="flex items-center space-x-2">
+                            <span>Layers</span>
+                            <Chip size="sm" variant="faded" color="primary">{getCurrentDeviceLayers().length}</Chip>
+                        </div>
+                    )}
+                    titleValue="Layers"
+                    className="w-full"
+                >
+                    <Layers layers={getCurrentDeviceLayers()}/>
+                </Tab>
             </Tabs>
         </>
     );
