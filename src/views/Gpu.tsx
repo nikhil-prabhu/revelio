@@ -14,23 +14,42 @@ import {
     Tabs, Image, Divider
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
+import {useTheme} from "next-themes";
 
 function Gpu() {
     const [vulkanInfo, setVulkanInfo] = useState<VulkanInfo>();
     const [currentDevice, setCurrentDevice] = useState<Selection>(new Set(["0"]));
+    const [currentTheme, setCurrentTheme] = useState<utils.Variant>("light");
+    const {theme} = useTheme();
 
     useEffect(() => {
+        if (theme!.toLowerCase().includes("dark")) {
+            setCurrentTheme("dark");
+        } else {
+            setCurrentTheme("light");
+        }
+
         commands.getVulkanInfo().then(info => {
             setVulkanInfo(info);
             console.info("Vulkan information retrieved successfully.");
         }).catch(error => {
             console.error(error);
         });
-    }, []);
+    }, [theme]);
 
     // TODO: improve loading indicator.
     if (!vulkanInfo) {
         return <Spinner label="Loading..." color="primary"/>
+    }
+
+    function getCurrentDeviceName(): string {
+        for (const device of vulkanInfo!.devices) {
+            if (Number([...currentDevice][0]) === device.index) {
+                return device.deviceName;
+            }
+        }
+
+        return "unknown"
     }
 
     // TODO: add brand and vendor icons.
@@ -41,8 +60,15 @@ function Gpu() {
             <Card shadow="sm">
                 <CardBody>
                     <Tabs disabledKeys={["opengl"]} className="self-center m-4">
-                        <Tab key="vulkan" title="Vulkan">
-                            <div className="flex items-center justify-center space-x-6">
+                        <Tab
+                            key="vulkan"
+                            title={
+                                <Image src={utils.getGraphicsLibLogo("vulkan", currentTheme)} width={64} height={64}
+                                       radius="none"/>
+                            }
+                            titleValue="Vulkan"
+                        >
+                            <div className="flex items-center justify-center space-x-8">
                                 <Select
                                     autoFocus
                                     items={vulkanInfo.devices}
@@ -52,18 +78,29 @@ function Gpu() {
                                     onSelectionChange={setCurrentDevice}
                                     selectedKeys={currentDevice}
                                     variant="faded"
+                                    startContent={
+                                        <Image src={utils.getVendorIcon(getCurrentDeviceName(), currentTheme)}
+                                               width={16}
+                                               height={16}
+                                               radius="none"/>
+                                    }
                                     className="max-w-md"
                                 >
                                     {(device) => <SelectItem
                                         key={device.index}
                                         startContent={(
-                                            <Image src={utils.getBrandIcon("unknown")} width={16} height={16}/>
+                                            <Image src={utils.getVendorIcon(device.deviceName, currentTheme)} width={16}
+                                                   height={16}
+                                                   radius="none"/>
                                         )}
                                     >{`${device.index}: ${device.deviceName}`}</SelectItem>}
                                 </Select>
 
-                                <Image src={utils.getVendorIcon(currentDevice.toString())} removeWrapper width={64}
-                                       height={64}/>
+                                <Image src={utils.getGpuIcon(getCurrentDeviceName(), currentTheme)} removeWrapper
+                                       width={100}
+                                       height={100}
+                                       radius="none"
+                                />
                             </div>
 
                             <Spacer y={4}/>
@@ -149,7 +186,14 @@ function Gpu() {
                             </Tabs>
                         </Tab>
 
-                        <Tab key="opengl" title="OpenGL">
+                        <Tab
+                            key="opengl"
+                            title={
+                                <Image src={utils.getGraphicsLibLogo("opengl", currentTheme)} width={64} height={64}
+                                       radius="none"/>
+                            }
+                            titleValue="OpenGL"
+                        >
                             <Card>
                                 <CardBody>TODO</CardBody>
                             </Card>
