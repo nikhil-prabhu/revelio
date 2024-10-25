@@ -46,6 +46,18 @@ import appleM1Pro from "./assets/images/apple-m1-pro.webp";
 import appleM1Max from "./assets/images/apple-m1-max.webp";
 import llvm from "./assets/images/llvm.svg";
 
+// Platform logos.
+import windows10 from "./assets/images/windows10.svg";
+import windows11 from "./assets/images/windows11.svg";
+import macOSLight from "./assets/images/light/macos.svg";
+import macOSDark from "./assets/images/dark/macos.svg";
+import macOSBigSur from "./assets/images/macos-big-sur.webp";
+import macOSMonterey from "./assets/images/macos-monterey.webp";
+import macOSVentura from "./assets/images/macos-ventura.webp";
+import macOSSonoma from "./assets/images/macos-sonoma.webp";
+import macOSSequoia from "./assets/images/macos-sequoia.webp";
+import linux from "./assets/images/linux.svg";
+
 /**
  * Retrieves the appropriate Apple Silicon logo for the specified device name.
  *
@@ -98,6 +110,40 @@ function getAppleSiliconLogo(deviceName: string): string {
   }
 
   return appleM1;
+}
+
+/**
+ * Retrieves the appropriate macOS logo for the specified macOS version.
+ *
+ * @param macOSVersion The macOS version.
+ * @param variant The variant of the logo for the current theme ("light" or "dark").
+ * @returns {string} The URL for the logo image source.
+ */
+function getMacOSLogo(
+  macOSVersion: string,
+  variant: Variant = "light",
+): string {
+  if (/\b11\.\d+\.\d+$/.test(macOSVersion)) {
+    return macOSBigSur;
+  }
+
+  if (/\b12\.\d+\.\d+$/.test(macOSVersion)) {
+    return macOSMonterey;
+  }
+
+  if (/\b13\.\d+\.\d+$/.test(macOSVersion)) {
+    return macOSVentura;
+  }
+
+  if (/\b14\.\d+\.\d+$/.test(macOSVersion)) {
+    return macOSSonoma;
+  }
+
+  if (/\b15\.\d+\.\d+$/.test(macOSVersion)) {
+    return macOSSequoia;
+  }
+
+  return getVariant(variant, macOSLight, macOSDark);
 }
 
 /**
@@ -265,6 +311,31 @@ export function getGpuLogo(
 
   if (/\bllvm\b/.test(deviceName)) {
     return llvm;
+  }
+
+  return getVariant(variant, unknownLight, unknownDark);
+}
+
+export function getPlatformLogo(
+  platform: string,
+  variant: Variant = "light",
+): string {
+  platform = platform.toLowerCase();
+
+  if (/\bwindows\b/.test(platform)) {
+    if (platform.includes("11")) {
+      return windows11;
+    }
+
+    return windows10;
+  }
+
+  if (/\bmacos\b/.test(platform)) {
+    return getMacOSLogo(platform, variant);
+  }
+
+  if (/\blinux\b/.test(platform)) {
+    return linux;
   }
 
   return getVariant(variant, unknownLight, unknownDark);

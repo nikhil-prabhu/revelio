@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="87.300003"
+   height="87.599998"
+   fill="#0078d6"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="windows10.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.0021008"
+     inkscape:cx="-21.727177"
+     inkscape:cy="43.95383"
+     inkscape:window-width="1080"
+     inkscape:window-height="1892"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="M 0,12.5 35.7,7.6 V 42.1 H 0 M 40,6.9 87.3,0 V 41.8 H 40 M 0,45.74 h 35.7 v 34.6 L 0,75.34 M 40,46.2 H 87.3 V 87.6 L 40,80.9"
+     id="path1"
+     sodipodi:nodetypes="cccccccccccccccc" />
+</svg>

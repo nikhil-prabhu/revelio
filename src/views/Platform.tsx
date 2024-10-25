@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { commands, PlatformInfo } from "../bindings";
 import {
+  Card,
+  CardBody,
+  CardHeader,
+  Image,
+  Spacer,
   Spinner,
   Table,
   TableBody,
@@ -10,11 +15,21 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
+import * as utils from "../utils";
+import { useTheme } from "next-themes";
 
 function Platform() {
   let [platformInfo, setPlatformInfo] = useState<PlatformInfo>();
+  const [currentTheme, setCurrentTheme] = useState<utils.Variant>("light");
+  const { theme } = useTheme();
 
   useEffect(() => {
+    if (theme!.toLowerCase().includes("dark")) {
+      setCurrentTheme("dark");
+    } else {
+      setCurrentTheme("light");
+    }
+
     commands
       .getPlatformInfo()
       .then((info) => {
@@ -32,34 +47,58 @@ function Platform() {
 
   return (
     <ViewContainer title="Platform Information">
-      <Table selectionMode="none" hideHeader>
-        <TableHeader>
-          <TableColumn>Field</TableColumn>
-          <TableColumn>Value</TableColumn>
-        </TableHeader>
+      <Card shadow="sm">
+        <CardHeader className="flex items-center justify-center w-full">
+          <div className="mt-4">
+            <div className="flex items-center justify-center w-full">
+              <Image
+                src={utils.getPlatformLogo(platformInfo.platform, currentTheme)}
+                width={128}
+                height={128}
+                radius="none"
+              />
+            </div>
 
-        <TableBody>
-          <TableRow key={1}>
-            <TableCell className="font-bold">Platform</TableCell>
-            <TableCell>{platformInfo.platform}</TableCell>
-          </TableRow>
+            <Spacer />
 
-          <TableRow key={2}>
-            <TableCell className="font-bold">Hostname</TableCell>
-            <TableCell>{platformInfo.hostname}</TableCell>
-          </TableRow>
+            <h1 className="font-bold text-lg">{platformInfo.platform}</h1>
+          </div>
+        </CardHeader>
 
-          <TableRow key={3}>
-            <TableCell className="font-bold">OS Architecture</TableCell>
-            <TableCell>{platformInfo.osArch}</TableCell>
-          </TableRow>
+        <CardBody>
+          <Table isStriped shadow="none">
+            <TableHeader>
+              <TableColumn>Property</TableColumn>
+              <TableColumn>Value</TableColumn>
+            </TableHeader>
 
-          <TableRow key={4}>
-            <TableCell className="font-bold">Kernel</TableCell>
-            <TableCell>{platformInfo.kernel}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-bold w-1/3">Hostname</TableCell>
+                <TableCell className="font-mono">
+                  {platformInfo.hostname}
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell className="font-bold w-1/3">
+                  OS Architecture
+                </TableCell>
+                <TableCell className="font-mono">
+                  {platformInfo.osArch}
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell className="font-bold w-1/3">Kernel</TableCell>
+                <TableCell className="font-mono">
+                  {platformInfo.kernel}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </CardBody>
+      </Card>
     </ViewContainer>
   );
 }
