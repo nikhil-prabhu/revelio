@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { commands, CpuInfo } from "../bindings";
 import {
-  Accordion,
-  AccordionItem,
   Card,
   CardBody,
   CardHeader,
@@ -70,7 +68,12 @@ function Cpu() {
           </div>
         </CardHeader>
 
+        <Divider className="mt-4 mb-4" />
+
         <CardBody>
+          <h1 className="font-bold text-large text-center">
+            General Information
+          </h1>
           <Table isStriped shadow="none">
             <TableHeader>
               <TableColumn>Property</TableColumn>
@@ -114,36 +117,26 @@ function Cpu() {
             </TableBody>
           </Table>
 
-          <Divider />
+          <Divider className="mt-4 mb-4" />
 
-          <Accordion
-            isCompact
-            fullWidth
-            aria-label="Logical Processors Details"
-          >
-            <AccordionItem
-              title="Logical Processors Details"
-              className="font-bold text-sm"
-            >
-              <Table selectionMode="none" isStriped removeWrapper>
-                <TableHeader>
-                  <TableColumn>Name</TableColumn>
-                  <TableColumn>Frequency</TableColumn>
-                </TableHeader>
+          <h1 className="font-bold text-large text-center">
+            Logical Processors Information
+          </h1>
+          <Table isStriped shadow="none">
+            <TableHeader>
+              <TableColumn>Name</TableColumn>
+              <TableColumn>Frequency</TableColumn>
+            </TableHeader>
 
-                <TableBody items={cpuInfo.cpus}>
-                  {(item) => (
-                    <TableRow key={item.name}>
-                      <TableCell className="font-bold">{item.name}</TableCell>
-                      <TableCell className="font-mono">
-                        {item.frequency}
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </AccordionItem>
-          </Accordion>
+            <TableBody items={cpuInfo.cpus}>
+              {(item) => (
+                <TableRow key={item.name}>
+                  <TableCell className="font-bold">{item.name}</TableCell>
+                  <TableCell className="font-mono">{item.frequency}</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </CardBody>
       </Card>
     </ViewContainer>
