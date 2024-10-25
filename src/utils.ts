@@ -17,29 +17,29 @@ import directxLight from "./assets/images/light/directx.svg";
 import directxDark from "./assets/images/dark/directx.svg";
 
 // CPU logos.
-import ryzenLight from "./assets/images/light/ryzen.svg";
-import ryzenDark from "./assets/images/dark/ryzen.svg";
+import amdRyzenLight from "./assets/images/light/amd-ryzen.svg";
+import amdRyzenDark from "./assets/images/dark/amd-ryzen.svg";
 import intelCore from "./assets/images/intel-core.svg";
 
 // GPU logos.
-import radeonLight from "./assets/images/light/radeon.svg";
-import radeonDark from "./assets/images/dark/radeon.svg";
-import geforceRtx from "./assets/images/geforce-rtx.svg";
-import geforceGtx from "./assets/images/geforce-gtx.svg";
-import arcLight from "./assets/images/light/intel-arc.svg";
-import arcDark from "./assets/images/dark/intel-arc.svg";
-import m4 from "./assets/images/apple-m4.webp";
-import m3 from "./assets/images/apple-m3.webp";
-import m3Pro from "./assets/images/apple-m3-pro.webp";
-import m3Max from "./assets/images/apple-m3-max.webp";
-import m2 from "./assets/images/apple-m2.webp";
-import m2Ultra from "./assets/images/apple-m2-ultra.webp";
-import m2Pro from "./assets/images/apple-m2-pro.webp";
-import m2Max from "./assets/images/apple-m2-max.webp";
-import m1Ultra from "./assets/images/apple-m1-ultra.webp";
-import m1Pro from "./assets/images/apple-m1-pro.webp";
-import m1 from "./assets/images/apple-m1.webp";
-import m1Max from "./assets/images/apple-m1-max.webp";
+import amdRadeonLight from "./assets/images/light/amd-radeon.svg";
+import amdRadeonDark from "./assets/images/dark/amd-radeon.svg";
+import nvidiaGeforceRtx from "./assets/images/nvidia-geforce-rtx.svg";
+import nvidiaGeforceGtx from "./assets/images/nvidia-geforce-gtx.svg";
+import intelArcLight from "./assets/images/light/intel-arc.svg";
+import intelArcDark from "./assets/images/dark/intel-arc.svg";
+import appleM4 from "./assets/images/apple-m4.webp";
+import appleM3 from "./assets/images/apple-m3.webp";
+import appleM3Pro from "./assets/images/apple-m3-pro.webp";
+import appleM3Max from "./assets/images/apple-m3-max.webp";
+import appleM2 from "./assets/images/apple-m2.webp";
+import appleM2Ultra from "./assets/images/apple-m2-ultra.webp";
+import appleM2Pro from "./assets/images/apple-m2-pro.webp";
+import appleM2Max from "./assets/images/apple-m2-max.webp";
+import appleM1 from "./assets/images/apple-m1.webp";
+import appleM1Ultra from "./assets/images/apple-m1-ultra.webp";
+import appleM1Pro from "./assets/images/apple-m1-pro.webp";
+import appleM1Max from "./assets/images/apple-m1-max.webp";
 import llvm from "./assets/images/llvm.svg";
 
 /**
@@ -50,50 +50,50 @@ import llvm from "./assets/images/llvm.svg";
  */
 function getAppleSiliconIcon(deviceName: string): string {
     if (/\bm4\b/.test(deviceName)) {
-        return m4;
+        return appleM4;
     }
 
     if (/\bm3\b/.test(deviceName)) {
         if (/\bmax\b/.test(deviceName)) {
-            return m3Max;
+            return appleM3Max;
         }
 
         if (/\bpro\b/.test(deviceName)) {
-            return m3Pro;
+            return appleM3Pro;
         }
 
-        return m3;
+        return appleM3;
     }
 
     if (/\bm2\b/.test(deviceName)) {
         if (/\bultra\b/.test(deviceName)) {
-            return m2Ultra;
+            return appleM2Ultra;
         }
 
         if (/\bmax\b/.test(deviceName)) {
-            return m2Max;
+            return appleM2Max;
         }
 
         if (/\bpro\b/.test(deviceName)) {
-            return m2Pro;
+            return appleM2Pro;
         }
 
-        return m2;
+        return appleM2;
     }
 
     if (/\bultra\b/.test(deviceName)) {
-        return m1Ultra;
+        return appleM1Ultra;
     }
 
     if (/\bmax\b/.test(deviceName)) {
-        return m1Max;
+        return appleM1Max;
     }
 
     if (/\bpro\b/.test(deviceName)) {
-        return m1Pro;
+        return appleM1Pro;
     }
 
-    return m1;
+    return appleM1;
 }
 
 /**
@@ -179,7 +179,7 @@ export function getCpuLogo(cpuBrand: string, variant: Variant = "light"): string
 
     // Add separate logos for older AMD processors (Athlon, etc.).
     if (/\bryzen\b/.test(cpuBrand)) {
-        return getVariant(variant, ryzenLight, ryzenDark);
+        return getVariant(variant, amdRyzenLight, amdRyzenDark);
     }
 
     // Add separate logos for older Intel processors (Pentium, etc.).
@@ -206,20 +206,20 @@ export function getGpuLogo(deviceName: string, variant: Variant = "light"): stri
     deviceName = deviceName.toLowerCase();
 
     if (/\bradeon\b/.test(deviceName)) {
-        return getVariant(variant, radeonLight, radeonDark);
+        return getVariant(variant, amdRadeonLight, amdRadeonDark);
     }
 
     if (/\bgeforce\b/.test(deviceName)) {
         if (/\brtx\b/.test(deviceName)) {
-            return geforceRtx;
+            return nvidiaGeforceRtx;
         }
 
-        return geforceGtx;
+        return nvidiaGeforceGtx;
     }
 
     if (/\bintel\b/.test(deviceName)) {
         if (/\barc\b/.test(deviceName)) {
-            return getVariant(variant, arcLight, arcDark);
+            return getVariant(variant, intelArcLight, intelArcDark);
         }
     }
 
