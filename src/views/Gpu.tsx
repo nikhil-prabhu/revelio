@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {OsType, commands} from "../bindings";
 import * as utils from "../utils";
 import {
     Card,
@@ -10,10 +11,18 @@ import {useTheme} from "next-themes";
 import VulkanInfo from "../components/VulkanInfo.tsx";
 
 function Gpu() {
+    const [osType, setOsType] = useState<OsType>();
     const [currentTheme, setCurrentTheme] = useState<utils.Variant>("light");
     const {theme} = useTheme();
 
     useEffect(() => {
+        commands.getOsType().then(osType => {
+            console.debug(osType);
+            setOsType(osType);
+        }).catch(error => {
+            console.error(error);
+        });
+
         if (theme!.toLowerCase().includes("dark")) {
             setCurrentTheme("dark");
         } else {
@@ -25,7 +34,7 @@ function Gpu() {
         <ViewContainer title="GPU Information">
             <Card shadow="sm">
                 <CardBody>
-                    {(!utils.getOSType().appleSilicon) ? (
+                    {(osType != "MacSilicon") ? (
                         <Tabs disabledKeys={["opengl"]} className="self-center m-4">
                             <Tab
                                 key="vulkan"

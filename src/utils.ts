@@ -257,36 +257,3 @@ export function getGpuLogo(deviceName: string, variant: Variant = "light"): stri
 
     return getVariant(variant, unknownLight, unknownDark);
 }
-
-type OSType = {
-    os: "Windows" | "macOS" | "Linux" | "Unknown";
-    appleSilicon: boolean;
-}
-
-/**
- * Detects and returns the current operating system.
- *
- * @export
- * @returns {OSType} The operating system type.
- */
-export function getOSType(): OSType {
-    const userAgent = window.navigator.userAgent;
-
-    if (userAgent.includes("Windows")) {
-        return {os: "Windows", appleSilicon: false};
-    }
-
-    if (userAgent.includes("Mac OS X")) {
-        if (userAgent.includes("Macintosh") && userAgent.includes("ARM")) {
-            return {os: "macOS", appleSilicon: true};
-        }
-
-        return {os: "macOS", appleSilicon: false};
-    }
-
-    if (userAgent.includes("Linux")) {
-        return {os: "Linux", appleSilicon: false};
-    }
-
-    return {os: "Unknown", appleSilicon: false}
-}

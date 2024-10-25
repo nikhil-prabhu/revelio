@@ -56,6 +56,22 @@ fn get_cpu_info(state: State<'_, AppState>) -> CpuInfo {
 }
 
 #[tauri::command]
+fn get_os_type() -> &'static str {
+    #[cfg(target_os = "windows")]
+    return "Windows";
+
+    #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
+    return "MacIntel";
+
+    #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+    return "MacSilicon";
+
+    #[cfg(target_os = "linux")]
+    #[allow(clippy::needless_return)]
+    return "Linux";
+}
+
+#[tauri::command]
 fn get_disks_info(state: State<'_, AppState>) -> DisksInfo {
     let mut state = state.lock().unwrap();
 
@@ -174,6 +190,7 @@ pub fn run() {
     {
         builder = builder.invoke_handler(tauri::generate_handler![
             is_release_profile,
+            get_os_type,
             get_cpu_info,
             get_disks_info,
             get_displays_info,
@@ -189,6 +206,7 @@ pub fn run() {
     {
         builder = builder.invoke_handler(tauri::generate_handler![
             is_release_profile,
+            get_os_type,
             get_cpu_info,
             get_disks_info,
             get_displays_info,
@@ -206,6 +224,7 @@ pub fn run() {
     {
         builder = builder.invoke_handler(tauri::generate_handler![
             is_release_profile,
+            get_os_type,
             get_cpu_info,
             get_disks_info,
             get_displays_info,

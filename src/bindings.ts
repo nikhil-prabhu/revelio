@@ -5,6 +5,7 @@ import {invoke} from "@tauri-apps/api/core";
  */
 export const commands = {
     isReleaseProfile,
+    getOsType,
     getCpuInfo,
     getVulkanInfo,
     getOpenGLInfo,
@@ -14,6 +15,8 @@ export const commands = {
     getPlatformInfo,
     getAppVersion,
 };
+
+export type OsType = "Windows" | "MacIntel" | "MacSilicon" | "Linux";
 
 /**
  * Contains information of a Vulkan device layer.
@@ -253,6 +256,17 @@ export class CoreError extends Error {
  */
 export async function isReleaseProfile(): Promise<boolean> {
     return await invoke("is_release_profile");
+}
+
+/**
+ * Returns the current operating system type.
+ *
+ * @export
+ * @async
+ * @returns {Promise<OsType>} Resolves to the operating system type.
+ */
+export async function getOsType(): Promise<OsType> {
+    return await invoke("get_os_type");
 }
 
 /**
