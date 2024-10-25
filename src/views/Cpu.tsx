@@ -69,6 +69,7 @@ function Cpu() {
             <h1 className="font-bold text-lg">{cpuInfo.brand}</h1>
           </div>
         </CardHeader>
+
         <CardBody>
           <Table isStriped shadow="none">
             <TableHeader>

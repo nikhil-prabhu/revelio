@@ -75,49 +75,49 @@ function Platform() {
     <ViewContainer title="Platform Information">
       <Card shadow="sm">
         <CardHeader className="flex items-center justify-center w-full">
-          <div className="mt-4">
-            <div className="flex items-center justify-center w-full">
-              {isMacOSInfo(platformInfo) ? (
-                <div className="mt-4">
-                  <div className="flex items-center justify-center w-full">
-                    <Image
-                      src={utils.getMacOSLogo(
-                        platformInfo.macOSVersion,
-                        currentTheme,
-                      )}
-                      width={128}
-                      height={128}
-                      radius="none"
-                    />
-                  </div>
-
-                  <Spacer />
-
-                  <h1 className="font-bold text-lg">{platformInfo.platform}</h1>
+          <div className="flex items-center justify-center w-full">
+            {isMacOSInfo(platformInfo) ? (
+              <div>
+                <div className="flex items-center justify-center w-full">
+                  <Image
+                    src={utils.getMacOSLogo(
+                      platformInfo.macOSVersion,
+                      currentTheme,
+                    )}
+                    width={128}
+                    height={128}
+                    radius="none"
+                  />
                 </div>
-              ) : null}
 
-              {isLinuxInfo(platformInfo) ? (
-                <div className="mt-4">
-                  <div className="flex items-center justify-center w-full">
-                    <Image
-                      src={utils.getLinuxLogo(platformInfo.id, currentTheme)}
-                      width={128}
-                      height={128}
-                      radius="none"
-                    />
-                  </div>
+                <Spacer />
 
-                  <Spacer />
+                <h1 className="font-bold text-lg">{platformInfo.platform}</h1>
+              </div>
+            ) : null}
 
-                  <h1 className="font-bold text-lg">
-                    {platformInfo.prettyName || platformInfo.platform}
-                  </h1>
+            {isLinuxInfo(platformInfo) ? (
+              <div>
+                <div className="flex items-center justify-center w-full">
+                  <Image
+                    src={utils.getLinuxLogo(platformInfo.id, currentTheme)}
+                    width={128}
+                    height={128}
+                    radius="none"
+                  />
                 </div>
-              ) : null}
-            </div>
+
+                <Spacer />
+
+                <h1 className="font-bold text-lg">
+                  {platformInfo.prettyName || platformInfo.platform}
+                </h1>
+              </div>
+            ) : null}
           </div>
         </CardHeader>
+
+        <Divider className="mt-4 mb-4" />
 
         <CardBody>
           <h1 className="font-bold text-large text-center">
@@ -155,7 +155,7 @@ function Platform() {
             </TableBody>
           </Table>
 
-          <Divider className="m-4" />
+          <Divider className="mt-4 mb-4" />
 
           {isMacOSInfo(platformInfo) ? (
             <>
