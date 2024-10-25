@@ -30,7 +30,6 @@ function Gpu() {
     }
   }, [theme]);
 
-  // TODO: display Metal info for Intel Mac.
   return (
     <ViewContainer title="GPU Information">
       <Card shadow="sm">
@@ -68,6 +67,26 @@ function Gpu() {
                   <CardBody>TODO</CardBody>
                 </Card>
               </Tab>
+
+              {osType == "MacIntel" ? (
+                <Tab
+                  key="metal"
+                  title={
+                    <div className="flex items-center justify-center space-x-2">
+                      <Image
+                        src={utils.getGraphicsLibLogo("metal", currentTheme)}
+                        width={32}
+                        height={32}
+                        radius="none"
+                      />
+
+                      <span className="font-bold">Metal</span>
+                    </div>
+                  }
+                >
+                  <MetalInfo />
+                </Tab>
+              ) : null}
             </Tabs>
           ) : (
             <div className="self-center w-full">
