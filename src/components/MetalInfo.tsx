@@ -41,13 +41,6 @@ function Device(props: DeviceProps) {
 
                             <TableBody>
                                 <TableRow>
-                                    <TableCell className="font-bold w-1/3">Device
-                                        Name</TableCell>
-                                    <TableCell
-                                        className="font-mono">{device.deviceName}</TableCell>
-                                </TableRow>
-
-                                <TableRow>
                                     <TableCell className="font-bold w-1/3">Registry ID</TableCell>
                                     <TableCell className="font-mono">{device.registryId}</TableCell>
                                 </TableRow>
