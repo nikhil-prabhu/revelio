@@ -25,6 +25,8 @@ import {
 import ViewContainer from "../components/ViewContainer";
 import * as utils from "../utils";
 import { useTheme } from "next-themes";
+import { open } from "@tauri-apps/plugin-shell";
+import { PressEvent } from "@react-types/shared";
 
 function Platform() {
   let [platformInfo, setPlatformInfo] = useState<PlatformInfo>();
@@ -72,7 +74,18 @@ function Platform() {
     return osType == "Linux";
   }
 
-  // FIXME: open URLs in default browser on click.
+  function openLinkInBrowser(link: string): (_: PressEvent) => void {
+    return function (_: PressEvent) {
+      open(link)
+        .then(() => {
+          console.debug(`Opened link '${link}' in default browser`);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+  }
+
   return (
     <ViewContainer title="Platform Information">
       <Card shadow="sm">
@@ -285,7 +298,11 @@ function Platform() {
                     </TableCell>
                     <TableCell className="font-mono">
                       {platformInfo.bugReportUrl ? (
-                        <Link href="#" showAnchorIcon>
+                        <Link
+                          href="#"
+                          showAnchorIcon
+                          onPress={openLinkInBrowser(platformInfo.bugReportUrl)}
+                        >
                           {platformInfo.bugReportUrl}
                         </Link>
                       ) : null}
@@ -298,21 +315,12 @@ function Platform() {
                     </TableCell>
                     <TableCell className="font-mono">
                       {platformInfo.supportUrl ? (
-                        <Link href="#" showAnchorIcon>
+                        <Link
+                          href="#"
+                          showAnchorIcon
+                          onPress={openLinkInBrowser(platformInfo.supportUrl)}
+                        >
                           {platformInfo.supportUrl}
-                        </Link>
-                      ) : null}
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow>
-                    <TableCell className="font-bold w-1/3">
-                      Bug Report URL
-                    </TableCell>
-                    <TableCell className="font-mono">
-                      {platformInfo.bugReportUrl ? (
-                        <Link href="#" showAnchorIcon>
-                          {platformInfo.bugReportUrl}
                         </Link>
                       ) : null}
                     </TableCell>
@@ -322,7 +330,11 @@ function Platform() {
                     <TableCell className="font-bold w-1/3">Home URL</TableCell>
                     <TableCell className="font-mono">
                       {platformInfo.homeUrl ? (
-                        <Link href="#" showAnchorIcon>
+                        <Link
+                          href="#"
+                          showAnchorIcon
+                          onPress={openLinkInBrowser(platformInfo.homeUrl)}
+                        >
                           {platformInfo.homeUrl}
                         </Link>
                       ) : null}
@@ -334,9 +346,15 @@ function Platform() {
                       Privacy Policy URL
                     </TableCell>
                     <TableCell className="font-mono">
-                      {platformInfo.privatePolicyUrl ? (
-                        <Link href="#" showAnchorIcon>
-                          {platformInfo.privatePolicyUrl}
+                      {platformInfo.privacyPolicyUrl ? (
+                        <Link
+                          href="#"
+                          showAnchorIcon
+                          onPress={openLinkInBrowser(
+                            platformInfo.privacyPolicyUrl,
+                          )}
+                        >
+                          {platformInfo.privacyPolicyUrl}
                         </Link>
                       ) : null}
                     </TableCell>
@@ -348,7 +366,13 @@ function Platform() {
                     </TableCell>
                     <TableCell className="font-mono">
                       {platformInfo.documentationUrl ? (
-                        <Link href="#" showAnchorIcon>
+                        <Link
+                          href="#"
+                          showAnchorIcon
+                          onPress={openLinkInBrowser(
+                            platformInfo.documentationUrl,
+                          )}
+                        >
                           {platformInfo.documentationUrl}
                         </Link>
                       ) : null}

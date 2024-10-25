@@ -293,7 +293,7 @@ export interface LinuxInfo extends PlatformInfoCommon {
   /** The support URL */
   homeUrl: string;
   /** The support URL */
-  privatePolicyUrl: string;
+  privacyPolicyUrl: string;
   /** The documentation URL */
   documentationUrl: string;
 }
