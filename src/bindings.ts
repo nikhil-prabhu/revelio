@@ -9,6 +9,7 @@ export const commands = {
     getCpuInfo,
     getVulkanInfo,
     getOpenGLInfo,
+    getMetalInfo,
     getDisplaysInfo,
     getDisksInfo,
     getNetworksInfo,
@@ -78,6 +79,56 @@ export type OpenGLInfo = {
     version: string;
     /** The current free video memory on the OpenGL device */
     freeVideoMem: number;
+}
+
+/**
+ * Contains information of a Metal counter set.
+ */
+export type MetalCounterSet = {
+    name: string;
+}
+
+/**
+ * Contains information of a Metal device.
+ */
+export type MetalDevice = {
+    index: number;
+    deviceName: string;
+    registryId: number;
+    location: string;
+    locationNumber: number;
+    maxThreadgroupMemoryLength: number;
+    maxThreadsPerThreadgroup: number;
+    isLowPower: boolean;
+    isHeadless: boolean;
+    isRemovable: boolean;
+    supportsRaytracing: boolean;
+    hasUnifiedMemory: boolean;
+    recommendedMaxWorkingSetSize: number;
+    maxTransferRate: number;
+    supportsBarycentricCoordinates: boolean;
+    supportsFunctionPointers: boolean;
+    supportsDynamicLibraries: boolean;
+    argumentBuffersSupport: string;
+    readWriteTextureSupport: string;
+    rasterOrderGroupsSupported: boolean;
+    supports32bitFloatFiltering: boolean;
+    supports32bitMSAA: boolean;
+    supportsQueryTextureLOD: boolean;
+    supportsBCTextureCompression: boolean;
+    supportsPullModelInterpolation: boolean;
+    maxArgumentBufferSamplerCount: number;
+    currentAllocatedSize: number;
+    maxBufferLength: number;
+    counterSets: MetalCounterSet[];
+}
+
+/**
+ * Contains information about the Metal capable devices identified on the system.
+ */
+export type MetalInfo = {
+    totalDevices: number;
+    devices: MetalDevice[];
 }
 
 /**
@@ -317,6 +368,18 @@ export async function getVulkanInfo(): Promise<VulkanInfo> {
  */
 export async function getOpenGLInfo(): Promise<OpenGLInfo> {
     return await invoke("get_opengl_info");
+}
+
+/**
+ * Retrieves the Metal information from the system.
+ *
+ * @export
+ * @async
+ * @returns {Promise<MetalInfo>} Resolves to the Metal information.
+ * @throws {CoreError} If gathering Metal information fails.
+ */
+export async function getMetalInfo(): Promise<MetalInfo> {
+    return await invoke("get_metal_info");
 }
 
 /**

@@ -4,11 +4,12 @@ import * as utils from "../utils";
 import {
     Card,
     CardBody,
-    Tab, Tabs, Image,
+    Tab, Tabs, Image, Spacer,
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
 import {useTheme} from "next-themes";
 import VulkanInfo from "../components/VulkanInfo.tsx";
+import MetalInfo from "../components/MetalInfo.tsx";
 
 function Gpu() {
     const [osType, setOsType] = useState<OsType>();
@@ -30,6 +31,7 @@ function Gpu() {
         }
     }, [theme]);
 
+    // TODO: display Metal info for Intel Mac.
     return (
         <ViewContainer title="GPU Information">
             <Card shadow="sm">
@@ -60,7 +62,24 @@ function Gpu() {
                                 </Card>
                             </Tab>
                         </Tabs>
-                    ) : null
+                    ) : (
+                        <div className="self-center w-full">
+                            <div className="mt-4">
+                                <div className="flex items-center justify-center w-full">
+                                    <Image src={utils.getGraphicsLibLogo("metal")} width={64} height={64}
+                                           radius="none"/>
+                                </div>
+
+                                <Spacer/>
+
+                                <h1 className="font-bold text-lg text-center">Metal</h1>
+                            </div>
+
+                            <Spacer/>
+
+                            <MetalInfo/>
+                        </div>
+                    )
                     }
                 </CardBody>
             </Card>
