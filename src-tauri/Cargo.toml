@@ -28,11 +28,13 @@ sysinfo = "0.32.0"
 thiserror = "1.0.64"
 phf = "0.11.2"
 hex = "0.4.3"
-ash = "0.38.0"
 tauri-plugin-os = "2"
 tauri-plugin-log = "2"
 log = "0.4.22"
 glium = "0.36.0"
+
+[target.'cfg(not(all(target_os = "macos", target_arch = "aarch64")))'.dependencies]
+ash = "0.38.0"
 
 [target.'cfg(target_os = "windows")'.dependencies]
 wgpu = { version = "22.1.0", default-features = false, features = ["dx12"] }

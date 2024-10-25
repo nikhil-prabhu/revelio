@@ -8,12 +8,13 @@ use crate::utils::cpu::CpuInfo;
 use crate::utils::disks::DisksInfo;
 use crate::utils::displays::DisplaysInfo;
 use crate::utils::gpu::opengl::OpenGLInfo;
-use crate::utils::gpu::vulkan::VulkanInfo;
 use crate::utils::network::NetworksInfo;
 use crate::utils::platform::PlatformInfo;
 
 #[cfg(target_os = "macos")]
 use crate::utils::gpu::metal::MetalInfo;
+#[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
+use crate::utils::gpu::vulkan::VulkanInfo;
 
 mod types;
 mod utils;
@@ -21,13 +22,14 @@ mod utils;
 #[derive(Default)]
 struct AppStateInner {
     cpu_info: Option<CpuInfo>,
-    vulkan_info: Option<VulkanInfo>,
     opengl_info: Option<OpenGLInfo>,
     displays_info: Option<DisplaysInfo>,
     disks_info: Option<DisksInfo>,
     networks_info: Option<NetworksInfo>,
     platform_info: Option<PlatformInfo>,
 
+    #[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
+    vulkan_info: Option<VulkanInfo>,
     #[cfg(target_os = "macos")]
     metal_info: Option<MetalInfo>,
 }
@@ -67,6 +69,7 @@ fn get_disks_info(state: State<'_, AppState>) -> DisksInfo {
     info
 }
 
+#[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
 #[tauri::command]
 fn get_vulkan_info(state: State<'_, AppState>) -> Result<VulkanInfo, CoreError> {
     let mut state = state.lock().unwrap();
@@ -163,37 +166,58 @@ pub fn run() {
         level = log::LevelFilter::Warn;
     }
 
-    // FIXME!: figure out a cleaner way to do this without duplication.
-    #[cfg(not(target_os = "macos"))]
-    Builder::default()
-        .setup(|app| {
-            app.manage(AppState::default());
-            Ok(())
-        })
-        .plugin(tauri_plugin_shell::init())
-        .plugin(tauri_plugin_os::init())
-        .plugin(
-            tauri_plugin_log::Builder::new()
-                .target(Target::new(TargetKind::Stderr))
-                .level(level)
-                .build(),
-        )
-        .invoke_handler(tauri::generate_handler![
-            is_release_profile,
-            get_cpu_info,
-            get_disks_info,
-            get_vulkan_info,
-            get_opengl_info,
-            get_displays_info,
-            get_networks_info,
-            get_platform_info,
-            get_app_version,
-        ])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+    let mut builder = Builder::default();
+    builder = builder.invoke_handler(tauri::generate_handler![]);
 
-    #[cfg(target_os = "macos")]
-    Builder::default()
+    // Apple Silicon devices.
+    #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+    {
+        builder = builder.invoke_handler(tauri::generate_handler![
+            is_release_profile,
+            get_cpu_info,
+            get_disks_info,
+            get_displays_info,
+            get_networks_info,
+            get_platform_info,
+            get_app_version,
+            get_metal_info
+        ]);
+    }
+
+    // x86 Apple devices.
+    #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
+    {
+        builder = builder.invoke_handler(tauri::generate_handler![
+            is_release_profile,
+            get_cpu_info,
+            get_disks_info,
+            get_displays_info,
+            get_networks_info,
+            get_platform_info,
+            get_app_version,
+            get_vulkan_info,
+            get_opengl_info,
+            get_metal_info,
+        ]);
+    }
+
+    // Every other supported device.
+    #[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
+    {
+        builder = builder.invoke_handler(tauri::generate_handler![
+            is_release_profile,
+            get_cpu_info,
+            get_disks_info,
+            get_displays_info,
+            get_networks_info,
+            get_platform_info,
+            get_app_version,
+            get_vulkan_info,
+            get_opengl_info
+        ]);
+    }
+
+    builder
         .setup(|app| {
             app.manage(AppState::default());
             Ok(())
@@ -206,18 +230,6 @@ pub fn run() {
                 .level(level)
                 .build(),
         )
-        .invoke_handler(tauri::generate_handler![
-            is_release_profile,
-            get_cpu_info,
-            get_disks_info,
-            get_vulkan_info,
-            get_opengl_info,
-            get_displays_info,
-            get_networks_info,
-            get_platform_info,
-            get_app_version,
-            get_metal_info,
-        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

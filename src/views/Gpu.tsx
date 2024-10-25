@@ -25,31 +25,34 @@ function Gpu() {
         <ViewContainer title="GPU Information">
             <Card shadow="sm">
                 <CardBody>
-                    <Tabs disabledKeys={["opengl"]} className="self-center m-4">
-                        <Tab
-                            key="vulkan"
-                            title={
-                                <Image src={utils.getGraphicsLibLogo("vulkan", currentTheme)} width={64} height={64}
-                                       radius="none"/>
-                            }
-                            titleValue="Vulkan"
-                        >
-                            <VulkanInfo/>
-                        </Tab>
+                    {(!utils.getOSType().appleSilicon) ? (
+                        <Tabs disabledKeys={["opengl"]} className="self-center m-4">
+                            <Tab
+                                key="vulkan"
+                                title={
+                                    <Image src={utils.getGraphicsLibLogo("vulkan", currentTheme)} width={64} height={64}
+                                           radius="none"/>
+                                }
+                                titleValue="Vulkan"
+                            >
+                                <VulkanInfo/>
+                            </Tab>
 
-                        <Tab
-                            key="opengl"
-                            title={
-                                <Image src={utils.getGraphicsLibLogo("opengl", currentTheme)} width={64} height={64}
-                                       radius="none"/>
-                            }
-                            titleValue="OpenGL"
-                        >
-                            <Card>
-                                <CardBody>TODO</CardBody>
-                            </Card>
-                        </Tab>
-                    </Tabs>
+                            <Tab
+                                key="opengl"
+                                title={
+                                    <Image src={utils.getGraphicsLibLogo("opengl", currentTheme)} width={64} height={64}
+                                           radius="none"/>
+                                }
+                                titleValue="OpenGL"
+                            >
+                                <Card>
+                                    <CardBody>TODO</CardBody>
+                                </Card>
+                            </Tab>
+                        </Tabs>
+                    ) : null
+                    }
                 </CardBody>
             </Card>
         </ViewContainer>
