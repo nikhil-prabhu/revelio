@@ -57,7 +57,8 @@ function Device(props: DeviceProps) {
 
                                 <TableRow>
                                     <TableCell className="font-bold w-1/3">Max Threadgroup Memory Length</TableCell>
-                                    <TableCell className="font-mono">{device.maxThreadgroupMemoryLength}</TableCell>
+                                    <TableCell
+                                        className="font-mono">{utils.formatBytes(device.maxThreadgroupMemoryLength)}</TableCell>
                                 </TableRow>
 
                                 <TableRow>
@@ -95,12 +96,13 @@ function Device(props: DeviceProps) {
                                 <TableRow>
                                     <TableCell className="font-bold w-1/3">Recommended Max Working Set Size</TableCell>
                                     <TableCell
-                                        className="font-mono">{device.recommendedMaxWorkingSetSize ? "Yes" : "No"}</TableCell>
+                                        className="font-mono">{utils.formatBytes(device.recommendedMaxWorkingSetSize)}</TableCell>
                                 </TableRow>
 
                                 <TableRow>
                                     <TableCell className="font-bold w-1/3">Max Transfer Rate</TableCell>
-                                    <TableCell className="font-mono">{device.maxTransferRate}</TableCell>
+                                    <TableCell
+                                        className="font-mono">{utils.formatBytesPerSecond(device.maxTransferRate)}</TableCell>
                                 </TableRow>
 
                                 <TableRow>
@@ -169,12 +171,14 @@ function Device(props: DeviceProps) {
 
                                 <TableRow>
                                     <TableCell className="font-bold w-1/3">Current Allocated Size</TableCell>
-                                    <TableCell className="font-mono">{device.currentAllocatedSize}</TableCell>
+                                    <TableCell
+                                        className="font-mono">{utils.formatBytes(device.currentAllocatedSize)}</TableCell>
                                 </TableRow>
 
                                 <TableRow>
                                     <TableCell className="font-bold w-1/3">Max Buffer Length</TableCell>
-                                    <TableCell className="font-mono">{device.maxBufferLength}</TableCell>
+                                    <TableCell
+                                        className="font-mono">{utils.formatBytes(device.maxBufferLength)}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>)

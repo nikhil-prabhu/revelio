@@ -12,16 +12,7 @@ import {
     TableHeader, TableRow
 } from "@nextui-org/react";
 import ViewContainer from "../components/ViewContainer";
-
-function formatBytes(bytes: number, decimals = 2): string {
-    if (bytes === 0) return '0 Bytes';
-
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
-}
+import * as utils from "../utils";
 
 function Storage() {
     let [storageInfo, setStorageInfo] = useState<DisksInfo>();
@@ -69,12 +60,12 @@ function Storage() {
 
                                     <TableRow key={3}>
                                         <TableCell className="font-bold w-1/2">Total Space</TableCell>
-                                        <TableCell>{formatBytes(disk.totalSpace)}</TableCell>
+                                        <TableCell>{utils.formatBytes(disk.totalSpace)}</TableCell>
                                     </TableRow>
 
                                     <TableRow key={4}>
                                         <TableCell className="font-bold w-1/2">Available Space</TableCell>
-                                        <TableCell>{formatBytes(disk.availableSpace)}</TableCell>
+                                        <TableCell>{utils.formatBytes(disk.availableSpace)}</TableCell>
                                     </TableRow>
 
                                     <TableRow key={5}>

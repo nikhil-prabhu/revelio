@@ -257,3 +257,47 @@ export function getGpuLogo(deviceName: string, variant: Variant = "light"): stri
 
     return getVariant(variant, unknownLight, unknownDark);
 }
+
+/**
+ * Formats numerical bytes to a human-readable string.
+ *
+ * @export
+ * @param bytes The bytes value.
+ * @param decimals The numeric precision.
+ * @returns {string} The formatted size.
+ */
+export function formatBytes(bytes: number, decimals: number = 2): string {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+}
+
+/**
+ * Formats numerical bytes per second rate to a human-readable string.
+ *
+ * @export
+ * @param bytesPerSecond The bytes per second rate.
+ * @param decimals The numeric precision.
+ * @returns {string} The formatted bytes per second rate.
+ */
+export function formatBytesPerSecond(bytesPerSecond: number, decimals: number = 2): string {
+    const units = ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s'];
+    let index = 0;
+    let value = bytesPerSecond;
+
+    while (value >= 1024 && index < units.length - 1) {
+        value /= 1024;
+        index++;
+    }
+
+    // Round to two decimal places and format the result
+    return `${value.toFixed(decimals)} ${units[index]}`;
+}
+
+// Example usage
+const formatted = formatBytesPerSecond(1500); // Output: "1.46 KB/s"
+console.log(formatted);
