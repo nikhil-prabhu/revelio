@@ -57,7 +57,7 @@ function Platform() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [theme]);
 
   if (!platformInfo) {
     return <Spinner label="Loading..." color="primary" />;
@@ -101,10 +101,7 @@ function Platform() {
                 <div className="mt-4">
                   <div className="flex items-center justify-center w-full">
                     <Image
-                      src={utils.getPlatformLogo(
-                        platformInfo.platform,
-                        currentTheme,
-                      )}
+                      src={utils.getLinuxLogo(platformInfo.id, currentTheme)}
                       width={128}
                       height={128}
                       radius="none"
@@ -113,7 +110,9 @@ function Platform() {
 
                   <Spacer />
 
-                  <h1 className="font-bold text-lg">{platformInfo.platform}</h1>
+                  <h1 className="font-bold text-lg">
+                    {platformInfo.prettyName || platformInfo.platform}
+                  </h1>
                 </div>
               ) : null}
             </div>
@@ -262,14 +261,42 @@ function Platform() {
                       Graphics Platform
                     </TableCell>
                     <TableCell className="font-mono">
-                      {platformInfo.graphicsPlatform}
+                      <div className="flex items-center justify-start">
+                        <Image
+                          src={utils.getLinuxGraphicsPlatformLogo(
+                            platformInfo.graphicsPlatform,
+                            currentTheme,
+                          )}
+                          width={16}
+                          height={16}
+                          radius="none"
+                        />
+
+                        <Spacer x={2} />
+
+                        {platformInfo.graphicsPlatform}
+                      </div>
                     </TableCell>
                   </TableRow>
 
                   <TableRow>
                     <TableCell className="font-bold w-1/3">Desktop</TableCell>
                     <TableCell className="font-mono">
-                      {platformInfo.desktop}
+                      <div className="flex items-center justify-start">
+                        <Image
+                          src={utils.getLinuxDesktopLogo(
+                            platformInfo.desktop,
+                            currentTheme,
+                          )}
+                          width={16}
+                          height={16}
+                          radius="none"
+                        />
+
+                        <Spacer x={2} />
+
+                        {platformInfo.desktop}
+                      </div>
                     </TableCell>
                   </TableRow>
                 </TableBody>

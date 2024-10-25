@@ -58,6 +58,28 @@ import macOSSonoma from "./assets/images/macos-sonoma.webp";
 import macOSSequoia from "./assets/images/macos-sequoia.webp";
 import linux from "./assets/images/linux.svg";
 
+// Linux distribution logos.
+import archlinux from "./assets/images/archlinux.svg";
+import opensuse from "./assets/images/opensuse.svg";
+import opensuseLeap from "./assets/images/opensuse-leap.svg";
+import opensuseTumbleweed from "./assets/images/opensuse-tumbleweed.svg";
+import fedora from "./assets/images/fedora.svg";
+import ubuntu from "./assets/images/ubuntu.svg";
+import manjaro from "./assets/images/manjaro.svg";
+import linuxMint from "./assets/images/linuxmint.svg";
+import debian from "./assets/images/debian.svg";
+
+// Linux desktop environment logos.
+import kde from "./assets/images/kde.svg";
+import gnomeLight from "./assets/images/light/gnome.svg";
+import gnomeDark from "./assets/images/dark/gnome.svg";
+import xfce from "./assets/images/xfce.svg";
+
+// Linux graphics platform logos.
+import wayland from "./assets/images/wayland.svg";
+import x11Light from "./assets/images/light/x11.svg";
+import x11Dark from "./assets/images/dark/x11.svg";
+
 /**
  * Retrieves the appropriate Apple Silicon logo for the specified device name.
  *
@@ -145,6 +167,112 @@ export function getMacOSLogo(
   }
 
   return getVariant(variant, macOSLight, macOSDark);
+}
+
+/**
+ * Retrieves the Linux distribution logo for the specified ID.
+ *
+ * @export
+ * @param id The distribution ID.
+ * @param _variant The variant of the logo for the current theme ("light" or "dark").
+ * @returns {string} The URL for the logo image source.
+ */
+export function getLinuxLogo(id: string, _variant: Variant = "light"): string {
+  id = id.toLowerCase();
+
+  if (id.includes("opensuse")) {
+    if (id.includes("leap")) {
+      return opensuseLeap;
+    }
+
+    if (id.includes("tumbleweed")) {
+      return opensuseTumbleweed;
+    }
+
+    return opensuse;
+  }
+
+  if (id === "fedora") {
+    return fedora;
+  }
+
+  if (id === "ubuntu") {
+    return ubuntu;
+  }
+
+  if (id === "arch") {
+    return archlinux;
+  }
+
+  // TODO: find and match against exact ID.
+  if (id.includes("manjaro")) {
+    return manjaro;
+  }
+
+  // TODO: find and match against exact ID.
+  if (id.includes("mint")) {
+    return linuxMint;
+  }
+
+  if (id === "debian") {
+    return debian;
+  }
+
+  return linux;
+}
+
+/**
+ * Retrieves the logo for the specified Linux desktop environment.
+ *
+ * @export
+ * @param desktop The desktop environment name.
+ * @param variant The variant of the logo for the current theme ("light" or "dark").
+ * @returns {string} The URL for the logo image source.
+ */
+export function getLinuxDesktopLogo(
+  desktop: string,
+  variant: Variant = "light",
+): string {
+  desktop = desktop.toLowerCase();
+
+  if (desktop.includes("kde")) {
+    return kde;
+  }
+
+  if (desktop.includes("gnome")) {
+    return getVariant(variant, gnomeLight, gnomeDark);
+  }
+
+  if (desktop.includes("xfce")) {
+    return xfce;
+  }
+
+  return getVariant(variant, unknownLight, unknownDark);
+}
+
+/**
+ * Retrieves the logo for the specified Linux graphics platform.
+ *
+ * @export
+ * @param graphicsPlatform The graphics platform name.
+ * @param variant The variant of the logo for the current theme ("light" or "dark").
+ * @returns {string} The URL for the logo image source.
+ */
+export function getLinuxGraphicsPlatformLogo(
+  graphicsPlatform: string,
+  variant: Variant = "light",
+): string {
+  graphicsPlatform = graphicsPlatform.toLowerCase();
+
+  if (graphicsPlatform === "wayland") {
+    return wayland;
+  }
+
+  if (graphicsPlatform === "x11") {
+    return getVariant(variant, x11Light, x11Dark);
+  }
+
+  return getVariant(variant, unknownLight, unknownDark);
 }
 
 /**
