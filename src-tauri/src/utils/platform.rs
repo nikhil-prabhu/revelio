@@ -25,8 +25,10 @@ pub enum Platform {
 #[cfg(target_os = "macos")]
 #[derive(Serialize, Clone)]
 pub enum ChipType {
+    #[cfg(target_arch = "x86_64")]
     #[serde(rename = "x86_64")]
     Intel,
+    #[cfg(target_arch = "aarch64")]
     #[serde(rename = "Apple Silicon")]
     AppleSilicon,
 }
