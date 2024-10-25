@@ -115,11 +115,12 @@ function getAppleSiliconLogo(deviceName: string): string {
 /**
  * Retrieves the appropriate macOS logo for the specified macOS version.
  *
+ * @export
  * @param macOSVersion The macOS version.
  * @param variant The variant of the logo for the current theme ("light" or "dark").
  * @returns {string} The URL for the logo image source.
  */
-function getMacOSLogo(
+export function getMacOSLogo(
   macOSVersion: string,
   variant: Variant = "light",
 ): string {

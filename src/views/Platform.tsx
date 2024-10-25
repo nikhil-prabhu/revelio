@@ -81,8 +81,8 @@ function Platform() {
                 <div className="mt-4">
                   <div className="flex items-center justify-center w-full">
                     <Image
-                      src={utils.getPlatformLogo(
-                        `${platformInfo.platform} ${platformInfo.macOSVersion}`,
+                      src={utils.getMacOSLogo(
+                        platformInfo.macOSVersion,
                         currentTheme,
                       )}
                       width={128}
