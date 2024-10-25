@@ -1,4 +1,5 @@
 use metal::{Device, MTLArgumentBuffersTier, MTLDeviceLocation, MTLReadWriteTextureTier, MTLSize};
+use num_format::{Locale, ToFormattedString};
 use serde::{Serialize, Serializer};
 
 use crate::types::CoreError;
@@ -73,9 +74,13 @@ fn serialize_mtl_size<S>(m: &MTLSize, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
+    let product = m.depth * m.width * m.height;
     serializer.serialize_str(&format!(
-        "depth: {} width: {} height: {}",
-        m.depth, m.width, m.height
+        "{} (depth: {} width: {} height: {})",
+        product.to_formatted_string(&Locale::en),
+        m.depth,
+        m.width,
+        m.height
     ))
 }
 
