@@ -183,7 +183,6 @@ pub fn run() {
     }
 
     let mut builder = Builder::default();
-    builder = builder.invoke_handler(tauri::generate_handler![]);
 
     // Apple Silicon devices.
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
