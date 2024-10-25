@@ -64,6 +64,8 @@ pub struct LinuxInfo {
     version_codename: String,
     /// The current graphics platform (X11/Wayland).
     graphics_platform: GraphicsPlatform,
+    /// The current Desktop environment.
+    desktop: String,
 }
 
 /// Contains information of the current platform.
@@ -122,6 +124,8 @@ impl LinuxInfo {
             "wayland" => GraphicsPlatform::Wayland,
             _ => GraphicsPlatform::Unknown,
         };
+        let desktop = env::var("XDG_CURRENT_DESKTOP")
+            .unwrap_or_else(|_| env::var("DESKTOP_SESSION").unwrap_or("Unknown".into()));
 
         Ok(Self {
             id: info.id,
@@ -132,6 +136,7 @@ impl LinuxInfo {
             version_id: info.version_id,
             version_codename: info.version_codename,
             graphics_platform,
+            desktop,
         })
     }
 }

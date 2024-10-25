@@ -266,6 +266,8 @@ export interface LinuxInfo extends PlatformInfoCommon {
   versionCodename: string;
   /** The current graphics platform (X11/Wayland) */
   graphicsPlatform: string;
+  /** The current Desktop environment */
+  desktop: string;
 }
 
 /**
