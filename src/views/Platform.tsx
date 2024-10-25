@@ -184,6 +184,27 @@ function Platform() {
                       {platformInfo.chipType}
                     </TableCell>
                   </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">Shell</TableCell>
+                    <TableCell className="font-mono">
+                      <div className="flex items-center justify-start">
+                        <Image
+                          src={utils.getUnixShellLogo(
+                            platformInfo.shell,
+                            currentTheme,
+                          )}
+                          width={16}
+                          height={16}
+                          radius="none"
+                        />
+
+                        <Spacer x={2} />
+
+                        {platformInfo.shell}
+                      </div>
+                    </TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
             </>
@@ -296,6 +317,27 @@ function Platform() {
                         <Spacer x={2} />
 
                         {platformInfo.desktop}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">Shell</TableCell>
+                    <TableCell className="font-mono">
+                      <div className="flex items-center justify-start">
+                        <Image
+                          src={utils.getUnixShellLogo(
+                            platformInfo.shell,
+                            currentTheme,
+                          )}
+                          width={16}
+                          height={16}
+                          radius="none"
+                        />
+
+                        <Spacer x={2} />
+
+                        {platformInfo.shell}
                       </div>
                     </TableCell>
                   </TableRow>

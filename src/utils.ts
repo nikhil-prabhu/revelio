@@ -80,6 +80,24 @@ import wayland from "./assets/images/wayland.svg";
 import x11Light from "./assets/images/light/x11.svg";
 import x11Dark from "./assets/images/dark/x11.svg";
 
+// UNIX shell logos.
+import bash from "./assets/images/bash.svg";
+import zshLight from "./assets/images/light/zsh.svg";
+import zshDark from "./assets/images/dark/zsh.svg";
+
+/**
+ * The logo variant based on the current theme ("light" or "dark").
+ */
+export type Variant = "light" | "dark";
+
+function getVariant(variant: Variant, lightIcon: string, darkIcon: string) {
+  if (variant === "dark") {
+    return darkIcon;
+  }
+
+  return lightIcon;
+}
+
 /**
  * Retrieves the appropriate Apple Silicon logo for the specified device name.
  *
@@ -276,16 +294,28 @@ export function getLinuxGraphicsPlatformLogo(
 }
 
 /**
- * The logo variant based on the current theme ("light" or "dark").
+ * Retrieves the logo for the specified UNIX shell.
+ *
+ * @export
+ * @param shell The shell name.
+ * @param variant The variant of the logo for the current theme ("light" or "dark").
+ * @returns {string} The URL for the logo image source.
  */
-export type Variant = "light" | "dark";
+export function getUnixShellLogo(
+  shell: string,
+  variant: Variant = "light",
+): string {
+  shell = shell.toLowerCase();
 
-function getVariant(variant: Variant, lightIcon: string, darkIcon: string) {
-  if (variant === "dark") {
-    return darkIcon;
+  if (shell === "bash") {
+    return bash;
   }
 
-  return lightIcon;
+  if (shell === "zsh") {
+    return getVariant(variant, zshLight, zshDark);
+  }
+
+  return getVariant(variant, unknownLight, unknownLight);
 }
 
 /**

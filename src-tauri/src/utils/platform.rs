@@ -1,8 +1,9 @@
 #[cfg(target_os = "linux")]
 use os_release::OsRelease;
 use serde::Serialize;
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "macos", target_os = "linux"))]
 use std::env;
+#[cfg(target_os = "macos")]
 use std::process::Command;
 use sysinfo::System;
 
@@ -57,6 +58,8 @@ pub struct MacOSInfo {
     macos_version: String,
     /// The macOS chip type.
     chip_type: ChipType,
+    /// The current user's shell.
+    shell: String,
 }
 
 /// Contains information about the current Linux distribution.
@@ -82,6 +85,8 @@ pub struct LinuxInfo {
     graphics_platform: GraphicsPlatform,
     /// The current Desktop environment.
     desktop: String,
+    /// The current user's shell.
+    shell: String,
 }
 
 /// Contains information of the current platform.
@@ -135,9 +140,17 @@ impl MacOSInfo {
         #[cfg(target_arch = "aarch64")]
         let chip_type = ChipType::AppleSilicon;
 
+        let shell = env::var("SHELL")
+            .unwrap_or("Unknown".into())
+            .split('/')
+            .last()
+            .unwrap_or("Unknown")
+            .into();
+
         Ok(Self {
             macos_version,
             chip_type,
+            shell,
         })
     }
 }
@@ -158,6 +171,13 @@ impl LinuxInfo {
         let desktop = env::var("XDG_CURRENT_DESKTOP")
             .unwrap_or_else(|_| env::var("DESKTOP_SESSION").unwrap_or("Unknown".into()));
 
+        let shell = env::var("SHELL")
+            .unwrap_or("Unknown".into())
+            .split('/')
+            .last()
+            .unwrap_or("Unknown")
+            .into();
+
         Ok(Self {
             id: info.id,
             id_like: info.id_like,
@@ -168,6 +188,7 @@ impl LinuxInfo {
             version_codename: info.version_codename,
             graphics_platform,
             desktop,
+            shell,
         })
     }
 }
