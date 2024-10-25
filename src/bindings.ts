@@ -1,20 +1,20 @@
-import {invoke} from "@tauri-apps/api/core";
+import { invoke } from "@tauri-apps/api/core";
 
 /**
  * Bindings to Tauri commands from the Rust core.
  */
 export const commands = {
-    isReleaseProfile,
-    getOsType,
-    getCpuInfo,
-    getVulkanInfo,
-    getOpenGLInfo,
-    getMetalInfo,
-    getDisplaysInfo,
-    getDisksInfo,
-    getNetworksInfo,
-    getPlatformInfo,
-    getAppVersion,
+  isReleaseProfile,
+  getOsType,
+  getCpuInfo,
+  getVulkanInfo,
+  getOpenGLInfo,
+  getMetalInfo,
+  getDisplaysInfo,
+  getDisksInfo,
+  getNetworksInfo,
+  getPlatformInfo,
+  getAppVersion,
 };
 
 export type OsType = "Windows" | "MacIntel" | "MacSilicon" | "Linux";
@@ -23,249 +23,249 @@ export type OsType = "Windows" | "MacIntel" | "MacSilicon" | "Linux";
  * Contains information of a Vulkan device layer.
  */
 export type VulkanDeviceLayer = {
-    /** The layer's name */
-    layerName: string;
-    /** The layer's Vulkan version */
-    vulkanVersion: string;
-    /** The layer's version */
-    layerVersion: string;
-    /** The layer's description */
-    description: String;
-}
+  /** The layer's name */
+  layerName: string;
+  /** The layer's Vulkan version */
+  vulkanVersion: string;
+  /** The layer's version */
+  layerVersion: string;
+  /** The layer's description */
+  description: String;
+};
 
 /**
  * Contains information of a Vulkan device.
  */
 export type VulkanDevice = {
-    /** Device index; useful for unique identification in mapping functions, but otherwise not bound to the device itself */
-    index: number;
-    /** The name of the device */
-    deviceName: string;
-    /** The device's vendor ID */
-    vendorId: number;
-    /** The layer's description */
-    deviceId: number;
-    /** The layer's description */
-    deviceType: string;
-    /** The layer's description */
-    apiVersion: string;
-    /** The layer's description */
-    driverVersion: string;
-    /** The layer's description */
-    pipelineCacheUuid: string;
-    /** The layer's description */
-    layers: VulkanDeviceLayer[];
-}
+  /** Device index; useful for unique identification in mapping functions, but otherwise not bound to the device itself */
+  index: number;
+  /** The name of the device */
+  deviceName: string;
+  /** The device's vendor ID */
+  vendorId: number;
+  /** The layer's description */
+  deviceId: number;
+  /** The layer's description */
+  deviceType: string;
+  /** The layer's description */
+  apiVersion: string;
+  /** The layer's description */
+  driverVersion: string;
+  /** The layer's description */
+  pipelineCacheUuid: string;
+  /** The layer's description */
+  layers: VulkanDeviceLayer[];
+};
 
 /**
  * Contains information about Vulkan on the system.
  */
 export type VulkanInfo = {
-    /** The total number of Vulkan-enabled devices */
-    totalDevices: number;
-    /** The list of Vulkan-enabled devices identified on the system */
-    devices: VulkanDevice[];
-}
+  /** The total number of Vulkan-enabled devices */
+  totalDevices: number;
+  /** The list of Vulkan-enabled devices identified on the system */
+  devices: VulkanDevice[];
+};
 
 /**
  * Contains information about OpenGL on the system.
  */
 export type OpenGLInfo = {
-    /** The OpenGL device vendor */
-    vendor: string;
-    /** The OpenGL renderer */
-    renderer: string;
-    /** The OpenGL version */
-    version: string;
-    /** The current free video memory on the OpenGL device */
-    freeVideoMem: number;
-}
+  /** The OpenGL device vendor */
+  vendor: string;
+  /** The OpenGL renderer */
+  renderer: string;
+  /** The OpenGL version */
+  version: string;
+  /** The current free video memory on the OpenGL device */
+  freeVideoMem: number;
+};
 
 /**
  * Contains information of a Metal counter set.
  */
 export type MetalCounterSet = {
-    name: string;
-}
+  name: string;
+};
 
 /**
  * Contains information of a Metal device.
  */
 export type MetalDevice = {
-    index: number;
-    deviceName: string;
-    registryId: number;
-    location: string;
-    locationNumber: number;
-    maxThreadgroupMemoryLength: number;
-    maxThreadsPerThreadgroup: number;
-    isLowPower: boolean;
-    isHeadless: boolean;
-    isRemovable: boolean;
-    supportsRaytracing: boolean;
-    hasUnifiedMemory: boolean;
-    recommendedMaxWorkingSetSize: number;
-    maxTransferRate: number;
-    supportsBarycentricCoordinates: boolean;
-    supportsFunctionPointers: boolean;
-    supportsDynamicLibraries: boolean;
-    argumentBuffersSupport: string;
-    readWriteTextureSupport: string;
-    supports32bitFloatFiltering: boolean;
-    supports32bitMSAA: boolean;
-    supportsQueryTextureLOD: boolean;
-    supportsBCTextureCompression: boolean;
-    supportsPullModelInterpolation: boolean;
-    maxArgumentBufferSamplerCount: number;
-    currentAllocatedSize: number;
-    maxBufferLength: number;
-    counterSets: MetalCounterSet[];
-}
+  index: number;
+  deviceName: string;
+  registryId: number;
+  location: string;
+  locationNumber: number;
+  maxThreadgroupMemoryLength: number;
+  maxThreadsPerThreadgroup: number;
+  isLowPower: boolean;
+  isHeadless: boolean;
+  isRemovable: boolean;
+  supportsRaytracing: boolean;
+  hasUnifiedMemory: boolean;
+  recommendedMaxWorkingSetSize: number;
+  maxTransferRate: number;
+  supportsBarycentricCoordinates: boolean;
+  supportsFunctionPointers: boolean;
+  supportsDynamicLibraries: boolean;
+  argumentBuffersSupport: string;
+  readWriteTextureSupport: string;
+  supports32bitFloatFiltering: boolean;
+  supports32bitMSAA: boolean;
+  supportsQueryTextureLOD: boolean;
+  supportsBCTextureCompression: boolean;
+  supportsPullModelInterpolation: boolean;
+  maxArgumentBufferSamplerCount: number;
+  currentAllocatedSize: number;
+  maxBufferLength: number;
+  counterSets: MetalCounterSet[];
+};
 
 /**
  * Contains information about the Metal capable devices identified on the system.
  */
 export type MetalInfo = {
-    totalDevices: number;
-    devices: MetalDevice[];
-}
+  totalDevices: number;
+  devices: MetalDevice[];
+};
 
 /**
  * Represents an individual disk on the system.
  */
 export type Disk = {
-    /** The name of the disk */
-    name: string;
-    /** The file-system of the disk (Eg: `EXT4`, `NTFS`, etc.) */
-    fileSystem: string;
-    /** The mount point of the disk */
-    mountPoint: string;
-    /** The total space/size of the disk */
-    totalSpace: number;
-    /** The currently available space on the disk */
-    availableSpace: number;
-    /** The kind of disk */
-    kind: string;
-}
+  /** The name of the disk */
+  name: string;
+  /** The file-system of the disk (Eg: `EXT4`, `NTFS`, etc.) */
+  fileSystem: string;
+  /** The mount point of the disk */
+  mountPoint: string;
+  /** The total space/size of the disk */
+  totalSpace: number;
+  /** The currently available space on the disk */
+  availableSpace: number;
+  /** The kind of disk */
+  kind: string;
+};
 
 /**
  * Contains information of all the disks identified on the system.
  */
 export type DisksInfo = {
-    /** The total number of disks */
-    count: number;
-    /** The information of each disk */
-    disks: Disk[];
-}
+  /** The total number of disks */
+  count: number;
+  /** The information of each disk */
+  disks: Disk[];
+};
 
 /**
  * Contains information of a single logical processor.
  */
 export type Cpu = {
-    /** The CPU name */
-    name: string;
-    /** The CPU frequency */
-    frequency: number;
-}
+  /** The CPU name */
+  name: string;
+  /** The CPU frequency */
+  frequency: number;
+};
 
 /**
  * Contains information of the system's CPU/Processor.
  */
 export type CpuInfo = {
-    /** The CPU architecture */
-    arch?: string;
-    /** The vendor ID of the CPU */
-    vendorId: string;
-    /** The CPU brand */
-    brand: string;
-    /** The total number of CPU cores */
-    physicalCoreCount?: number;
-    /** The logical processors on the CPU */
-    cpus: Cpu[];
-}
+  /** The CPU architecture */
+  arch?: string;
+  /** The vendor ID of the CPU */
+  vendorId: string;
+  /** The CPU brand */
+  brand: string;
+  /** The total number of CPU cores */
+  physicalCoreCount?: number;
+  /** The logical processors on the CPU */
+  cpus: Cpu[];
+};
 
 /**
  * Represents an individual display attached to the system.
  */
 export type Display = {
-    /** The name of the display */
-    name: string;
-    /** The display dimensions (width x height) */
-    dimensions: string;
-    /** The scale factor of the display */
-    scaleFactor: number;
-    /** The top-left corner position of the monitor relative to the larger full screen area (x, y) */
-    position: string;
-    /** The display's refresh rate in MHz */
-    refreshRate?: number;
-}
+  /** The name of the display */
+  name: string;
+  /** The display dimensions (width x height) */
+  dimensions: string;
+  /** The scale factor of the display */
+  scaleFactor: number;
+  /** The top-left corner position of the monitor relative to the larger full screen area (x, y) */
+  position: string;
+  /** The display's refresh rate in MHz */
+  refreshRate?: number;
+};
 
 /**
  * Contains information of the displays connected to the system.
  */
 export type DisplaysInfo = {
-    /** The total number of displays */
-    totalDisplays: number;
-    /** The list of displays */
-    displays: Display[];
-}
+  /** The total number of displays */
+  totalDisplays: number;
+  /** The list of displays */
+  displays: Display[];
+};
 
 /**
  * Represents an individual network interface on the system.
  */
 export type NetworkInterface = {
-    /** The name of the interface */
-    itfName: string;
-    /** The MAC address of the interface */
-    macAddr: string;
-    /** The IP networks belonging to the interface */
-    ipNetworks: string[];
-}
+  /** The name of the interface */
+  itfName: string;
+  /** The MAC address of the interface */
+  macAddr: string;
+  /** The IP networks belonging to the interface */
+  ipNetworks: string[];
+};
 
 /**
  * Contains information of the networks and network interfaces on the system.
  */
 export type NetworksInfo = {
-    /** The total number of network interfaces */
-    totalInterfaces: number;
-    /** The list of network interfaces */
-    interfaces: NetworkInterface[];
-}
+  /** The total number of network interfaces */
+  totalInterfaces: number;
+  /** The list of network interfaces */
+  interfaces: NetworkInterface[];
+};
 
 /**
  * Information that's common across all supported platforms.
  */
 export interface PlatformInfoCommon {
-    /** The current platform (Windows/macOS/Linux) */
-    platform: string;
-    /** The hostname of the system */
-    hostname: string;
-    /** The OS' architecture */
-    osArch: string;
-    /** The current kernel version */
-    kernel: string;
+  /** The current platform (Windows/macOS/Linux) */
+  platform: string;
+  /** The hostname of the system */
+  hostname: string;
+  /** The OS' architecture */
+  osArch: string;
+  /** The current kernel version */
+  kernel: string;
 }
 
 /**
  * Contains information about the current Linux distribution.
  */
 export interface LinuxInfo extends PlatformInfoCommon {
-    /** An identifier that describes the distribution's release */
-    id: string;
-    /** Identifier of the original upstream OS that this distribution is derived from */
-    idLike: string;
-    /** The name of this release, without the version string */
-    name: string;
-    /** The name of this release, with the version string */
-    prettyName: string;
-    /** The version of this OS release */
-    version: string;
-    /** The version of this OS release, along with additional details about the release */
-    versionId: string;
-    /** The codename of this version */
-    versionCodename: string;
-    /** The current graphics platform (X11/Wayland) */
-    graphicsPlatform: string;
+  /** An identifier that describes the distribution's release */
+  id: string;
+  /** Identifier of the original upstream OS that this distribution is derived from */
+  idLike: string;
+  /** The name of this release, without the version string */
+  name: string;
+  /** The name of this release, with the version string */
+  prettyName: string;
+  /** The version of this OS release */
+  version: string;
+  /** The version of this OS release, along with additional details about the release */
+  versionId: string;
+  /** The codename of this version */
+  versionCodename: string;
+  /** The current graphics platform (X11/Wayland) */
+  graphicsPlatform: string;
 }
 
 /**
@@ -277,24 +277,24 @@ export type PlatformInfo = PlatformInfoCommon | LinuxInfo;
  * The kind of error from the core library.
  */
 export enum CoreErrorKind {
-    /** Error while retrieving CPU info */
-    CPUInfoError,
-    /** Error while retrieving Vulkan info */
-    VulkanInfoError,
-    /** Generic error */
-    Error,
+  /** Error while retrieving CPU info */
+  CPUInfoError,
+  /** Error while retrieving Vulkan info */
+  VulkanInfoError,
+  /** Generic error */
+  Error,
 }
 
 /**
  * Custom error type for errors encountered while gathering system information.
  */
 export class CoreError extends Error {
-    public kind: CoreErrorKind;
+  public kind: CoreErrorKind;
 
-    constructor(message: string, kind: CoreErrorKind) {
-        super(message);
-        this.kind = kind;
-    }
+  constructor(message: string, kind: CoreErrorKind) {
+    super(message);
+    this.kind = kind;
+  }
 }
 
 /**
@@ -305,7 +305,7 @@ export class CoreError extends Error {
  * @returns {Promise<boolean>} Resolves to whether the app is running in the release profile.
  */
 export async function isReleaseProfile(): Promise<boolean> {
-    return await invoke("is_release_profile");
+  return await invoke("is_release_profile");
 }
 
 /**
@@ -316,7 +316,7 @@ export async function isReleaseProfile(): Promise<boolean> {
  * @returns {Promise<OsType>} Resolves to the operating system type.
  */
 export async function getOsType(): Promise<OsType> {
-    return await invoke("get_os_type");
+  return await invoke("get_os_type");
 }
 
 /**
@@ -328,7 +328,7 @@ export async function getOsType(): Promise<OsType> {
  * @throws {CoreError} If gathering CPU information fails.
  */
 export async function getCpuInfo(): Promise<CpuInfo> {
-    return await invoke("get_cpu_info");
+  return await invoke("get_cpu_info");
 }
 
 /**
@@ -340,7 +340,7 @@ export async function getCpuInfo(): Promise<CpuInfo> {
  * @throws {CoreError} If gathering disk(s) information fails.
  */
 export async function getDisksInfo(): Promise<DisksInfo> {
-    return await invoke("get_disks_info");
+  return await invoke("get_disks_info");
 }
 
 /**
@@ -352,7 +352,7 @@ export async function getDisksInfo(): Promise<DisksInfo> {
  * @throws {CoreError} If gathering Vulkan information fails.
  */
 export async function getVulkanInfo(): Promise<VulkanInfo> {
-    return await invoke("get_vulkan_info");
+  return await invoke("get_vulkan_info");
 }
 
 /**
@@ -366,7 +366,7 @@ export async function getVulkanInfo(): Promise<VulkanInfo> {
  * @throws {CoreError} If gathering OpenGL information fails.
  */
 export async function getOpenGLInfo(): Promise<OpenGLInfo> {
-    return await invoke("get_opengl_info");
+  return await invoke("get_opengl_info");
 }
 
 /**
@@ -378,7 +378,7 @@ export async function getOpenGLInfo(): Promise<OpenGLInfo> {
  * @throws {CoreError} If gathering Metal information fails.
  */
 export async function getMetalInfo(): Promise<MetalInfo> {
-    return await invoke("get_metal_info");
+  return await invoke("get_metal_info");
 }
 
 /**
@@ -392,7 +392,7 @@ export async function getMetalInfo(): Promise<MetalInfo> {
  * @throws {CoreError} If gathering displays information fails.
  */
 export async function getDisplaysInfo(): Promise<DisplaysInfo> {
-    return await invoke("get_displays_info");
+  return await invoke("get_displays_info");
 }
 
 /**
@@ -403,7 +403,7 @@ export async function getDisplaysInfo(): Promise<DisplaysInfo> {
  * @returns {Promise<NetworksInfo>} Resolves to the network(s) information.
  */
 export async function getNetworksInfo(): Promise<NetworksInfo> {
-    return await invoke("get_networks_info");
+  return await invoke("get_networks_info");
 }
 
 // FIXME!: handle platform-specific information.
@@ -416,7 +416,7 @@ export async function getNetworksInfo(): Promise<NetworksInfo> {
  * @throws {CoreError} If gathering platform information fails.
  */
 export async function getPlatformInfo(): Promise<PlatformInfo> {
-    return await invoke("get_platform_info");
+  return await invoke("get_platform_info");
 }
 
 /**
@@ -427,5 +427,5 @@ export async function getPlatformInfo(): Promise<PlatformInfo> {
  * @returns {Promise<string>} Resolves to the app version.
  */
 export async function getAppVersion(): Promise<string> {
-    return await invoke("get_app_version");
+  return await invoke("get_app_version");
 }

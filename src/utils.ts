@@ -53,51 +53,51 @@ import llvm from "./assets/images/llvm.svg";
  * @returns {string} The URL for the logo image source.
  */
 function getAppleSiliconLogo(deviceName: string): string {
-    if (/\bm4\b/.test(deviceName)) {
-        return appleM4;
-    }
+  if (/\bm4\b/.test(deviceName)) {
+    return appleM4;
+  }
 
-    if (/\bm3\b/.test(deviceName)) {
-        if (/\bmax\b/.test(deviceName)) {
-            return appleM3Max;
-        }
-
-        if (/\bpro\b/.test(deviceName)) {
-            return appleM3Pro;
-        }
-
-        return appleM3;
-    }
-
-    if (/\bm2\b/.test(deviceName)) {
-        if (/\bultra\b/.test(deviceName)) {
-            return appleM2Ultra;
-        }
-
-        if (/\bmax\b/.test(deviceName)) {
-            return appleM2Max;
-        }
-
-        if (/\bpro\b/.test(deviceName)) {
-            return appleM2Pro;
-        }
-
-        return appleM2;
-    }
-
-    if (/\bultra\b/.test(deviceName)) {
-        return appleM1Ultra;
-    }
-
+  if (/\bm3\b/.test(deviceName)) {
     if (/\bmax\b/.test(deviceName)) {
-        return appleM1Max;
+      return appleM3Max;
     }
 
     if (/\bpro\b/.test(deviceName)) {
-        return appleM1Pro;
+      return appleM3Pro;
     }
 
-    return appleM1;
+    return appleM3;
+  }
+
+  if (/\bm2\b/.test(deviceName)) {
+    if (/\bultra\b/.test(deviceName)) {
+      return appleM2Ultra;
+    }
+
+    if (/\bmax\b/.test(deviceName)) {
+      return appleM2Max;
+    }
+
+    if (/\bpro\b/.test(deviceName)) {
+      return appleM2Pro;
+    }
+
+    return appleM2;
+  }
+
+  if (/\bultra\b/.test(deviceName)) {
+    return appleM1Ultra;
+  }
+
+  if (/\bmax\b/.test(deviceName)) {
+    return appleM1Max;
+  }
+
+  if (/\bpro\b/.test(deviceName)) {
+    return appleM1Pro;
+  }
+
+  return appleM1;
 }
 
 /**
@@ -106,11 +106,11 @@ function getAppleSiliconLogo(deviceName: string): string {
 export type Variant = "light" | "dark";
 
 function getVariant(variant: Variant, lightIcon: string, darkIcon: string) {
-    if (variant === "dark") {
-        return darkIcon;
-    }
+  if (variant === "dark") {
+    return darkIcon;
+  }
 
-    return lightIcon;
+  return lightIcon;
 }
 
 /**
@@ -120,24 +120,27 @@ function getVariant(variant: Variant, lightIcon: string, darkIcon: string) {
  * @param variant The variant of the logo for the current theme ("light" or "dark").
  * @returns {string} The URL for the logo image source.
  */
-export function getVendorLogo(vendorId: string, variant: Variant = "light"): string {
-    if (vendorId.includes("AMD")) {
-        return getVariant(variant, amdLight, amdDark);
-    }
+export function getVendorLogo(
+  vendorId: string,
+  variant: Variant = "light",
+): string {
+  if (vendorId.includes("AMD")) {
+    return getVariant(variant, amdLight, amdDark);
+  }
 
-    if (/\bnvidia\b/.test(vendorId.toLowerCase())) {
-        return nvidia;
-    }
+  if (/\bnvidia\b/.test(vendorId.toLowerCase())) {
+    return nvidia;
+  }
 
-    if (vendorId.toLowerCase().includes("intel")) {
-        return getVariant(variant, intelLight, intelDark);
-    }
+  if (vendorId.toLowerCase().includes("intel")) {
+    return getVariant(variant, intelLight, intelDark);
+  }
 
-    if (/\bapple\b/.test(vendorId.toLowerCase())) {
-        return getVariant(variant, appleLight, appleDark);
-    }
+  if (/\bapple\b/.test(vendorId.toLowerCase())) {
+    return getVariant(variant, appleLight, appleDark);
+  }
 
-    return getVariant(variant, unknownLight, unknownDark);
+  return getVariant(variant, unknownLight, unknownDark);
 }
 
 /**
@@ -148,26 +151,29 @@ export function getVendorLogo(vendorId: string, variant: Variant = "light"): str
  * @param variant The variant of the logo for the current theme ("light" or "dark").
  * @returns {string} The URL for the logo image source.
  */
-export function getGraphicsLibLogo(libName: string, variant: Variant = "light"): string {
-    libName = libName.toLowerCase();
+export function getGraphicsLibLogo(
+  libName: string,
+  variant: Variant = "light",
+): string {
+  libName = libName.toLowerCase();
 
-    if (libName === "vulkan") {
-        return vulkan;
-    }
+  if (libName === "vulkan") {
+    return vulkan;
+  }
 
-    if (libName === "opengl") {
-        return openGL;
-    }
+  if (libName === "opengl") {
+    return openGL;
+  }
 
-    if (libName === "metal") {
-        return metal;
-    }
+  if (libName === "metal") {
+    return metal;
+  }
 
-    if (libName === "directx") {
-        return getVariant(variant, directxLight, directxDark);
-    }
+  if (libName === "directx") {
+    return getVariant(variant, directxLight, directxDark);
+  }
 
-    return getVariant(variant, unknownLight, unknownDark);
+  return getVariant(variant, unknownLight, unknownDark);
 }
 
 /**
@@ -178,44 +184,47 @@ export function getGraphicsLibLogo(libName: string, variant: Variant = "light"):
  * @param variant The variant of the logo for the current theme ("light" or "dark").
  * @returns {string} The URL for the logo image source.
  */
-export function getCpuLogo(cpuBrand: string, variant: Variant = "light"): string {
-    cpuBrand = cpuBrand.toLowerCase();
+export function getCpuLogo(
+  cpuBrand: string,
+  variant: Variant = "light",
+): string {
+  cpuBrand = cpuBrand.toLowerCase();
 
-    // Add separate logos for older AMD processors (Athlon, etc.).
-    if (/\bamd\b/.test(cpuBrand)) {
-        if (cpuBrand.includes("ryzen")) {
-            return getVariant(variant, amdRyzenLight, amdRyzenDark);
-        }
-
-        if (cpuBrand.includes("athlon")) {
-            return getVariant(variant, amdAthlonLight, amdAthlonDark);
-        }
-
-        return getVariant(variant, amdLight, amdDark);
+  // Add separate logos for older AMD processors (Athlon, etc.).
+  if (/\bamd\b/.test(cpuBrand)) {
+    if (cpuBrand.includes("ryzen")) {
+      return getVariant(variant, amdRyzenLight, amdRyzenDark);
     }
 
-    // Add separate logos for older Intel processors (Pentium, etc.).
-    if (/\bintel\b/.test(cpuBrand)) {
-        if (cpuBrand.includes("core")) {
-            return intelCore;
-        }
-
-        if (cpuBrand.includes("pentium")) {
-            return intelPentium;
-        }
-
-        if (cpuBrand.includes("xeon")) {
-            return intelXeon;
-        }
-
-        return getVariant(variant, intelLight, intelDark);
+    if (cpuBrand.includes("athlon")) {
+      return getVariant(variant, amdAthlonLight, amdAthlonDark);
     }
 
-    if (/\bapple\b/.test(cpuBrand)) {
-        return getAppleSiliconLogo(cpuBrand);
+    return getVariant(variant, amdLight, amdDark);
+  }
+
+  // Add separate logos for older Intel processors (Pentium, etc.).
+  if (/\bintel\b/.test(cpuBrand)) {
+    if (cpuBrand.includes("core")) {
+      return intelCore;
     }
 
-    return getVariant(variant, unknownLight, unknownDark);
+    if (cpuBrand.includes("pentium")) {
+      return intelPentium;
+    }
+
+    if (cpuBrand.includes("xeon")) {
+      return intelXeon;
+    }
+
+    return getVariant(variant, intelLight, intelDark);
+  }
+
+  if (/\bapple\b/.test(cpuBrand)) {
+    return getAppleSiliconLogo(cpuBrand);
+  }
+
+  return getVariant(variant, unknownLight, unknownDark);
 }
 
 /**
@@ -226,36 +235,39 @@ export function getCpuLogo(cpuBrand: string, variant: Variant = "light"): string
  * @param variant The variant of the logo for the current theme ("light" or "dark").
  * @returns {string} The URL for the logo image source.
  */
-export function getGpuLogo(deviceName: string, variant: Variant = "light"): string {
-    deviceName = deviceName.toLowerCase();
+export function getGpuLogo(
+  deviceName: string,
+  variant: Variant = "light",
+): string {
+  deviceName = deviceName.toLowerCase();
 
-    if (/\bradeon\b/.test(deviceName)) {
-        return getVariant(variant, amdRadeonLight, amdRadeonDark);
+  if (/\bradeon\b/.test(deviceName)) {
+    return getVariant(variant, amdRadeonLight, amdRadeonDark);
+  }
+
+  if (/\bgeforce\b/.test(deviceName)) {
+    if (/\brtx\b/.test(deviceName)) {
+      return nvidiaGeforceRtx;
     }
 
-    if (/\bgeforce\b/.test(deviceName)) {
-        if (/\brtx\b/.test(deviceName)) {
-            return nvidiaGeforceRtx;
-        }
+    return nvidiaGeforceGtx;
+  }
 
-        return nvidiaGeforceGtx;
+  if (/\bintel\b/.test(deviceName)) {
+    if (/\barc\b/.test(deviceName)) {
+      return getVariant(variant, intelArcLight, intelArcDark);
     }
+  }
 
-    if (/\bintel\b/.test(deviceName)) {
-        if (/\barc\b/.test(deviceName)) {
-            return getVariant(variant, intelArcLight, intelArcDark);
-        }
-    }
+  if (/\bapple\b/.test(deviceName)) {
+    return getAppleSiliconLogo(deviceName);
+  }
 
-    if (/\bapple\b/.test(deviceName)) {
-        return getAppleSiliconLogo(deviceName);
-    }
+  if (/\bllvm\b/.test(deviceName)) {
+    return llvm;
+  }
 
-    if (/\bllvm\b/.test(deviceName)) {
-        return llvm;
-    }
-
-    return getVariant(variant, unknownLight, unknownDark);
+  return getVariant(variant, unknownLight, unknownDark);
 }
 
 /**
@@ -267,13 +279,15 @@ export function getGpuLogo(deviceName: string, variant: Variant = "light"): stri
  * @returns {string} The formatted size.
  */
 export function formatBytes(bytes: number, decimals: number = 2): string {
-    if (bytes === 0) return '0 Bytes';
+  if (bytes === 0) return "0 Bytes";
 
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+  return (
+    parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + " " + sizes[i]
+  );
 }
 
 /**
@@ -284,18 +298,21 @@ export function formatBytes(bytes: number, decimals: number = 2): string {
  * @param decimals The numeric precision.
  * @returns {string} The formatted bytes per second rate.
  */
-export function formatBytesPerSecond(bytesPerSecond: number, decimals: number = 2): string {
-    const units = ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s'];
-    let index = 0;
-    let value = bytesPerSecond;
+export function formatBytesPerSecond(
+  bytesPerSecond: number,
+  decimals: number = 2,
+): string {
+  const units = ["B/s", "KB/s", "MB/s", "GB/s", "TB/s"];
+  let index = 0;
+  let value = bytesPerSecond;
 
-    while (value >= 1024 && index < units.length - 1) {
-        value /= 1024;
-        index++;
-    }
+  while (value >= 1024 && index < units.length - 1) {
+    value /= 1024;
+    index++;
+  }
 
-    // Round to two decimal places and format the result
-    return `${value.toFixed(decimals)} ${units[index]}`;
+  // Round to two decimal places and format the result
+  return `${value.toFixed(decimals)} ${units[index]}`;
 }
 
 // Example usage
