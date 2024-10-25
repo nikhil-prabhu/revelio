@@ -258,6 +258,8 @@ export interface MacOSInfo extends PlatformInfoCommon {
   chipType: MacOSChipType;
 }
 
+type LinuxGraphicsPlatform = "X11" | "Wayland";
+
 /**
  * Contains information about the current Linux distribution.
  */
@@ -277,7 +279,7 @@ export interface LinuxInfo extends PlatformInfoCommon {
   /** The codename of this version */
   versionCodename: string;
   /** The current graphics platform (X11/Wayland) */
-  graphicsPlatform: string;
+  graphicsPlatform: LinuxGraphicsPlatform;
   /** The current Desktop environment */
   desktop: string;
 }
