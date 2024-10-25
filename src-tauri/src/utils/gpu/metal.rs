@@ -11,6 +11,7 @@ pub struct MetalCounterSet {
 }
 
 /// Contains information of a Metal device.
+#[allow(non_snake_case)]
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct MetalDevice {
@@ -37,13 +38,9 @@ pub struct MetalDevice {
     pub argument_buffers_support: MTLArgumentBuffersTier,
     #[serde(serialize_with = "serialize_mtl_read_write_texture_tier")]
     pub read_write_texture_support: MTLReadWriteTextureTier,
-    pub raster_order_groups_supported: bool,
     pub supports_32bit_float_filtering: bool,
-    #[allow(non_snake_case)]
     pub supports_32bit_MSAA: bool,
-    #[allow(non_snake_case)]
     pub supports_query_texture_LOD: bool,
-    #[allow(non_snake_case)]
     pub supports_BC_texture_compression: bool,
     pub supports_pull_model_interpolation: bool,
     pub max_argument_buffer_sampler_count: u64,
@@ -146,7 +143,6 @@ impl MetalInfo {
                 supports_dynamic_libraries: device.supports_dynamic_libraries(),
                 argument_buffers_support: device.argument_buffers_support(),
                 read_write_texture_support: device.read_write_texture_support(),
-                raster_order_groups_supported: device.raster_order_groups_supported(),
                 supports_32bit_float_filtering: device.supports_32bit_float_filtering(),
                 supports_32bit_MSAA: device.supports_32bit_MSAA(),
                 supports_query_texture_LOD: device.supports_query_texture_LOD(),

@@ -111,7 +111,6 @@ export type MetalDevice = {
     supportsDynamicLibraries: boolean;
     argumentBuffersSupport: string;
     readWriteTextureSupport: string;
-    rasterOrderGroupsSupported: boolean;
     supports32bitFloatFiltering: boolean;
     supports32bitMSAA: boolean;
     supportsQueryTextureLOD: boolean;

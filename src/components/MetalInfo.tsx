@@ -139,12 +139,6 @@ function Device(props: DeviceProps) {
                                 </TableRow>
 
                                 <TableRow>
-                                    <TableCell className="font-bold w-1/3">Raster Order Groups Supported?</TableCell>
-                                    <TableCell
-                                        className="font-mono">{device.rasterOrderGroupsSupported ? "Yes" : "No"}</TableCell>
-                                </TableRow>
-
-                                <TableRow>
                                     <TableCell className="font-bold w-1/3">Supports 32-bit Float Filtering?</TableCell>
                                     <TableCell
                                         className="font-mono">{device.supports32bitFloatFiltering ? "Yes" : "No"}</TableCell>
