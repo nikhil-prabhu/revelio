@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { commands, PlatformInfo, OsType, MacOSInfo } from "../bindings";
+import {
+  commands,
+  PlatformInfo,
+  OsType,
+  MacOSInfo,
+  LinuxInfo,
+} from "../bindings";
 import {
   Card,
   CardBody,
@@ -61,6 +67,10 @@ function Platform() {
     return osType == "MacIntel" || osType == "MacSilicon";
   }
 
+  function isLinuxInfo(_obj: any): _obj is LinuxInfo {
+    return osType == "Linux";
+  }
+
   return (
     <ViewContainer title="Platform Information">
       <Card shadow="sm">
@@ -73,6 +83,26 @@ function Platform() {
                     <Image
                       src={utils.getPlatformLogo(
                         `${platformInfo.platform} ${platformInfo.macOSVersion}`,
+                        currentTheme,
+                      )}
+                      width={128}
+                      height={128}
+                      radius="none"
+                    />
+                  </div>
+
+                  <Spacer />
+
+                  <h1 className="font-bold text-lg">{platformInfo.platform}</h1>
+                </div>
+              ) : null}
+
+              {isLinuxInfo(platformInfo) ? (
+                <div className="mt-4">
+                  <div className="flex items-center justify-center w-full">
+                    <Image
+                      src={utils.getPlatformLogo(
+                        platformInfo.platform,
                         currentTheme,
                       )}
                       width={128}
@@ -153,6 +183,93 @@ function Platform() {
                     <TableCell className="font-bold w-1/3">Chip Type</TableCell>
                     <TableCell className="font-mono">
                       {platformInfo.chipType}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </>
+          ) : null}
+
+          {isLinuxInfo(platformInfo) ? (
+            <>
+              <h1 className="font-bold text-large text-center">
+                Distribution Information
+              </h1>
+              <Table isStriped shadow="none">
+                <TableHeader>
+                  <TableColumn>Property</TableColumn>
+                  <TableColumn>Value</TableColumn>
+                </TableHeader>
+
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">ID</TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.id}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">ID Like</TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.idLike}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">Name</TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.name}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Pretty Name
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.prettyName}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">Version</TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.version}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Version ID
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.versionId}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Version Codename
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.versionCodename}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Graphics Platform
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.graphicsPlatform}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">Desktop</TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.desktop}
                     </TableCell>
                   </TableRow>
                 </TableBody>
