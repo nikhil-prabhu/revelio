@@ -1,9 +1,9 @@
 #[cfg(target_os = "linux")]
-use std::env;
-
-#[cfg(target_os = "linux")]
 use os_release::OsRelease;
 use serde::Serialize;
+#[cfg(target_os = "linux")]
+use std::env;
+use std::process::Command;
 use sysinfo::System;
 
 use crate::types::CoreError;
@@ -19,6 +19,15 @@ pub enum Platform {
     Linux,
     #[serde(rename = "Unknown")]
     Unknown,
+}
+
+#[cfg(target_os = "macos")]
+#[derive(Serialize, Clone)]
+pub enum ChipType {
+    #[serde(rename = "x86_64")]
+    Intel,
+    #[serde(rename = "Apple Silicon")]
+    AppleSilicon,
 }
 
 /// Represents the current Linux graphics platform (X11/Wayland).
@@ -38,10 +47,17 @@ pub enum GraphicsPlatform {
 #[serde(rename_all = "camelCase")]
 pub struct WindowsInfo {}
 
+/// Contains information about the current macOS installation.
 #[cfg(target_os = "macos")]
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
-pub struct MacOSInfo {}
+pub struct MacOSInfo {
+    /// The macOS version.
+    #[serde(rename = "macOSVersion")]
+    macos_version: String,
+    /// The macOS chip type.
+    chip_type: ChipType,
+}
 
 /// Contains information about the current Linux distribution.
 #[cfg(target_os = "linux")]
@@ -107,7 +123,22 @@ impl WindowsInfo {
 impl MacOSInfo {
     /// Retrieves the macOS OS information.
     pub fn get() -> Result<Self, CoreError> {
-        Ok(Self {})
+        let output = Command::new("sw_vers").arg("-productVersion").output().ok();
+        let macos_version = match output {
+            Some(output) => String::from_utf8_lossy(&output.stdout).trim().to_string(),
+            None => "Unknown".to_string(),
+        };
+
+        #[cfg(target_arch = "x86_64")]
+        let chip_type = ChipType::Intel;
+
+        #[cfg(target_arch = "aarch64")]
+        let chip_type = ChipType::AppleSilicon;
+
+        Ok(Self {
+            macos_version,
+            chip_type,
+        })
     }
 }
 

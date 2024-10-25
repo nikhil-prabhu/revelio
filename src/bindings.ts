@@ -246,6 +246,18 @@ export interface PlatformInfoCommon {
   kernel: string;
 }
 
+type MacOSChipType = "x86_64" | "Apple Silicon";
+
+/**
+ * Contains information about the current macOS installation.
+ */
+export interface MacOSInfo extends PlatformInfoCommon {
+  /** The macOS version **/
+  macOSVersion: string;
+  /** The macOS chip type **/
+  chipType: MacOSChipType;
+}
+
 /**
  * Contains information about the current Linux distribution.
  */
@@ -273,7 +285,7 @@ export interface LinuxInfo extends PlatformInfoCommon {
 /**
  * Contains information of the current platform.
  */
-export type PlatformInfo = PlatformInfoCommon | LinuxInfo;
+export type PlatformInfo = PlatformInfoCommon | MacOSInfo | LinuxInfo;
 
 /**
  * The kind of error from the core library.
