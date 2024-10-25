@@ -12,6 +12,7 @@ import {
   CardHeader,
   Divider,
   Image,
+  Link,
   Spacer,
   Spinner,
   Table,
@@ -71,6 +72,7 @@ function Platform() {
     return osType == "Linux";
   }
 
+  // FIXME: open URLs in default browser on click.
   return (
     <ViewContainer title="Platform Information">
       <Card shadow="sm">
@@ -274,6 +276,82 @@ function Platform() {
                     </TableCell>
                     <TableCell className="font-mono">
                       {platformInfo.versionCodename}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Bug Report URL
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.bugReportUrl ? (
+                        <Link href="#" showAnchorIcon>
+                          {platformInfo.bugReportUrl}
+                        </Link>
+                      ) : null}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Support URL
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.supportUrl ? (
+                        <Link href="#" showAnchorIcon>
+                          {platformInfo.supportUrl}
+                        </Link>
+                      ) : null}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Bug Report URL
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.bugReportUrl ? (
+                        <Link href="#" showAnchorIcon>
+                          {platformInfo.bugReportUrl}
+                        </Link>
+                      ) : null}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">Home URL</TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.homeUrl ? (
+                        <Link href="#" showAnchorIcon>
+                          {platformInfo.homeUrl}
+                        </Link>
+                      ) : null}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Privacy Policy URL
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.privatePolicyUrl ? (
+                        <Link href="#" showAnchorIcon>
+                          {platformInfo.privatePolicyUrl}
+                        </Link>
+                      ) : null}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell className="font-bold w-1/3">
+                      Documentation URL
+                    </TableCell>
+                    <TableCell className="font-mono">
+                      {platformInfo.documentationUrl ? (
+                        <Link href="#" showAnchorIcon>
+                          {platformInfo.documentationUrl}
+                        </Link>
+                      ) : null}
                     </TableCell>
                   </TableRow>
 

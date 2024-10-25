@@ -286,6 +286,16 @@ export interface LinuxInfo extends PlatformInfoCommon {
   desktop: string;
   /** The current user's shell */
   shell: string;
+  /** The bug report URL */
+  bugReportUrl: string;
+  /** The support URL */
+  supportUrl: string;
+  /** The support URL */
+  homeUrl: string;
+  /** The support URL */
+  privatePolicyUrl: string;
+  /** The documentation URL */
+  documentationUrl: string;
 }
 
 /**

@@ -89,6 +89,16 @@ pub struct LinuxInfo {
     desktop: String,
     /// The current user's shell.
     shell: String,
+    /// The bug report URL.
+    bug_report_url: String,
+    /// The support URL.
+    support_url: String,
+    /// The home URL.
+    home_url: String,
+    /// The privacy policy URL.
+    privacy_policy_url: String,
+    /// The documentation URL.
+    documentation_url: String,
 }
 
 /// Contains information of the current platform.
@@ -161,7 +171,7 @@ impl MacOSInfo {
 impl LinuxInfo {
     /// Retrieves the Linux distribution information.
     pub fn get() -> Result<Self, CoreError> {
-        let info = OsRelease::new().map_err(|e| CoreError::Error(e.into()))?;
+        let mut info = OsRelease::new().map_err(|e| CoreError::Error(e.into()))?;
         let graphics_platform = match env::var("XDG_SESSION_TYPE")
             .map_err(|e| CoreError::Error(e.into()))?
             .as_str()
@@ -191,6 +201,15 @@ impl LinuxInfo {
             graphics_platform,
             desktop,
             shell,
+            bug_report_url: info.bug_report_url,
+            support_url: info.support_url,
+            home_url: info.home_url,
+            privacy_policy_url: info.privacy_policy_url,
+            documentation_url: info
+                .extra
+                .remove("DOCUMENTATION_URL")
+                .unwrap_or(String::with_capacity(0))
+                .replace("\"", ""),
         })
     }
 }
