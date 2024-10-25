@@ -19,7 +19,11 @@ import directxDark from "./assets/images/dark/directx.svg";
 // CPU logos.
 import amdRyzenLight from "./assets/images/light/amd-ryzen.svg";
 import amdRyzenDark from "./assets/images/dark/amd-ryzen.svg";
+import amdAthlonLight from "./assets/images/light/amd-athlon.svg";
+import amdAthlonDark from "./assets/images/dark/amd-athlon.svg";
 import intelCore from "./assets/images/intel-core.svg";
+import intelPentium from "./assets/images/intel-pentium.svg";
+import intelXeon from "./assets/images/intel-xeon.svg";
 
 // GPU logos.
 import amdRadeonLight from "./assets/images/light/amd-radeon.svg";
@@ -48,7 +52,7 @@ import llvm from "./assets/images/llvm.svg";
  * @param deviceName The device name.
  * @returns {string} The URL for the logo image source.
  */
-function getAppleSiliconIcon(deviceName: string): string {
+function getAppleSiliconLogo(deviceName: string): string {
     if (/\bm4\b/.test(deviceName)) {
         return appleM4;
     }
@@ -178,17 +182,37 @@ export function getCpuLogo(cpuBrand: string, variant: Variant = "light"): string
     cpuBrand = cpuBrand.toLowerCase();
 
     // Add separate logos for older AMD processors (Athlon, etc.).
-    if (/\bryzen\b/.test(cpuBrand)) {
-        return getVariant(variant, amdRyzenLight, amdRyzenDark);
+    if (/\bamd\b/.test(cpuBrand)) {
+        if (cpuBrand.includes("ryzen")) {
+            return getVariant(variant, amdRyzenLight, amdRyzenDark);
+        }
+
+        if (cpuBrand.includes("athlon")) {
+            return getVariant(variant, amdAthlonLight, amdAthlonDark);
+        }
+
+        return getVariant(variant, amdLight, amdDark);
     }
 
     // Add separate logos for older Intel processors (Pentium, etc.).
     if (/\bintel\b/.test(cpuBrand)) {
-        return intelCore;
+        if (cpuBrand.includes("core")) {
+            return intelCore;
+        }
+
+        if (cpuBrand.includes("pentium")) {
+            return intelPentium;
+        }
+
+        if (cpuBrand.includes("xeon")) {
+            return intelXeon;
+        }
+
+        return getVariant(variant, intelLight, intelDark);
     }
 
     if (/\bapple\b/.test(cpuBrand)) {
-        return getAppleSiliconIcon(cpuBrand);
+        return getAppleSiliconLogo(cpuBrand);
     }
 
     return getVariant(variant, unknownLight, unknownDark);
@@ -224,7 +248,7 @@ export function getGpuLogo(deviceName: string, variant: Variant = "light"): stri
     }
 
     if (/\bapple\b/.test(deviceName)) {
-        return getAppleSiliconIcon(deviceName);
+        return getAppleSiliconLogo(deviceName);
     }
 
     if (/\bllvm\b/.test(deviceName)) {
