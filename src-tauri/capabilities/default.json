@@ -15,6 +15,7 @@
     "shell:allow-open",
     "os:default",
     "log:default",
-    "core:window:allow-set-title"
+    "core:window:allow-set-title",
+    "core:window:allow-set-theme"
   ]
 }
