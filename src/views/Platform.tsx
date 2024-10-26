@@ -125,7 +125,9 @@ function Platform() {
                 <Spacer />
 
                 <h1 className="font-bold text-lg">
-                  {platformInfo.prettyName || platformInfo.platform}
+                  {platformInfo.prettyName ||
+                    platformInfo.name ||
+                    platformInfo.platform}
                 </h1>
               </div>
             ) : null}
