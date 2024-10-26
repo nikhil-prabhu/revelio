@@ -148,6 +148,27 @@ function Platform() {
 
             <TableBody>
               <TableRow>
+                <TableCell className="font-bold w-1/3">Platform</TableCell>
+                <TableCell className="font-mono">
+                  <div className="flex items-center justify-start">
+                    <Image
+                      src={utils.getPlatformLogo(
+                        platformInfo.platform,
+                        currentTheme,
+                      )}
+                      width={16}
+                      height={16}
+                      radius="none"
+                    />
+
+                    <Spacer x={2} />
+
+                    {platformInfo.platform}
+                  </div>
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
                 <TableCell className="font-bold w-1/3">Hostname</TableCell>
                 <TableCell className="font-mono">
                   {platformInfo.hostname}
