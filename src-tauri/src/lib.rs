@@ -170,14 +170,14 @@ fn get_app_version() -> String {
 #[tauri::command]
 fn get_directx_info(state: State<'_, AppState>) -> Result<DirectXInfo, CoreError> {
     let mut state = state.lock().unwrap();
-    
+
     if let Some(info) = &state.directx_info {
         return Ok(info.clone());
     }
-    
+
     let info = DirectXInfo::get()?;
     state.directx_info = Some(info.clone());
-    
+
     Ok(info)
 }
 
@@ -203,8 +203,9 @@ pub fn run() {
     }
 
     let mut builder = Builder::default();
-    
+
     // Windows devices.
+    #[cfg(target_os = "windows")]
     {
         builder = builder.invoke_handler(tauri::generate_handler![
             is_release_profile,
@@ -220,7 +221,7 @@ pub fn run() {
             get_directx_info,
         ]);
     }
-    
+
     // Apple Silicon devices.
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
     {
