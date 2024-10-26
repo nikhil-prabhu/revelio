@@ -6,6 +6,7 @@ import ViewContainer from "../components/ViewContainer";
 import { useTheme } from "next-themes";
 import VulkanInfo from "../components/VulkanInfo.tsx";
 import MetalInfo from "../components/MetalInfo.tsx";
+import DirectXInfo from "../components/DirectXInfo.tsx";
 
 function Gpu() {
   const [osType, setOsType] = useState<OsType>();
@@ -67,6 +68,22 @@ function Gpu() {
                   <CardBody>TODO</CardBody>
                 </Card>
               </Tab>
+
+              {osType == "Windows" ? (
+                <Tab
+                  key="directx"
+                  title={
+                    <Image
+                      src={utils.getGraphicsLibLogo("directx", currentTheme)}
+                      width={64}
+                      height={64}
+                      radius="none"
+                    />
+                  }
+                >
+                  <DirectXInfo />
+                </Tab>
+              ) : null}
 
               {osType == "MacIntel" ? (
                 <Tab

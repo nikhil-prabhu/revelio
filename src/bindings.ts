@@ -9,6 +9,7 @@ export const commands = {
   getCpuInfo,
   getVulkanInfo,
   getOpenGLInfo,
+  getDirectXInfo,
   getMetalInfo,
   getDisplaysInfo,
   getDisksInfo,
@@ -79,6 +80,40 @@ export type OpenGLInfo = {
   version: string;
   /** The current free video memory on the OpenGL device */
   freeVideoMem: number;
+};
+
+/**
+ * Contains information of a DirectX device.
+ */
+export type DirectXDevice = {
+  /** Device index; useful for unique identification in mapping functions, but otherwise not bound to the device itself */
+  index: number;
+  /** The name of the device */
+  deviceName: string;
+  /** The device's vendor ID */
+  vendorId: number;
+  /** The device ID */
+  deviceId: number;
+  /** The subsystem ID */
+  subSysId: number;
+  /** The device revision */
+  revision: number;
+  /** Dedicated video memory in bytes */
+  dedicatedVideoMemory: number;
+  /** Dedicated system memory in bytes */
+  dedicatedSystemMemory: number;
+  /** Shared system memory in bytes */
+  sharedSystemMemory: number;
+};
+
+/**
+ * Contains information about DirectX on the system.
+ */
+export type DirectXInfo = {
+  /** The total number of DirectX capable devices */
+  totalDevices: number;
+  /** The list of DirectX capable devices identified on the system */
+  devices: DirectXDevice[];
 };
 
 /**
@@ -397,6 +432,18 @@ export async function getVulkanInfo(): Promise<VulkanInfo> {
  */
 export async function getOpenGLInfo(): Promise<OpenGLInfo> {
   return await invoke("get_opengl_info");
+}
+
+/**
+ * Retrieves DirectX information from the system.
+ *
+ * @export
+ * @async
+ * @returns {Promise{DirectXInfo}} Resolves to the DirectX information.
+ * @throws {CoreError} If gathering DirectX information fails.
+ */
+export async function getDirectXInfo(): Promise<DirectXInfo> {
+  return await invoke("get_directx_info");
 }
 
 /**

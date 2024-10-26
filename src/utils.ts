@@ -45,6 +45,7 @@ import appleM1Ultra from "./assets/images/apple-m1-ultra.webp";
 import appleM1Pro from "./assets/images/apple-m1-pro.webp";
 import appleM1Max from "./assets/images/apple-m1-max.webp";
 import llvm from "./assets/images/llvm.svg";
+import microsoft from "./assets/images/microsoft.svg";
 
 // Platform logos.
 import windows10 from "./assets/images/windows10.svg";
@@ -345,6 +346,14 @@ export function getVendorLogo(
     return getVariant(variant, appleLight, appleDark);
   }
 
+  if (/\bllvm\b/.test(vendorId.toLowerCase())) {
+    return llvm;
+  }
+
+  if (/\bmicrosoft\b/.test(vendorId.toLowerCase())) {
+    return microsoft;
+  }
+
   return getVariant(variant, unknownLight, unknownDark);
 }
 
@@ -470,6 +479,10 @@ export function getGpuLogo(
 
   if (/\bllvm\b/.test(deviceName)) {
     return llvm;
+  }
+
+  if (/\bmicrosoft\b/.test(deviceName)) {
+    return microsoft;
   }
 
   return getVariant(variant, unknownLight, unknownDark);

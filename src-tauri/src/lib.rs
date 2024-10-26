@@ -11,6 +11,9 @@ use crate::utils::gpu::opengl::OpenGLInfo;
 use crate::utils::network::NetworksInfo;
 use crate::utils::platform::PlatformInfo;
 
+#[cfg(target_os = "windows")]
+use crate::utils::gpu::directx::DirectXInfo;
+
 #[cfg(target_os = "macos")]
 use crate::utils::gpu::metal::MetalInfo;
 #[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
@@ -30,6 +33,8 @@ struct AppStateInner {
 
     #[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
     vulkan_info: Option<VulkanInfo>,
+    #[cfg(target_os = "windows")]
+    directx_info: Option<DirectXInfo>,
     #[cfg(target_os = "macos")]
     metal_info: Option<MetalInfo>,
 }
@@ -161,6 +166,21 @@ fn get_app_version() -> String {
     env!("CARGO_PKG_VERSION").into()
 }
 
+#[cfg(target_os = "windows")]
+#[tauri::command]
+fn get_directx_info(state: State<'_, AppState>) -> Result<DirectXInfo, CoreError> {
+    let mut state = state.lock().unwrap();
+    
+    if let Some(info) = &state.directx_info {
+        return Ok(info.clone());
+    }
+    
+    let info = DirectXInfo::get()?;
+    state.directx_info = Some(info.clone());
+    
+    Ok(info)
+}
+
 #[cfg(target_os = "macos")]
 #[tauri::command]
 fn get_metal_info(state: State<'_, AppState>) -> Result<MetalInfo, CoreError> {
@@ -183,7 +203,24 @@ pub fn run() {
     }
 
     let mut builder = Builder::default();
-
+    
+    // Windows devices.
+    {
+        builder = builder.invoke_handler(tauri::generate_handler![
+            is_release_profile,
+            get_os_type,
+            get_cpu_info,
+            get_disks_info,
+            get_displays_info,
+            get_networks_info,
+            get_platform_info,
+            get_app_version,
+            get_vulkan_info,
+            get_opengl_info,
+            get_directx_info,
+        ]);
+    }
+    
     // Apple Silicon devices.
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
     {
@@ -218,8 +255,8 @@ pub fn run() {
         ]);
     }
 
-    // Every other supported device.
-    #[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
+    // Linux devices.
+    #[cfg(target_os = "linux")]
     {
         builder = builder.invoke_handler(tauri::generate_handler![
             is_release_profile,
