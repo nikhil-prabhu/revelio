@@ -47,20 +47,6 @@ fn is_release_profile() -> bool {
 }
 
 #[tauri::command]
-fn get_cpu_info(state: State<'_, AppState>) -> CpuInfo {
-    let mut state = state.lock().unwrap();
-
-    if let Some(info) = &state.cpu_info {
-        return info.clone();
-    }
-
-    let info = CpuInfo::get();
-    state.cpu_info = Some(info.clone());
-
-    info
-}
-
-#[tauri::command]
 fn get_os_type() -> &'static str {
     #[cfg(target_os = "windows")]
     return "Windows";
@@ -74,6 +60,20 @@ fn get_os_type() -> &'static str {
     #[cfg(target_os = "linux")]
     #[allow(clippy::needless_return)]
     return "Linux";
+}
+
+#[tauri::command]
+fn get_cpu_info(state: State<'_, AppState>) -> Result<CpuInfo, CoreError> {
+    let mut state = state.lock().unwrap();
+
+    if let Some(info) = &state.cpu_info {
+        return Ok(info.clone());
+    }
+
+    let info = CpuInfo::get()?;
+    state.cpu_info = Some(info.clone());
+
+    Ok(info)
 }
 
 #[tauri::command]

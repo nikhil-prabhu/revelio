@@ -701,6 +701,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "cpuinfo-rs"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c18da6f1ba4befbe4df4dbd39983a8d723f986c33df688ddf32aed2112cfe955"
+dependencies = [
+ "bytemuck",
+ "cc",
+ "serde",
+]
+
+[[package]]
 name = "crc32fast"
 version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2032,9 +2043,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.159"
+version = "0.2.161"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "561d97a539a36e26a9a5fad1ea11a3039a67714694aaa379433e580854bc3dc5"
+checksum = "8e9489c2807c139ffd9c1794f4af0ebe86a828db53ecdc7fea2111d0fed085d1"
 
 [[package]]
 name = "libloading"
@@ -3269,8 +3280,10 @@ name = "revelio"
 version = "0.1.0"
 dependencies = [
  "ash",
+ "cpuinfo-rs",
  "glium",
  "hex",
+ "libc",
  "log",
  "metal",
  "num-format",

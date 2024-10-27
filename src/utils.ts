@@ -521,8 +521,8 @@ export function getPlatformLogo(
  * @param decimals The numeric precision.
  * @returns {string} The formatted size.
  */
-export function formatBytes(bytes: number, decimals: number = 2): string {
-  if (bytes === 0) return "0 Bytes";
+export function formatBytes(bytes?: number, decimals: number = 2): string {
+  if (!bytes || bytes === 0) return "0 Bytes";
 
   const k = 1024;
   const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];

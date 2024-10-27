@@ -193,30 +193,54 @@ export type DisksInfo = {
   disks: Disk[];
 };
 
+export type Cache = {
+  size: number;
+  associativity: number;
+  sets: number;
+  partitions: number;
+  lineSize: number;
+  flags: number;
+};
+
+export type CacheInfo = {
+  l1i?: Cache;
+  l1d?: Cache;
+  l2?: Cache;
+  l3?: Cache;
+  l4?: Cache;
+};
+
+export type Processor = {
+  smtId: number;
+  windowsGroupId?: number;
+  windowsProcessorId?: number;
+  apicId: number;
+};
+
 /**
  * Contains information of a single logical processor.
  */
-export type Cpu = {
-  /** The CPU name */
-  name: string;
-  /** The CPU frequency */
+export type Core = {
+  id: number;
+  processorsCount: number;
+  cpuId: number;
   frequency: number;
+  processors: Processor[];
 };
 
 /**
  * Contains information of the system's CPU/Processor.
  */
 export type CpuInfo = {
-  /** The CPU architecture */
-  arch?: string;
-  /** The vendor ID of the CPU */
-  vendorId: string;
-  /** The CPU brand */
   brand: string;
-  /** The total number of CPU cores */
-  physicalCoreCount?: number;
-  /** The logical processors on the CPU */
-  cpus: Cpu[];
+  arch: string;
+  opModes: string;
+  vendorId: string;
+  cacheInfo: CacheInfo;
+  processorsCount: number;
+  coreCount: number;
+  threadsPerCore: number;
+  cores: Core[];
 };
 
 /**
