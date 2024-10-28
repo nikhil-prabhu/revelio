@@ -30,8 +30,10 @@ import amdRadeonLight from "./assets/images/light/amd-radeon.svg";
 import amdRadeonDark from "./assets/images/dark/amd-radeon.svg";
 import nvidiaGeforceRtx from "./assets/images/nvidia-geforce-rtx.svg";
 import nvidiaGeforceGtx from "./assets/images/nvidia-geforce-gtx.svg";
-import intelArcLight from "./assets/images/light/intel-arc.svg";
-import intelArcDark from "./assets/images/dark/intel-arc.svg";
+import intelArc from "./assets/images/intel-arc.webp";
+import intelIrisXe from "./assets/images/intel-iris-xe.svg";
+import intelIrisXeMax from "./assets/images/intel-iris-xe-max.svg";
+import intelGraphics from "./assets/images/intel-graphics.webp";
 import appleM4 from "./assets/images/apple-m4.webp";
 import appleM3 from "./assets/images/apple-m3.webp";
 import appleM3Pro from "./assets/images/apple-m3-pro.webp";
@@ -469,8 +471,18 @@ export function getGpuLogo(
 
   if (/\bintel\b/.test(deviceName)) {
     if (/\barc\b/.test(deviceName)) {
-      return getVariant(variant, intelArcLight, intelArcDark);
+      return intelArc;
     }
+
+    if (/\biris\b/.test(deviceName)) {
+      if (deviceName.includes("max")) {
+        return intelIrisXeMax;
+      }
+
+      return intelIrisXe;
+    }
+
+    return intelGraphics;
   }
 
   if (/\bapple\b/.test(deviceName)) {
