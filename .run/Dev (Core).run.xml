@@ -3,7 +3,9 @@
     <option name="buildProfileId" value="dev" />
     <option name="command" value="run --no-default-features" />
     <option name="workingDirectory" value="file://$PROJECT_DIR$/src-tauri" />
-    <envs />
+    <envs>
+      <env name="RUST_BACKTRACE" value="1" />
+    </envs>
     <option name="emulateTerminal" value="true" />
     <option name="channel" value="DEFAULT" />
     <option name="requiredFeatures" value="true" />
