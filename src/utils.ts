@@ -26,8 +26,7 @@ import intelPentium from "./assets/images/intel-pentium.svg";
 import intelXeon from "./assets/images/intel-xeon.svg";
 
 // GPU logos.
-import amdRadeonLight from "./assets/images/light/amd-radeon.svg";
-import amdRadeonDark from "./assets/images/dark/amd-radeon.svg";
+import amdRadeon from "./assets/images/amd-radeon.png";
 import nvidiaGeforceRtx from "./assets/images/nvidia-geforce-rtx.svg";
 import nvidiaGeforceGtx from "./assets/images/nvidia-geforce-gtx.svg";
 import intelArc from "./assets/images/intel-arc.webp";
@@ -458,7 +457,7 @@ export function getGpuLogo(
   deviceName = deviceName.toLowerCase();
 
   if (/\bradeon\b/.test(deviceName)) {
-    return getVariant(variant, amdRadeonLight, amdRadeonDark);
+    return amdRadeon;
   }
 
   if (/\bgeforce\b/.test(deviceName)) {
