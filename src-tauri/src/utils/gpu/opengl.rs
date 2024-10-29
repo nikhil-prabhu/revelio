@@ -1,3 +1,5 @@
+use std::sync::LazyLock;
+
 use glium::backend::glutin::SimpleWindowBuilder;
 use glium::winit::event_loop::EventLoop;
 use serde::Serialize;
@@ -18,26 +20,29 @@ pub struct OpenGLInfo {
     pub free_video_mem: Option<usize>,
 }
 
+static OPENGL_INFO: LazyLock<Result<OpenGLInfo, String>> = LazyLock::new(|| {
+    // FIXME: This still causes a panic, although it's now a segmentation fault rather than a `RecreationAttempt` error.
+    let event_loop = EventLoop::new().map_err(|e| format!("failed to create event loop: {}", e))?;
+    let (_, display) = SimpleWindowBuilder::new().build(&event_loop);
+
+    let vendor = display.get_opengl_renderer_string().to_string();
+    let renderer = display.get_opengl_renderer_string().to_string();
+    let version = display.get_opengl_version_string().to_string();
+    let free_video_mem = display.get_free_video_memory();
+
+    Ok(OpenGLInfo {
+        vendor,
+        renderer,
+        version,
+        free_video_mem,
+    })
+});
+
 impl OpenGLInfo {
     /// Retrieves the OpenGL information from the system.
-    #[allow(dead_code)]
     pub fn get() -> Result<Self, CoreError> {
-        // FIXME!: Currently, the following line panics when `Self::get()` is called more than once, and I can't be arsed to fix it right now.
-        let event_loop = EventLoop::new().unwrap();
-        let (_, display) = SimpleWindowBuilder::new().build(&event_loop);
-
-        let vendor = display.get_opengl_renderer_string().to_string();
-        let renderer = display.get_opengl_renderer_string().to_string();
-        let version = display.get_opengl_version_string().to_string();
-        let free_video_mem = display.get_free_video_memory();
-
-        display.finish();
-
-        Ok(Self {
-            vendor,
-            renderer,
-            version,
-            free_video_mem,
-        })
+        OPENGL_INFO
+            .clone()
+            .map_err(|e| CoreError::OpenGLInfoError(e.into()))
     }
 }
