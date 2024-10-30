@@ -95,6 +95,10 @@ pub enum CoreError {
     #[error("An error occurred while retrieving OpenGL information: {0}")]
     OpenGLInfoError(Box<str>),
 
+    /// USB info retrieval error.
+    #[error("An error occurred while retrieving USB information: {0}")]
+    USBInfoError(Box<str>),
+
     /// Generic errors.
     #[error("An error occurred: {0}")]
     Error(
@@ -118,6 +122,7 @@ enum CoreErrorKind {
 
     VulkanInfoError(String),
     OpenGLInfoError(String),
+    USBInfoError(String),
     Error(String),
 }
 
@@ -138,6 +143,7 @@ impl Serialize for CoreError {
 
             Self::VulkanInfoError(_) => CoreErrorKind::VulkanInfoError(err_msg),
             Self::OpenGLInfoError(_) => CoreErrorKind::OpenGLInfoError(err_msg),
+            Self::USBInfoError(_) => CoreErrorKind::USBInfoError(err_msg),
             Self::Error(_) => CoreErrorKind::Error(err_msg),
         };
 

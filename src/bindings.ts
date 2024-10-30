@@ -14,6 +14,7 @@ export const commands = {
   getDisplaysInfo,
   getDisksInfo,
   getNetworksInfo,
+  getUSBInfo,
   getPlatformInfo,
   getAppVersion,
 };
@@ -292,6 +293,44 @@ export type NetworksInfo = {
 };
 
 /**
+ * Represents an interface belonging to a USB device.
+ */
+export type USBInterface = {
+  interfaceNumber: number;
+  class: number;
+  subclass: number;
+  protocol: number;
+  interfaceString?: string;
+};
+
+/**
+ * Represents a USB device on the system.
+ */
+export type USBDevice = {
+  busNumber: number;
+  deviceAddress: number;
+  vendorId: number;
+  productId: number;
+  deviceVersion: number;
+  class: number;
+  subclass: number;
+  protocol: number;
+  speed?: string;
+  manufacturerString?: string;
+  productString?: string;
+  serialNumber?: string;
+  interfaces: USBInterface[];
+};
+
+/**
+ * Contains information about the USB devices on the system.
+ */
+export type USBInfo = {
+  totalDevices: number;
+  devices: USBDevice[];
+};
+
+/**
  * Information that's common across all supported platforms.
  */
 export interface PlatformInfoCommon {
@@ -494,6 +533,18 @@ export async function getMetalInfo(): Promise<MetalInfo> {
  */
 export async function getDisplaysInfo(): Promise<DisplaysInfo> {
   return await invoke("get_displays_info");
+}
+
+/**
+ * Retrieves information about the USB devices detected on the system.
+ *
+ * @export
+ * @async
+ * @returns {Promise<USBInfo>} Resolves to the USB information.
+ * @throws {CoreError} If gathering USB information fails.
+ */
+export async function getUSBInfo(): Promise<USBInfo> {
+  return await invoke("get_usb_info");
 }
 
 /**

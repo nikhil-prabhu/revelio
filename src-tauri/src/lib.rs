@@ -10,6 +10,7 @@ use crate::utils::displays::DisplaysInfo;
 use crate::utils::gpu::opengl::OpenGLInfo;
 use crate::utils::network::NetworksInfo;
 use crate::utils::platform::PlatformInfo;
+use crate::utils::usb::USBInfo;
 
 #[cfg(target_os = "windows")]
 use crate::utils::gpu::directx::DirectXInfo;
@@ -29,6 +30,7 @@ struct AppStateInner {
     displays_info: Option<DisplaysInfo>,
     disks_info: Option<DisksInfo>,
     networks_info: Option<NetworksInfo>,
+    usb_info: Option<USBInfo>,
     platform_info: Option<PlatformInfo>,
 
     #[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
@@ -148,6 +150,20 @@ fn get_networks_info(state: State<'_, AppState>) -> NetworksInfo {
 }
 
 #[tauri::command]
+fn get_usb_info(state: State<'_, AppState>) -> Result<USBInfo, CoreError> {
+    let mut state = state.lock().unwrap();
+
+    if let Some(info) = &state.usb_info {
+        return Ok(info.clone());
+    }
+
+    let info = USBInfo::get()?;
+    state.usb_info = Some(info.clone());
+
+    Ok(info)
+}
+
+#[tauri::command]
 fn get_platform_info(state: State<'_, AppState>) -> Result<PlatformInfo, CoreError> {
     let mut state = state.lock().unwrap();
 
@@ -214,6 +230,7 @@ pub fn run() {
             get_disks_info,
             get_displays_info,
             get_networks_info,
+            get_usb_info,
             get_platform_info,
             get_app_version,
             get_vulkan_info,
@@ -232,6 +249,7 @@ pub fn run() {
             get_disks_info,
             get_displays_info,
             get_networks_info,
+            get_usb_info,
             get_platform_info,
             get_app_version,
             get_metal_info
@@ -248,6 +266,7 @@ pub fn run() {
             get_disks_info,
             get_displays_info,
             get_networks_info,
+            get_usb_info,
             get_platform_info,
             get_app_version,
             get_vulkan_info,
@@ -266,6 +285,7 @@ pub fn run() {
             get_disks_info,
             get_displays_info,
             get_networks_info,
+            get_usb_info,
             get_platform_info,
             get_app_version,
             get_vulkan_info,

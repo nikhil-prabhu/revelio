@@ -33,6 +33,7 @@ tauri-plugin-log = "2"
 log = "0.4.22"
 glium = "0.36.0"
 cpuinfo-rs = "0.5.0"
+nusb = "0.1.10"
 
 [target.'cfg(not(all(target_os = "macos", target_arch = "aarch64")))'.dependencies]
 ash = "0.38.0"
