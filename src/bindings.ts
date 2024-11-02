@@ -307,6 +307,7 @@ export type USBInterface = {
  * Represents a USB device on the system.
  */
 export type USBDevice = {
+  index: number;
   busNumber: number;
   deviceAddress: number;
   vendorId: number;

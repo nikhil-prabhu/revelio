@@ -18,6 +18,7 @@ pub struct USBInterface {
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct USBDevice {
+    pub index: usize,
     pub bus_number: u8,
     pub device_address: u8,
     pub vendor_id: u16,
@@ -68,7 +69,7 @@ impl USBInfo {
         let (lower, upper) = devices_iter.size_hint();
         let mut devices: Vec<USBDevice> = Vec::with_capacity(upper.unwrap_or(lower));
 
-        for device in devices_iter {
+        for (idx, device) in devices_iter.enumerate() {
             let interfaces_iter = device.interfaces();
             let (lower, upper) = interfaces_iter.size_hint();
             let mut interfaces = Vec::with_capacity(upper.unwrap_or(lower));
@@ -84,6 +85,7 @@ impl USBInfo {
             }
 
             devices.push(USBDevice {
+                index: idx,
                 bus_number: device.bus_number(),
                 device_address: device.device_address(),
                 vendor_id: device.vendor_id(),

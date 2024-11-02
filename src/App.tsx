@@ -14,12 +14,14 @@ import Cpu from "./views/Cpu";
 import Gpu from "./views/Gpu";
 import Storage from "./views/Storage";
 import Network from "./views/Network";
+import USB from "./views/USB";
 import Platform from "./views/Platform";
 import { commands } from "./bindings";
 import { useEffect, useRef, useState } from "react";
 import Displays from "./views/Displays.tsx";
 import { MdScreenshotMonitor } from "react-icons/md";
 import ThemeSwitcher from "./components/ThemeSwitcher.tsx";
+import { FaUsb } from "react-icons/fa6";
 
 function App() {
   const navigate = useNavigate();
@@ -124,6 +126,17 @@ function App() {
             />
 
             <Tab
+              key="/usb"
+              href="/usb"
+              title={
+                <div className="flex items-center space-x-2">
+                  <FaUsb />
+                  <span>USB</span>
+                </div>
+              }
+            />
+
+            <Tab
               key="/platform"
               href="/platform"
               title={
@@ -143,6 +156,7 @@ function App() {
             <Route path="/displays" element={<Displays />} />
             <Route path="/storage" element={<Storage />} />
             <Route path="/network" element={<Network />} />
+            <Route path="/usb" element={<USB />} />
             <Route path="/platform" element={<Platform />} />
           </Routes>
 
