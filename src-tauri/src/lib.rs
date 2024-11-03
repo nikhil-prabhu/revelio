@@ -1,3 +1,4 @@
+use std::sync::Once;
 use std::thread;
 use std::time::Duration;
 
@@ -7,36 +8,49 @@ use crate::utils::sysinfo;
 
 mod utils;
 
-#[tauri::command]
+static CPU_USAGE: Once = Once::new();
+static MEMORY: Once = Once::new();
+static SYS_INFO: Once = Once::new();
+static PROCESSES: Once = Once::new();
+
+#[tauri::command(async)]
 fn init_cpu_usage(app: AppHandle) -> Result<()> {
-    loop {
-        app.emit("cpu_usage", sysinfo::get_cpu_usage())?;
+    CPU_USAGE.call_once(|| loop {
+        app.emit("cpu_usage", sysinfo::get_cpu_usage()).unwrap();
         thread::sleep(Duration::from_secs(1));
-    }
+    });
+
+    Ok(())
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 fn init_memory(app: AppHandle) -> Result<()> {
-    loop {
-        app.emit("memory", sysinfo::get_memory())?;
+    MEMORY.call_once(|| loop {
+        app.emit("memory", sysinfo::get_memory()).unwrap();
         thread::sleep(Duration::from_secs(1));
-    }
+    });
+
+    Ok(())
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 fn init_sys_info(app: AppHandle) -> Result<()> {
-    loop {
-        app.emit("sysinfo", sysinfo::get_sys_info())?;
+    SYS_INFO.call_once(|| loop {
+        app.emit("sysinfo", sysinfo::get_sys_info()).unwrap();
         thread::sleep(Duration::from_secs(1));
-    }
+    });
+
+    Ok(())
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 fn init_processes(app: AppHandle) -> Result<()> {
-    loop {
-        app.emit("processes", sysinfo::get_processes())?;
+    PROCESSES.call_once(|| loop {
+        app.emit("processes", sysinfo::get_processes()).unwrap();
         thread::sleep(Duration::from_secs(1));
-    }
+    });
+
+    Ok(())
 }
 
 pub fn run() {
