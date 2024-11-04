@@ -122,7 +122,7 @@ pub fn get_processes() -> Vec<Process> {
         let mut user = String::new();
         if let Some(user_id) = proc.user_id() {
             if let Some(u) = users.get_user_by_id(user_id) {
-                user = u.name().to_string();
+                user = format!("{} ({})", u.name(), u.id().to_string());
             }
         }
 
