@@ -36,7 +36,7 @@ fn init_memory(app: AppHandle) -> Result<()> {
 #[tauri::command(async)]
 fn init_sys_info(app: AppHandle) -> Result<()> {
     SYS_INFO.call_once(|| loop {
-        app.emit("sysinfo", sysinfo::get_sys_info()).unwrap();
+        app.emit("sys_info", sysinfo::get_sys_info()).unwrap();
         thread::sleep(Duration::from_secs(1));
     });
 
