@@ -36,7 +36,6 @@ pub struct SysInfo {
 #[serde(rename_all = "camelCase")]
 pub struct Process {
     name: String,
-    #[cfg(target_os = "linux")]
     pid: u32,
     parent: Option<u32>,
     user: String,
