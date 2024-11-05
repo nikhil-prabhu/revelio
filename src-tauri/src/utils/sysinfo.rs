@@ -131,8 +131,8 @@ pub fn get_processes() -> Vec<Process> {
             pid: pid.as_u32(),
             parent: proc.parent().map(|p| p.as_u32()),
             user,
-            cpu_usage: 0.0,
-            memory: 0,
+            cpu_usage: proc.cpu_usage(),
+            memory: proc.memory(),
         });
     }
 
