@@ -1,9 +1,8 @@
 use std::sync::{LazyLock, Once, RwLock};
 use std::thread;
-use std::time::Duration;
 
 use serde::Serialize;
-use sysinfo::{System, Users};
+use sysinfo::{System, Users, MINIMUM_CPU_UPDATE_INTERVAL};
 
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -53,7 +52,7 @@ fn init_system_refresher() {
                 let mut val = SYSTEM.write().unwrap();
                 val.refresh_all();
             }
-            thread::sleep(Duration::from_millis(200));
+            thread::sleep(MINIMUM_CPU_UPDATE_INTERVAL);
         });
     });
 }
