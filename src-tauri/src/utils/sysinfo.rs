@@ -116,6 +116,7 @@ pub fn get_processes() -> Vec<Process> {
     let procs = system.processes();
     let mut processes = Vec::with_capacity(procs.len());
     let users = Users::new_with_refreshed_list();
+    let cores = system.physical_core_count();
 
     for (pid, proc) in procs {
         let mut user = String::new();
@@ -130,7 +131,7 @@ pub fn get_processes() -> Vec<Process> {
             pid: pid.as_u32(),
             parent: proc.parent().map(|p| p.as_u32()),
             user,
-            cpu_usage: proc.cpu_usage(),
+            cpu_usage: proc.cpu_usage() / cores.unwrap_or(1) as f32,
             memory: proc.memory(),
         });
     }
